@@ -160,6 +160,26 @@
       "public_api": [],
       "summary": "Smoke test: instantiate DCortexV2Model with a small config, run forward on random input_ids, assert output shape and that all memory banks have been touched (where expected).",
       "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "test_run.technical_test",
+      "path": "test_run/dcortex_v2_technical_test.ipynb",
+      "status": "active",
+      "depends_on": ["model"],
+      "public_api": [],
+      "summary": "25 technical tests (Colab single-cell): forward shape, determinism, gradient flow, weight tying, bank write/read, EMA, LRU, conflict diff, SSM recurrence, query shapes, readers, fusion, writer gate, consolidator, numerical stability, full-scale param count (140.81M), causal mask, config validation. Local mirror: test_run/run_local.py.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "test_run.step2_training",
+      "path": "test_run/dcortex_v2_step2_training.ipynb",
+      "status": "active",
+      "depends_on": ["model"],
+      "public_api": [],
+      "summary": "Step 2 comprehensive training validation (Colab single-cell, A100 optimal). Full 12L/768d model on TinyStories 80M tokens. bfloat16/TF32, AdamW cosine LR, gradient accumulation, memory sessions (reset every 8 micro-batches), gate entropy aux loss, checkpoint resume, eval+generation samples, memory ablation, 9-panel report with loss curves/gate distribution/occupancy/throughput. Local mirror: test_run/dcortex_v2_step2_training.py.",
+      "last_modified": "2026-04-16"
     }
 
   ],
@@ -167,7 +187,7 @@
   "execution_plan": {
     "step_1": {
       "label": "Executable architecture",
-      "status": "in-progress",
+      "status": "complete",
       "goal": "All nn.Module classes defined with functional forward(). Minimal-viable internal policies (simple NN, simple pruning, minimal consolidator). Full flow runs end-to-end on random input and produces logits of shape [B, T, vocab_size].",
       "acceptance": [
         "verify_integration.py exits 0",
@@ -177,9 +197,10 @@
     },
     "step_2": {
       "label": "Training loop",
-      "status": "planned",
+      "status": "in-progress",
       "goal": "Complete training loop on the full architecture (not a simplified version). Data pipeline, loss composition (LM + auxiliary memory losses: conflict, abstain, sparsity, write), optimizer, checkpointing, eval.",
-      "depends_on_step_1": true
+      "depends_on_step_1": true,
+      "implementation": "test_run/dcortex_v2_step2_training.ipynb (Colab A100), test_run/dcortex_v2_step2_training.py (local mirror). 5000 steps, TinyStories 80M tokens, bfloat16, gate entropy aux loss. IMPLEMENTED BUT NOT VERIFIED (requires Colab A100 runtime)."
     },
     "step_3": {
       "label": "Benchmark, synthetic curriculum, scaling",

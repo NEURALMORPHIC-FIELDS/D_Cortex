@@ -145,6 +145,63 @@
       ],
       "status": "success",
       "notes": "Append-only rule respected: new version contains all 7 original entries plus entry #8. No entries modified or removed."
+    },
+
+    {
+      "date": "2026-04-16",
+      "time": "16:45",
+      "requested": "Create test_run/ folder with single-cell Colab notebook that technically tests the model (not just conceptually).",
+      "executed": "Created test_run/dcortex_v2_technical_test.ipynb (Colab notebook, clones from GitHub) and test_run/run_local.py (local mirror). 25 tests: T01 forward_shape, T02 determinism, T03 gradient_flow_per_module, T04 weight_tying, T05 bank_write_read_occupancy, T06 ema_update, T07 lru_eviction, T08 conflict_diff_vector, T09 ssm_recurrence (2-step for a_raw gradient), T10 query_shapes, T11 semantic_reader, T12 read_fusion_shape, T13 writer_gate, T14 fusion_mem_gate, T15 consolidator_full_cycle, T16 consolidator_merge, T17 multi_step_accumulation, T18 write_memory_false, T19 attention_mask, T20 numerical_stability, T21 param_count_full_scale (140.81M), T22 cross_attention, T23 causal_mask (isolated StandardTransformerBlock), T24 episode_reader_subfusion, T25 config_validation. Fixed T09 (2-step SSM for non-zero state gradient), T23 (test on isolated block, not full model where pool->query->memory cross-attn is correctly non-causal). Fixed missing StandardTransformerBlock import in run_local.py. Added .gitignore. All pushed to GitHub.",
+      "files_touched": [
+        "test_run/dcortex_v2_technical_test.ipynb",
+        "test_run/run_local.py",
+        ".gitignore"
+      ],
+      "status": "success",
+      "notes": "VERIFIED: 25/25 PASS on local run (cpu, timestamp 2026-04-16). Commit 21bc742 pushed to origin/main. Notebook clones from https://github.com/NEURALMORPHIC-FIELDS/D_Cortex.git at runtime."
+    },
+
+    {
+      "date": "2026-04-16",
+      "time": "17:30",
+      "requested": "Initiate Step 2: training loop. User specified Colab A100 optimal config, single monolithic cell, comprehensive validation not fragmented.",
+      "executed": "Created test_run/dcortex_v2_step2_training.py (930 lines) and .ipynb mirror. Full scope: (1) Environment: Drive mount, GPU detection (A100 bfloat16/TF32/no-scaler, fallback fp16+GradScaler for T4/L4), clone from GitHub. (2) Data pipeline: TinyStories streaming from HF, tiktoken GPT-2 BPE tokenization, uint16 .bin on Drive, cp to local SSD, np.memmap, get_batch with pin_memory+non_blocking (nanoGPT pattern). Train 80M tokens, val 5M tokens. (3) Model: full scale 12L/768d (140.81M params). (4) Optimizer: AdamW split param groups (decay/no-decay), cosine LR with warmup. (5) Loss: LM cross-entropy + gate entropy aux loss (weight 0.01). Gate probs captured via forward hook on writer. (6) Training loop: 5000 steps, grad_accum=4, effective batch 65536 tok/step. Memory sessions (reset every 8 micro-batches). Checkpoint resume with atomic writes. Eval every 250 steps with generation samples. (7) Memory ablation: populated vs empty memory comparison (50 batches each). (8) Final diagnostics: bank occupancy, fusion mem_gate values, writer gate distribution, consolidation test, 3 generation samples. (9) Plots: 9-panel figure (train loss, eval loss+ppl, gate entropy, gate distribution stacked area, bank occupancy, grad norm, LR schedule, throughput, ablation bar chart). (10) Report: JSON + printed summary. Updated project_structure.json: Step 1 status=complete, Step 2 status=in-progress, added test_run modules.",
+      "files_touched": [
+        "test_run/dcortex_v2_step2_training.py",
+        "test_run/dcortex_v2_step2_training.ipynb",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "STATUS: IMPLEMENTED BUT NOT VERIFIED. The notebook is syntactically complete but has NOT been run on Colab A100. Verification requires: (1) Colab A100 runtime, (2) TinyStories download (~80M tokens tokenization), (3) ~30-40 min training run. Key architectural decisions: tokenizer=tiktoken gpt2 (50257 vocab, matches DCortexConfig), data=TinyStories (structured narratives, good memory stress), session_len=8 (128 writes per session cycles through bank capacities), gate_entropy_w=0.01 (mild pressure toward sharper routing). Open decision resolved: tokenizer is GPT-2 BPE. Remaining open: positional encoding (still absolute learned), per-token vs pooled query (still pooled)."
+    },
+
+    {
+      "date": "2026-04-16",
+      "time": "14:15",
+      "requested": "Fix Step 2 training notebook per user's 10-point technical review. Review identified: false FA2 claim, weak ablation methodology, missing per-submodule gradient tracking, no memory curriculum, ConflictMemory untested, gate metrics from last micro-batch only, no SDPA optimization, activity-based rather than semantic memory validation.",
+      "executed": "Rewrote test_run/dcortex_v2_step2_training.py (930 -> 1456 lines). Seven fixes applied: (1) SDPA monkey-patch on MultiHeadSelfAttention and CrossAttention via F.scaled_dot_product_attention -- flash/memory-efficient kernels on A100 when eligible, combined causal+padding mask, is_causal fast path. (2) Same-batch ablation: pre-generate eval batches with fixed seed (12345), evaluate both conditions on identical data. (3) Per-submodule gradient tracking: 8 groups (embeddings, standard_blocks, fusion_blocks, query_engine, readers, read_fusion, writer, lm_head), L2 norm per group logged every step, plotted over training. (4) Gate metrics averaged across ALL micro-batches via _gate_accum list, cat+mean instead of last-only. (5) ConflictMemory semantic test: after training, tests both end-to-end (fact vs contradiction via forward passes) and direct mechanism (similar keys + divergent values -> detect_conflict=True). (6) Memory curriculum: 3 generators (fact-recall, contradiction, update) with templates, starts at step 3500, 50% ratio with TinyStories. (7) Removed false claims from header -- replaced 'Flash Attention 2' with 'SDPA (flash kernel when available)', added explicit WHAT THIS DOES NOT PROVE section. Plots expanded from 3x3 to 4x3: added per-submodule grad norms, fusion mem_gate evolution, conflict test summary panel. Regenerated .ipynb mirror (69,005 bytes). Saved user review to .claude/step2_review.md for persistence.",
+      "files_touched": [
+        "test_run/dcortex_v2_step2_training.py",
+        "test_run/dcortex_v2_step2_training.ipynb",
+        ".claude/step2_review.md",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "STATUS: IMPLEMENTED BUT NOT VERIFIED (requires Colab A100 runtime). User review point #1 (package structure) was already verified correct in prior session. All other 9 points addressed. Remaining known limitations explicitly documented in the notebook: gate sharpening != semantic correctness, occupancy != content correctness, 5000 steps may be insufficient, curriculum is minimal. These are Step 3 concerns by design."
+    },
+
+    {
+      "date": "2026-04-16",
+      "time": "15:30",
+      "requested": "User second technical review of corrected Step 2 notebook. Verdict: 95% architecturally faithful. Found 1 real bug, 2 cleanup issues, several architectural observations for Step 3.",
+      "executed": "Three fixes applied (1456 -> 1467 lines): (1) BUG FIX: Added 'episode_ssm' to SUBMODULE_GROUPS dict and classification branch -- EpisodeSSM params (a_raw, B.weight, B.bias, C.weight, C.bias) were not captured by any group. (2) CLEANUP: Added _gate_accum.clear() at start of same_batch_ablation() to prevent hook accumulation during populate phase. (3) BUG FIX: Rewrote ConflictMemory direct test -- original tested diff on empty bank (no existing slot to diff against). New version: write v1 to test_bank, write v2 with is_conflict=True to SAME bank, verify stored_diff cosine > 0.99 vs (v2 - v1_before). Added EMA path test: reset + write without is_conflict, verify blended value = (1-alpha)*old + alpha*new. Removed unused test_conflict_bank. Also removed unused _orig_mhsa_forward and _orig_cross_forward variables from SDPA patch section. Regenerated .ipynb mirror (69,556 bytes).",
+      "files_touched": [
+        "test_run/dcortex_v2_step2_training.py",
+        "test_run/dcortex_v2_step2_training.ipynb"
+      ],
+      "status": "success",
+      "notes": "STATUS: IMPLEMENTED BUT NOT VERIFIED (requires Colab A100 runtime). User's architectural observations noted for Step 3: session_len=8 too short for large banks, curriculum padding with EOT dilutes signal, curriculum only last 1500 steps, writes detached so no utility-based learning signal for writer. These are explicitly documented in notebook under WHAT THIS DOES NOT PROVE."
     }
 
   ]
