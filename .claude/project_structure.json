@@ -1,0 +1,198 @@
+{
+  "last_modified": "2026-04-16T11:50:00",
+  "version": "v2.0-alpha",
+  "root": "dcortex_v2/",
+
+  "modules": [
+
+    {
+      "id": "config",
+      "path": "dcortex/config.py",
+      "status": "active",
+      "depends_on": [],
+      "public_api": ["DCortexConfig"],
+      "summary": "Immutable dataclass config for model scale, memory capacities, latent key dims, thresholds, and consolidator policies.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "memory.banks",
+      "path": "dcortex/memory/banks.py",
+      "status": "active",
+      "depends_on": ["config"],
+      "public_api": [
+        "MemoryBank",
+        "StateMemory",
+        "EpisodeObjectMemory",
+        "ConflictMemory",
+        "ArchiveMemory",
+        "WorkingMemory",
+        "EpisodeSSM"
+      ],
+      "summary": "Six memory banks. Base MemoryBank holds latent keys (k_ent, k_rel, k_typ) and values as buffers, plus occupancy/usage/last_write_step. EpisodeSSM is a trainable state-space recurrence with persistent state.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "memory.query",
+      "path": "dcortex/memory/query.py",
+      "status": "active",
+      "depends_on": ["config"],
+      "public_api": ["QueryEngine"],
+      "summary": "Projects hidden state into three latent key spaces (q_ent, q_rel, q_typ) used by readers and conflict detection.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "memory.updater",
+      "path": "dcortex/memory/updater.py",
+      "status": "active",
+      "depends_on": ["config", "memory.banks"],
+      "public_api": ["MemoryUpdater"],
+      "summary": "Nearest-neighbor semantic updater. Free-slot-first allocation, then theta_match-based update-vs-allocate, then LRU eviction when full. Handles conflict (difference-vector) writes.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "memory.readers",
+      "path": "dcortex/memory/readers.py",
+      "status": "active",
+      "depends_on": ["config", "memory.banks"],
+      "public_api": [
+        "SemanticReader",
+        "EpisodeReader",
+        "MemoryReadFusion"
+      ],
+      "summary": "SemanticReader: NN-semantic attention over a single bank. EpisodeReader: sub-fuses obj-read and SSM-readout via W_theta into a single r_episode. MemoryReadFusion: aggregates 5 streams (state, episode, conflict, archive, working) into [B, 5, D] for cross-attention in FusionBlock.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "memory.writer",
+      "path": "dcortex/memory/writer.py",
+      "status": "active",
+      "depends_on": ["config", "memory.banks", "memory.updater"],
+      "public_api": ["MemoryWriter"],
+      "summary": "Gating network over {state, episode_obj, conflict, archive, working, skip}. Produces key triplet and value from hidden state, routes through updater. Hard routing at argmax for MVP.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "memory.consolidator",
+      "path": "dcortex/memory/consolidator.py",
+      "status": "active",
+      "depends_on": ["config", "memory.banks"],
+      "public_api": ["MemoryConsolidator"],
+      "summary": "Minimal consolidator. Decays usage, prunes low-usage slots (optionally migrating to archive), merges pairs with key similarity > consolidate_merge_threshold.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "backbone.embeddings",
+      "path": "dcortex/backbone/embeddings.py",
+      "status": "active",
+      "depends_on": ["config"],
+      "public_api": ["TokenEmbeddings"],
+      "summary": "Token + positional embeddings with pre-norm and dropout.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "backbone.transformer",
+      "path": "dcortex/backbone/transformer.py",
+      "status": "active",
+      "depends_on": ["config"],
+      "public_api": [
+        "MultiHeadSelfAttention",
+        "FeedForward",
+        "StandardTransformerBlock"
+      ],
+      "summary": "Pre-norm causal self-attention block with GELU FFN. Used for the first (n_layers - n_fusion_layers) backbone layers.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "backbone.fusion_block",
+      "path": "dcortex/backbone/fusion_block.py",
+      "status": "active",
+      "depends_on": ["config", "backbone.transformer"],
+      "public_api": ["CrossAttention", "FusionBlock"],
+      "summary": "Native fusion layer: self-attention + cross-attention-to-memory-reads + FFN. Last n_fusion_layers of the backbone. Memory gate (sigmoid) modulates cross-attention contribution.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "model",
+      "path": "dcortex/model.py",
+      "status": "active",
+      "depends_on": [
+        "config",
+        "memory.banks",
+        "memory.query",
+        "memory.readers",
+        "memory.writer",
+        "memory.updater",
+        "memory.consolidator",
+        "backbone.embeddings",
+        "backbone.transformer",
+        "backbone.fusion_block"
+      ],
+      "public_api": ["DCortexV2Model"],
+      "summary": "End-to-end model wrapper. Forward pass: embed -> standard blocks -> pool+query -> 5 reads + fuse -> fusion blocks -> write pooled final h -> final norm + LM head. Exposes reset_memory() and consolidate() for session control.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "scripts.verify_integration",
+      "path": "scripts/verify_integration.py",
+      "status": "active",
+      "depends_on": ["model"],
+      "public_api": [],
+      "summary": "Integration verifier per user-preferences Section 9. Parses dcortex/model.py imports, scans all .py files, classifies each module as WIRED / NOT_WIRED / DUPLICATE, exits non-zero if any critical module is NOT_WIRED.",
+      "last_modified": "2026-04-16"
+    },
+
+    {
+      "id": "tests.test_forward_smoke",
+      "path": "tests/test_forward_smoke.py",
+      "status": "active",
+      "depends_on": ["model"],
+      "public_api": [],
+      "summary": "Smoke test: instantiate DCortexV2Model with a small config, run forward on random input_ids, assert output shape and that all memory banks have been touched (where expected).",
+      "last_modified": "2026-04-16"
+    }
+
+  ],
+
+  "execution_plan": {
+    "step_1": {
+      "label": "Executable architecture",
+      "status": "in-progress",
+      "goal": "All nn.Module classes defined with functional forward(). Minimal-viable internal policies (simple NN, simple pruning, minimal consolidator). Full flow runs end-to-end on random input and produces logits of shape [B, T, vocab_size].",
+      "acceptance": [
+        "verify_integration.py exits 0",
+        "tests/test_forward_smoke.py passes",
+        "Every module listed here is WIRED into model.DCortexV2Model.forward()"
+      ]
+    },
+    "step_2": {
+      "label": "Training loop",
+      "status": "planned",
+      "goal": "Complete training loop on the full architecture (not a simplified version). Data pipeline, loss composition (LM + auxiliary memory losses: conflict, abstain, sparsity, write), optimizer, checkpointing, eval.",
+      "depends_on_step_1": true
+    },
+    "step_3": {
+      "label": "Benchmark, synthetic curriculum, scaling",
+      "status": "planned",
+      "goal": "Memory-targeted benchmarks (long-horizon fact recall, conflict resolution, continual learning), synthetic curriculum generator, scale study.",
+      "depends_on_step_2": true
+    }
+  },
+
+  "open_decisions": [
+    "Tokenizer: default to GPT-2 BPE (vocab_size=50257) for Step 1; revisit for Step 2 based on data corpus.",
+    "Positional encoding: absolute learned for Step 1; RoPE is a candidate upgrade for Step 2.",
+    "Per-token query vs pooled query: pooled once per forward for Step 1 simplicity; per-position is a Step 2 consideration.",
+    "MemoryReadFusion output shape: [B, 5, D] (one token per stream) for Step 1; potential compression to [B, K<5, D] later."
+  ]
+}
