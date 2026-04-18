@@ -1,0 +1,408 @@
+{
+  "project": "D_Cortex v2.0-alpha",
+  "entries": [
+    {
+      "date": "2026-04-16",
+      "time": "10:56",
+      "requested": "Diagnose why DECORTEX v1.x (Qwen + hook + SeparatedMemory) cannot qualify as real long-term memory. Identify structural limits, not patch-level fixes.",
+      "executed": "Enumerated four structural failures: lossy compression, single-layer hook fusion, static phase-A/phase-B memory, absence of semantic addressing. Declared v2.0 as a fundamental rewrite rather than a patch.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "User asked: Qwen-backbone (hack, fast) vs own-transformer-from-scratch (real evolutionary leap). Question left open at end of chat."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "11:34",
+      "requested": "Rigorously compare DECORTEX v1.3b vs v1.4 as a top-5% software engineer would.",
+      "executed": "Produced full comparative table. Verdict: v1.4 is the better structural base (DecortexModel wrapper, conflict_detector on cat(h, slot), conflict memory as difference vectors, 45 QA pairs, 20 eval queries with categories). v1.3b kept two non-negotiable advantages: trainable EpisodeSSM and 4-bit NF4 quantization plus hard-fail on hook registration. Formula: v1.4 base + EpisodeSSM + 4-bit + hook hard-fail (this became v1.5 / v1.6).",
+      "files_touched": [],
+      "status": "success",
+      "notes": "This diagnosis clarified which v1.x elements to retain conceptually in v2.0-alpha (difference-vector conflict, trainable SSM, semantic update logic) and which to abandon (hook-based fusion, frozen backbone)."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "11:34",
+      "requested": "Commit to architectural decisions for v2.0-alpha: six-component memory, five distinct reads, MemoryReadFusion, writer/updater with NN-semantic match, FusionBlock as native layer, consolidator.",
+      "executed": "Locked-in specification. Memory: {M_state, M_episode_obj, x_ep, M_conflict, M_archive, M_work}. Readers: 5 streams. Updater: s_i = w1 cos(q_ent,k_i_ent) + w2 cos(q_rel,k_i_rel) + w3 cos(q_typ,k_i_typ); s_i > theta_match updates, else allocates new. Episode sub-fusion: r_episode = W_theta([r_obj; r_ssm]).",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Step 1 / 2 / 3 execution plan articulated at end of chat."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "11:50",
+      "requested": "Familiarize with the project from the last two chats and treat it with academic rigor.",
+      "executed": "Retrieved and synthesized the last two chats. Produced compact architectural summary. Posed three clarification questions (backbone choice, project location, Step 1 scope) per workflow discipline STEP 3.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Did not write code per STEP 1-6 discipline: clarification before implementation."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "11:50",
+      "requested": "Confirm three decisions: (1) own transformer from scratch as backbone; (2) local repo with memory files created now; (3) Step 1 as executable architecture with functional forward(), not just skeletons.",
+      "executed": "Decisions confirmed by user. Scale fixed: n_layers=12, hidden_dim=768, n_heads=12, ff_dim=3072, max_seq_len=2048. FusionBlock becomes native layer, not hook. Qwen demoted to external baseline/teacher/comparator only.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Authorization to proceed with STEP 5 (memory files) then STEP 6 (implementation)."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "11:51",
+      "requested": "Create the three project memory files before writing code.",
+      "executed": "Created .claude/project_concept.json, .claude/project_structure.json, .claude/project_log.json. Directory tree established at /mnt/user-data/outputs/dcortex_v2/.",
+      "files_touched": [
+        ".claude/project_concept.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "STEP 5 complete. Proceeding to STEP 6 (implementation of Step 1 — executable architecture)."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "12:05",
+      "requested": "Implement Step 1: executable architecture with functional forward() across all modules, verify end-to-end.",
+      "executed": "Wrote 16 files: 3 package __init__.py, dcortex/config.py, 6 memory modules (banks, query, updater, readers, writer, consolidator), 3 backbone modules (embeddings, transformer, fusion_block), dcortex/model.py (DCortexV2Model wrapper), scripts/verify_integration.py, tests/test_forward_smoke.py. All modules use absolute imports, English code, copyright headers where required, no logging module, no em dashes, type annotations on every signature.",
+      "files_touched": [
+        "dcortex/__init__.py",
+        "dcortex/config.py",
+        "dcortex/memory/__init__.py",
+        "dcortex/memory/banks.py",
+        "dcortex/memory/query.py",
+        "dcortex/memory/updater.py",
+        "dcortex/memory/readers.py",
+        "dcortex/memory/writer.py",
+        "dcortex/memory/consolidator.py",
+        "dcortex/backbone/__init__.py",
+        "dcortex/backbone/embeddings.py",
+        "dcortex/backbone/transformer.py",
+        "dcortex/backbone/fusion_block.py",
+        "dcortex/model.py",
+        "scripts/verify_integration.py",
+        "tests/test_forward_smoke.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED REAL OUTPUT (per Section 0 of preferences). verify_integration.py: exit 0, 11/11 critical modules WIRED, 0 NOT_WIRED, 0 DUPLICATE. tests/test_forward_smoke.py: exit 0. Model params with small_test config: 0.24M total / 0.24M trainable. Forward returned logits of shape (2, 16, 256) as expected. Memory writes observed over 5 forwards: state=2/8, episode_obj=0/16, conflict=2/4, archive=6/32, working=0/4 (episode_obj and working slots not touched in this seed; gate learned routing will be shaped in Step 2). reset_memory() cleared all banks. consolidate() ran on all banks without error. Backward: loss=5.5320, grad_norm=14.9461, 97 parameters received gradients. Step 1 is complete and executable."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "12:18",
+      "requested": "Write a README.md for the repo.",
+      "executed": "Created README.md at repo root (370 lines, 0 em dashes). Sections: (1) Why v2.0 with v1.x-limit -> v2.0-answer table, (2) Architecture: six memory components + read path + write path + backbone with ASCII flow diagrams and default-scale table, (3) Repository layout tree, (4) Requirements, (5) Quick start (verify + smoke + code example), (6) Memory semantics summary, (7) Development rules (abridged from user preferences), (8) Roadmap (Step 1 complete / Step 2 planned / Step 3 planned), (9) Role of Qwen (explicitly not in forward pass), (10) Citation and IP with copyright and patent reference.",
+      "files_touched": [
+        "README.md"
+      ],
+      "status": "success",
+      "notes": "Documentation-only entry; no code or architecture changes. English throughout per language policy. Em-dash count verified at 0."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "13:05",
+      "requested": "Analyze ChatGPT review of Step 2 training script, apply all legitimate fixes.",
+      "executed": "Created colab/step2_training_v2.py (1463 lines) with 7 fixes applied, plus tests/test_step2_fixes.py (offline validation without Colab deps). Fixes: FIX-1 total_memory (was non-existent attribute total_mem, would have crashed the script at line 62 before training); FIX-2 double-checkpoint guard via _last_saved_step sentinel; FIX-3 margin entropy penalty max(0, H_min - H) with H_min=1.0 replaces direct entropy minimization that risked premature collapse; FIX-4 curriculum ramp [(0,0.00), (500,0.05), (1500,0.20), (3500,0.50), (5000,0.50)] with linear interpolation replaces binary on/off at fixed step; FIX-5 conflict test verifies stored value cosine vs expected (v2-v1) difference, threshold >0.99; FIX-6 episode_ssm added to SUBMODULE_GROUPS (was completely missing from gradient tracking, 5 tensors / 4224 params lost in reporting); FIX-7 _gate_accum.clear() at start of ablation to avoid cross-contamination. Bonus: curriculum batch packing reduces EOT-pad fraction from 96.69% to 5.65%.",
+      "files_touched": [
+        "colab/step2_training_v2.py",
+        "tests/test_step2_fixes.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED REAL OUTPUT (per Section 0 of preferences). python tests/test_step2_fixes.py: exit 0, ALL OFFLINE TESTS PASSED. FIX-3 verified numerically: uniform distribution H=1.7918 -> penalty=0.0; peaked distribution [0.90, 0.02*5] H=0.4860 -> penalty=0.514; SGD on peaked logits [3,0,0,0,0,0] pushes H from 0.8202 to 0.8482 (toward H_min=1.0, never below). FIX-4 verified: ratio at anchors matches exactly (0.0/0.05/0.20/0.50/0.50); linear interpolation at step 1000 = 0.125, step 2500 = 0.35. FIX-5 verified: key_sim=0.9992, val_sim=-0.9962, detect_conflict=True, stored vs (v2-v1) cosine=1.0000, EMA vs expected cosine=1.0000. FIX-6 verified: all 119/119 trainable tensors assigned, episode_ssm group has 5 tensors (a_raw, B.weight, B.bias, C.weight, C.bias). Training script itself is NOT verified (requires Colab A100 runtime). ChatGPT review was: mostly correct (fix-1 critical, fix-3/5/6 correct, methodology observations on ablation and conflict test valid), partially exaggerated (hallucinated 'previous training logs showing gate collapse' that do not exist since v1 never ran)."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "13:30",
+      "requested": "Implement Step 3 (memory-targeted benchmarks) per project roadmap.",
+      "executed": "Created colab/step3_benchmarks.py (888 lines). Three benchmark suites: Suite A (Fact Recall, long-horizon: inject N facts via forward, interleave M distractors, probe with populated vs empty memory, metric = accuracy@1 and mean rank of correct token), Suite B (Conflict Resolution: solidify old fact 3x, inject contradiction 1x, probe latest-fact, record ConflictMemory slot count, compare with/without memory), Suite C (Update Chain: entity moves through chain_length=4 locations, probe at each step, per-step accuracy curve, final accuracy with vs without memory). All suites use probe_next_token_probs with write_memory=False for probing, token_rank for accuracy measurement, same-probe-both-conditions methodology. Generates 2x2 plot grid (fact recall bars, conflict bars, update chain per-step curve, text summary) saved as step3_benchmarks.png. JSON report with per-fact/per-trial detail saved as step3_benchmarks.json. Loads latest checkpoint from CHECKPOINT_DIR. SDPA monkey-patch and total_memory fix (FIX-1) carried over from Step 2 v2.",
+      "files_touched": [
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "Python syntax verified (ast.parse OK). NOT yet run on Colab (requires Step 2 checkpoint). This completes the three-step execution plan: Step 1 (executable architecture, DONE), Step 2 (training loop with fixes, READY), Step 3 (memory benchmarks, READY). Interpretation guide included in output: delta>0 = evidence that routing learned structure; delta=0 = expected at low training budget; delta<0 = memory noise outweighs signal."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "14:15",
+      "requested": "Fix writer dead gradient (zero grad on writer submodule in v2 A100 run). Apply reconstruction loss.",
+      "executed": "Root cause: writer's value and keys are .detach() before bank storage (correct for buffer semantics). Gate entropy loss was the ONLY gradient path, and once entropy stabilized above H_min (margin=0), writer gradient dropped to exactly zero. Gate stayed uniform, memory content was random noise, fusion blocks ignored it, Step 3 benchmarks showed delta=0%. Applied FIX-8: two auxiliary losses. (A) Key-query alignment: cos_sim(writer_keys, query_engine_keys) weighted 0.5/0.3/0.2 per key space, loss = 1 - alignment, weight=0.1. Gradient into writer.key_ent/rel/typ AND query_engine.proj_ent/rel/typ. (B) Value coherence: cos_sim(writer.value_head(h), h_pool.detach()), loss = 1 - coherence, weight=0.05. Gradient into writer.value_head and writer.norm. Modified 3 files: dcortex/memory/writer.py (forward returns dict with grad-carrying tensors instead of bare gate_probs), dcortex/model.py (stores _aux dict with writer + query tensors during forward), colab/step2_training_v3.py (compute_loss uses model._aux, no hook, tracks M_keyalign + M_valcoh metrics, updated plots/report/summary).",
+      "files_touched": [
+        "dcortex/memory/writer.py",
+        "dcortex/model.py",
+        "colab/step2_training_v3.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED REAL OUTPUT (per Section 0). Smoke test passes after writer/model changes. Gradient verification on small_test config: writer grad norm = 1.0174 (was 0.0000 in v2 run). ALL 9 submodule groups have nonzero gradient: embeddings=2.31, standard_blocks=0.23, fusion_blocks=0.20, query_engine=0.83, readers=0.02, read_fusion=52.59, writer=1.02, episode_ssm=0.15, lm_head=0.04. Loss components at init: lm=5.55, key_align=0.83, val_coh=1.14, margin=0.00. Script syntax verified: 1519 lines, no stale v2 references, all FIX-8 features present. IMPORTANT: v3 requires FRESH training from step 0, cannot resume from v2 checkpoint (writer return type changed from tensor to dict, optimizer state incompatible)."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "15:20",
+      "requested": "Analyze v3 A100 training results + Step 3 benchmark results.",
+      "executed": "Full analysis of v3 5000-step A100 run. Training: loss 10.89 -> 1.38 (ppl 3.99), 140.81M params, 79k tok/s, 69 min. Writer alive (grad 0.004 constant). Key alignment converged: 0.987 -> 0.000. Value coherence converged: 0.968 -> 0.022. Gate entropy stable 1.70-1.75. BUT: bank occupancy catastrophically low: 1/64 state, 1/128 episode_obj, 1/32 conflict, 1/512 archive, 1/16 working. Fusion gate barely moved: 0.50 -> 0.45. Same-batch ablation delta = +0.0000. Step 3 benchmarks: Suite A delta = +12.5% (first non-zero, ghost/blue rank 2->1), Suite B delta = 0% (conflict_slots = 0), Suite C delta = 0%. Root cause identified: key alignment too good + theta_match too low. All queries from mean-pooled TinyStories produce near-identical keys. cos > 0.7 on every write -> updater matches same slot -> EMA on one slot -> 1 slot per bank. Also analyzed ChatGPT review: correct on memory-essential tasks observation, incorrect on ka metric interpretation (read it inverted), impractical on 8-loss supervised objective (requires gold labels that don't exist). ChatGPT coagulation proposal: valid intuition but premature for 1-slot-per-bank stage.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Analysis only, no code changes. Key insight: the problem is not lack of gradient (v3 fixed that) but lack of occupancy. Solution: memory-dominant curriculum + key diversity loss + theta_match raise."
+    },
+    {
+      "date": "2026-04-16",
+      "time": "15:45",
+      "requested": "Apply memory-dominant curriculum (85%), key diversity loss, and theta_match=0.85.",
+      "executed": "Created colab/step2_training_v4.py (3387 lines) with 3 new fixes. FIX-9: curriculum_ratio=0.85 constant from step 0 (was ramp 0->5%->20%->50%). Memory-essential batches are now the PRIMARY training signal, generic LM is 15% regularization. Added 2 new curriculum generators: _make_entity_confusion (two entities, different attributes, probe each) and _make_delayed_multi_fact (3 facts, double filler, recall all 3). FIX-10: key diversity loss compute_key_diversity(w_k_ent, bank.k_ent, n_occupied) = mean cosine of current write key vs stored keys. Applied on state/episode_obj/working banks. Gradient flows into writer.key_ent pushing dissimilarity to stored keys. Weight w_diversity=0.05. FIX-11: theta_match raised from 0.7 to 0.85 in inline source AND local config.py. Higher threshold = harder to match = more new slot allocations. Smoke test with theta_match=0.85: state=4/8 (was 2/8 with 0.7) on same random data. Also updated step3_benchmarks.py inline source to match theta_match=0.85.",
+      "files_touched": [
+        "colab/step2_training_v4.py",
+        "colab/step3_benchmarks.py",
+        "dcortex/config.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED: syntax OK (3387 lines), all 13 checks pass (FIX-9/10/11, curriculum generators, diversity function, inline source, v4 filenames). Smoke test with theta_match=0.85 passes: state=4/8 vs 2/8 with old threshold. Step3 inline source also updated. Requires FRESH training from step 0 (theta_match changed, curriculum changed, new loss term). Delete old checkpoints before running."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "08:00",
+      "requested": "Analyze v4 A100 results + Step 3 benchmarks. Identify root cause of continued memory irrelevance.",
+      "executed": "v4 results: bank occupancy improved from 1 to 2 slots per bank (state=2/64, episode_obj=2/128). Gate distribution slightly non-uniform (conflict=0.22, skip=0.26). Diversity loss oscillated wildly (1.0, 0.0, -0.5). Suite A delta REGRESSED to 0% (was +12.5% in v3). Suite C delta +12.5% (new). Net: lateral, no real progress. Ablation delta = -0.000. Conflict slots still 0. ROOT CAUSE IDENTIFIED: all curriculum sequences have fact + question in the SAME 1024-token context window. Model solves via in-context pattern matching. Memory is structurally unnecessary because the answer is visible in the same forward pass. Train loss on curriculum drops to 0.12 by step 200, meaning model memorized the templates. Memory never needed.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Analysis only. Root cause is not architectural (writer/reader/fusion all have gradient and function correctly) but training regime (single-turn curriculum puts all information in-context)."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "08:30",
+      "requested": "Implement multi-turn curriculum (FIX-12) to make memory structurally necessary.",
+      "executed": "Created colab/step2_training_v5.py (3614 lines). FIX-12: multi-turn curriculum episodes. Turn 1: forward(facts, write_memory=True) with aux losses only (key align, value coherence, diversity, margin entropy). Fact text populates memory banks. Turn 2: forward(probe, write_memory=False) with LM cross-entropy loss. Probe text does NOT contain the fact. Memory is the ONLY path to the correct answer. 5 multi-turn generators: _mt_fact_recall, _mt_contradiction, _mt_update, _mt_entity_confusion, _mt_multi_fact. New compute_aux_losses() function for Turn 1 (same aux terms as compute_loss but without LM cross-entropy). Training loop restructured: curriculum micro-batches do 2 forwards (Turn 1 + Turn 2), standard LM micro-batches do 1 forward. Gradient accumulates from both turns. Session reset unchanged (micro_ctr tracks logical episodes, not individual forwards).",
+      "files_touched": [
+        "colab/step2_training_v5.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED: syntax OK (3614 lines), all 16 checks pass (multi-turn generators, aux-only loss, FIX-12, v5 filenames, inline source, diversity, theta_match 0.85). Critical difference: in v2/v3/v4 the gradient path LM_loss -> fusion -> cross-attn -> readers -> query_engine was never activated because fusion blocks could ignore memory (answer was in-context). In v5, this path MUST activate because the answer is not in the probe context, only in memory banks populated during Turn 1."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "10:00",
+      "requested": "Implement dual-agent architecture: encoder writes, decoder reads, meet ONLY in memory.",
+      "executed": "Rewrote 5 core files: config.py (encoder params: n_enc_layers=4, n_enc_heads=12, enc_ff_dim=3072, separate from decoder), encoder.py (NEW: MemoryEncoder with own embeddings + EncoderBlock non-causal MHSA + writer + query_engine + EpisodeSSM), model.py (REWRITTEN: DCortexV2Model with encode() and decode() separate methods, zero weight sharing, backward-compat forward()), banks.py (EpisodeSSM gets readout buffer + get_readout() for decoder to read without gradient leak), readers.py (EpisodeReader accepts optional ssm_readout to avoid calling encoder SSM). Created new smoke test validating: 0 shared params between encoder/decoder, encode populates memory, decode produces logits, decoder output changes with populated vs empty memory, backward works on both agents, ZERO gradient leak from decoder to encoder (verified). Integration verifier: 12/12 WIRED. Created step2_training_v6.py (2833 lines) with inline source (15 files including encoder.py), multi-turn curriculum, masked answer loss, separate enc/dec param groups. Updated step3_benchmarks.py with new inline source and encode/decode API.",
+      "files_touched": [
+        "dcortex/config.py",
+        "dcortex/encoder.py",
+        "dcortex/model.py",
+        "dcortex/memory/banks.py",
+        "dcortex/memory/readers.py",
+        "dcortex/__init__.py",
+        "tests/test_forward_smoke.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED REAL OUTPUT. Smoke test: 10/10 passed. Gradient leak: 0 encoder params from decoder loss (was 5 before SSM readout buffer fix). Integration: 12/12 WIRED including new encoder.py. This is a fundamental architectural change, not a patch. The encoder and decoder are separate neural networks with separate embeddings, separate transformer blocks, separate query engines. They share NOTHING except memory bank buffers (which are not parameters). The decoder cannot memorize facts in its weights because it never sees them. Memory is the only path."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "12:00",
+      "requested": "Fix 6 architectural bugs found via mental simulation: dead encoder, self-referential aux losses, detached values, empty banks, trivial attention, separate backwards.",
+      "executed": "Implemented differentiable overlay on memory banks. banks.py: MemoryBank gets _overlay dict with set_overlay()/clear_overlay()/get_diff_values()/get_diff_k_ent()/get_diff_k_rel()/get_diff_k_typ(). Writer stores grad-carrying tensors in overlay after updater writes detached to buffer. Readers use get_diff_* to read overlay values (with grad) instead of raw buffers. model.py: begin_episode() and clear_overlays() methods. Training loop: UNIFIED backward (dec_loss + enc_reg in single loss.backward()). ka_loss and vc_loss REMOVED (were self-referential proxies, now replaced by real gradient through overlay). enc_reg = gate entropy + diversity only. Smoke test: 36 encoder params get gradient from decoder loss via overlay (was 0 before). Gradient path verified: dec_loss -> fusion -> cross_attn -> overlay_values -> encoder.value_head -> encoder.blocks -> encoder.embeddings.",
+      "files_touched": [
+        "dcortex/memory/banks.py",
+        "dcortex/memory/writer.py",
+        "dcortex/memory/readers.py",
+        "dcortex/model.py",
+        "tests/test_forward_smoke.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "VERIFIED: smoke test 10/10, 36 enc params with grad from dec loss (was 0). Integration 12/12 WIRED. All 6 bugs fixed simultaneously: (1) empty banks -> overlay ensures writes populate, (2) detached values -> overlay carries grad, (3) ka_loss self-referential -> removed, real grad via overlay, (4) vc_loss self-referential -> removed, (5) trivial attention -> more slots means non-trivial softmax, (6) separate backwards -> unified total = dec_loss + enc_reg."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "14:00",
+      "requested": "Analyze v6 overlay results: encoder still dead (all grads 0.000 from step 50).",
+      "executed": "Root cause: writer gate picks 'skip' for most inputs. With skip, no overlay is created, no gradient flows, gate never learns to write. Fixed: writer now ALWAYS writes to best non-skip bank (bank_probs = gate_probs[:, :5], argmax over banks only). Skip option preserved in gate output for diagnostic but never blocks writes. Regenerated inline source in step2_training_v6.py and step3_benchmarks.py.",
+      "files_touched": [
+        "dcortex/memory/writer.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "Smoke test: 10/10 pass, 36 enc params with grad from dec loss. The skip gate was the last blocker in the gradient flow chain: overlay → (blocked by skip) → encoder. With forced writes, every encode() call populates at least one bank, creating overlay entries, enabling gradient flow."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "14:30",
+      "requested": "Fix encoder death: decoder learns to ignore memory via cross-attn weights + mem_gate",
+      "executed": "Added force_attend parameter to FusionBlock.forward() and model.decode(). When force_attend=True (curriculum episodes), fusion blocks bypass mem_gate entirely: h = h + cross_attn(h, memory). Decoder CANNOT suppress memory contribution. Training loop passes force_attend=True during curriculum decode, False during eval/LM. Root cause: even with overlay, decoder learned to ignore noisy memory in first 50 steps by reducing cross-attn weights. Once suppressed, encoder gradient collapsed to zero permanently.",
+      "files_touched": [
+        "dcortex/backbone/fusion_block.py",
+        "dcortex/model.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "This was the 7th fix in the bug chain: (1) writer dead v2, (2) 1-slot v3, (3) same-context v4, (4) template dilution v5, (5) gradient leak v6-pre-overlay, (6) encoder skip v6-overlay, (7) decoder suppress v6-force-attend. Smoke test: 10/10, 36 enc params with grad."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "16:30",
+      "requested": "Fix cross-batch contamination: shared memory across B=16 means 15/16 probes get wrong fact",
+      "executed": "Training loop curriculum episodes now run B=1 serially: for each of 16 examples, reset_memory -> encode(1 fact) -> decode(1 probe) -> accumulate grad -> clear. Zero cross-batch contamination. Added variance_floor_loss on h_pool, k_ent, k_rel, k_typ (gamma=0.1, w=0.01) to prevent encoder collapse. Loss normalized by batch_size*grad_accum. Diagnostic encode passes also use B=1.",
+      "files_touched": [
+        "colab/step2_training_v6.py"
+      ],
+      "status": "success",
+      "notes": "Root cause: memory banks are global (not batched). With B=16, all 16 encodings write to same bank. Decoder reads same contaminated memory for all 16 probes. 15/16 get wrong fact. Gradient averages to noise. B=1 serial is the validation test. If it works, next step is batched memory M[B,slots,D]."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "18:00",
+      "requested": "Fix semantic drift: shared embeddings + shared query engine + encoder LR 3x",
+      "executed": "Shared semantic infrastructure: encoder.token_emb = model.shared_token_emb (same as decoder), encoder.query_engine = model.shared_query_engine (same key space for write and read). Encoder no longer creates own embeddings or query engine. Decoder embed path uses shared_token_emb + shared_pos_emb directly. LM head tied to shared_token_emb. Encoder-only params (blocks, writer, ssm) get LR 3x via separate optimizer param groups with _LR_MULTS. Verified: encoder.token_emb IS model.shared_token_emb, encoder.query_engine IS model.shared_query_engine, dec_lm_head.weight IS shared_token_emb.weight. Smoke test 10/10, 36 enc params with grad from dec loss.",
+      "files_touched": [
+        "dcortex/encoder.py",
+        "dcortex/model.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "This addresses the ontological drift: writer and reader now share the same token alphabet and the same key projection space. They cannot develop incompatible semantics for entity/relation/type because they use the same QueryEngine. Encoder LR 3x compensates for weaker gradient signal (encoder is smaller, receives signal through overlay from one answer token)."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "19:00",
+      "requested": "Fix writer using separate key heads instead of shared query engine",
+      "executed": "Removed key_ent/key_rel/key_typ from MemoryWriter. Writer now accepts shared_query_engine at init and calls it for key production. k_ent = shared_query_engine.proj_ent(h_pool). Same projection used by reader for queries. Write keys and read queries are now in EXACTLY the same geometric space. Verified: shared_query_engine gets gradient (max ~1e-4) when 4+ slots populated. With 1 slot, gradient is trivially zero (softmax on 1 element). Writer own key heads: REMOVED.",
+      "files_touched": [
+        "dcortex/memory/writer.py",
+        "dcortex/encoder.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "This completes the semantic alignment: shared embeddings (token alphabet) + shared query engine (key/query projections) + shared LM head tying. Writer and reader now operate in identical latent spaces at every level."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "21:00",
+      "requested": "Multi-fact retrieval: complete rewrite of curriculum + comprehensive benchmarks",
+      "executed": "Step 2: multi-fact episodes (3-5 facts, 1 question). Step 3: 6000 episode benchmark (3 suites x 1200 + scaling x 600). Suite A: simple retrieval. Suite B: semantic distractors. Suite C: update/contradiction. Scaling: 3/5/8/12 facts. All with confidence intervals, rank statistics, with/without memory comparison.",
+      "files_touched": [
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "First setup where retrieval is a well-defined learning problem: multiple competing slots, non-trivial softmax, gradient through query engine."
+    },
+    {
+      "date": "2026-04-17",
+      "time": "23:00",
+      "requested": "Major refactor: SharedAddressEncoder + structural curriculum + 5-loss formula",
+      "executed": "NEW MODULE: SharedAddressEncoder (C_sigma) - 1 self-attn layer + learned-query attention pool over shared embeddings. Used by BOTH writer (for keys) and reader (for queries). Key generation pipeline: k = shared_query_engine(shared_address_encoder(shared_embeddings(tokens))). Same function applied to fact tokens (writes) and question tokens (reads). Structural compatibility GUARANTEED at init. WRITER MODIFIED: accepts addr_code separately from h_pool. Returns slot_writes per batch element for tracking. ENCODER: computes addr_code from raw embeddings BEFORE encoder blocks. Encoder blocks now produce only the contextual VALUE (h_pool). DECODER: computes addr_code from raw embeddings, queries from addr_code through shared_query_engine. CURRICULUM: structured episodes with EpisodeGT (FactInfo + same/different_object_pairs + update_pairs + target_fact_idx + n_distinct_entities). LOSSES: L_ans (CE on answer tokens) + L_sel (forces target slot to win softmax) + L_sep_neg (different facts have low cos sim) + L_sep_pos (updates of same entity have high cos sim) + L_occ (n_distinct_slots ≈ n_distinct_entities). LR: address encoder gets 5x boost. Verified end-to-end: 4 distinct slots from 4 facts, L_sel produces grad 48 on address encoder + grad 26 on query engine.",
+      "files_touched": [
+        "dcortex/shared_address.py",
+        "dcortex/encoder.py",
+        "dcortex/memory/writer.py",
+        "dcortex/model.py",
+        "colab/step2_training_v6.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "This is the formula: L = L_ans + lambda1*L_sel + lambda2*L_sep_neg + lambda3*L_sep_pos + lambda4*L_occ. Cycle loss (L_cycle) and conflict loss (L_conf) deferred until after this baseline works. Theta_match update postponed - structural separation via L_sep should drive distinct keys, then theta_match becomes effective."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "01:00",
+      "requested": "After step 1500 plateau: run ablation, then patch with aux_answer_head + L_cycle + LM mix",
+      "executed": "NEW MODULES: AuxAnswerHead (MLP from retrieved_value to answer token logits, tied to shared_token_emb); ValueToKeyProjector (trainable P: value_space -> key_space for L_cycle). DECODE modified: accepts return_retrieved=True, returns (logits, retrieved_value). retrieved_value = memory_tokens.mean(dim=1). ABLATION SCRIPT (step2_5_ablation.py): 200 episodes in 3 conditions - normal memory, zero memory (no encode), permuted memory (encode other episode). Measures top1, mean_rank, target_prob, logit L2 + KL divergence. Produces verdict: DECODER_IGNORES_MEMORY | MEMORY_SIGNAL_WEAK_LM_INTERFACE | MEMORY_WORKS_LM_DEGRADED | MIXED. STEP 2 v9: curriculum_ratio 0.6 (60% structural + 40% LM from TinyStories), L_ans weight REMAINS 1.0 (not weakened per ChatGPT), added L_aux (w=0.5) and L_cycle (w=0.1). Full loss: L = L_ans + L_sel + L_sep_neg + L_sep_pos + L_occ + 0.5*L_aux + 0.1*L_cycle.",
+      "files_touched": [
+        "dcortex/aux_modules.py",
+        "dcortex/model.py",
+        "colab/step2_training_v6.py",
+        "colab/step2_5_ablation.py",
+        "colab/step3_benchmarks.py"
+      ],
+      "status": "success",
+      "notes": "Step 1500 checkpoint showed retrieval=97% but L_ans plateau 2.7 and val_loss catastrophe. Gap: retrieval works, answer generation does not. Ablation will identify which: aux_head bypasses fusion bottleneck, cycle loss forces value to be key-decodable, LM mix restores language without weakening answer pressure."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "02:30",
+      "requested": "Deep diagnostic showed all 4 tests broken: aux_head/decode both 7%, identical top5 across queries, raw value -> LM = 0%. Continue root cause analysis until validation of principle works.",
+      "executed": "ROOT CAUSE ANALYSIS via mini-training (300 iters, 4 fixed facts, vocab=256). Found THREE COMPOUNDING BUGS: (1) dec_read_fusion uses nn.Linear with BIAS - proj(zeros) != 0 polluted signal with bias offsets, amplified by LayerNorm. Fix: retrieved_value = r_state + r_episode + r_conflict + r_archive + r_working (raw reader outputs, NOT memory_tokens post-fusion). (2) SemanticReader softmax on unscaled cosine sims in [-1,1] gives diffuse attention even for perfect matches. Fix: temperature=20 before softmax. (3) CRITICAL: writer bank gate scattered 4 facts across 4 DIFFERENT banks (archive/conflict/state/episode_obj). Each bank with only 1 slot returns attn=1.0 regardless of similarity. retrieved_value = sum of all fact values independent of query. That was the entire bug. Added force_bank parameter to writer/encoder/model. Also: query_weights (1.0, 0.0, 0.0) - only ent matters, matches L_sel supervision. After all fixes: 4 facts -> 100% top1 on validation, 6 facts -> 67%, 8 facts -> 25%. Validation of principle CONFIRMED. Architecture v10 uses L_emit (primary, from aux_answer_head) + L_sel + L_sep + optional L_occ. Separate LM track (30%) for language. All writes go to working bank during training.",
+      "files_touched": [
+        "dcortex/memory/readers.py",
+        "dcortex/memory/writer.py",
+        "dcortex/encoder.py",
+        "dcortex/model.py",
+        "dcortex/config.py",
+        "colab/step2_training_v6.py"
+      ],
+      "status": "success",
+      "notes": "The real bug was bank scattering, not loss design. With force_bank=working, L_sel converges to 0.004 AND L_emit converges, giving 4/4=100% on validation. Scaling to 8+ facts degrades - likely address encoder needs better token discrimination. On real GPT-2 tokens (cat, dog, dragon) this should work better than the artificial token ids used in test."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "04:30",
+      "requested": "Run v10 on Colab with lexical binding + force_bank + all reader fixes",
+      "executed": "TRAINING RUN v10 (3000 steps, 60.6 min on A100). FINAL METRICS: struct_acc_4=93.2% (n=500), struct_acc_3=95.7%, struct_acc_5=90.3%, struct_acc_6=90.3%, struct_acc_8=85.3%, struct_acc_10=78.7% (all on 300 episodes each). val_loss=2.458 (LM on TinyStories, better than v9 baseline of 2.57). VALIDATION OF PRINCIPLE: PASSED (>90% on 4-fact threshold). Scaling degrades gracefully (not catastrophically). Architecture demonstrates: store -> select -> emit exactly. Trajectory across evals: step500=83.5%, step1000=84.0%, step1500=84.0%, step2000=88.5%, step2500=91.0%, step3000=93.2%. Monotonic improvement without plateau at 90%. Checkpoint ckpt_step003000.pt saved.",
+      "files_touched": [
+        "colab/step2_training_v6.py",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Comparison: v8 top1=7%, v9 top1=7%, v10 top1=93.2%. Same architecture/params/data. Difference was entirely architectural bug fixes (lexical binding, force_bank, retrieved_value=sum raw, temperature, query_weights). Memory addressing != memory emission confirmed as the core problem. Next: validation phase complete, move to Objective B (semantic retrieval general) - remove force_bank, add proper bank consolidation logic, test on more complex episodes (updates, contradictions, multi-attribute)."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "05:30",
+      "requested": "Begin Objective B (general semantic retrieval) - Phase B1: complex episodes with updates and distractors",
+      "executed": "ADDED ema_alpha=0.9 (was 0.3) in config - previously update blending kept 70% old value, making updates fail; now 90% new dominates. CREATED step2_training_v11.py (Objective B1): 3 episode types mixed in structural curriculum - simple (50%), update (25%), distractor (25%). UPDATE EPISODES: N distinct facts then one entity updated with new value, question asks LATEST. DISTRACTOR EPISODES: all entities from same semantic cluster (animals or fantasy) - tests key separation under semantic similarity. WARM-START: loads v10 checkpoint ckpt_step003000.pt as initialization. Keeps force_bank=working, lexical_alpha=0.9 from v10. Separate v11 checkpoint naming (ckpt_v11_step*.pt) to not overwrite v10. Per-type accuracy tracking in training logs and eval. Final scaling test across 3/5/7/10 facts for each episode type. Success criteria: simple>85%, update>75%, distractor>75%.",
+      "files_touched": [
+        "dcortex/config.py",
+        "colab/step2_training_v11.py"
+      ],
+      "status": "success",
+      "notes": "v10 checkpoint (step3000) preserved. v11 tests if memory mechanism handles non-trivial retrieval: updates (replace vs add), distractors (semantic similarity), scaling. Objective A: store-select-emit discrete value - DONE (93.2%). Objective B1: complex within-bank retrieval - testing now. Objective B2 (remove force_bank, writer learns bank) and B3 (anneal lexical_alpha, richer context) come after B1 succeeds."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "07:00",
+      "requested": "v11 training completed. Now: rigorous B1 validation beyond basic eval",
+      "executed": "v11 TRAINING RESULTS (4000 steps, 89.9min): simple=94.4%, update=100.0%, distractor=99.2% on 500 episodes each. val_loss=2.175 (improved from v10 2.458). Scaling 3/5/7/10 facts: simple 97.5->86.5%, update 100% constant, distractor 98.5->100%. All criteria PASS with margin. CREATED step2_7_b1_validation.py - 6 validation suites beyond basic eval: (1) Simple scaling 3/5/8/12/15 facts, (2) Update chain length 1/2/3, (3) Distractor within cluster by cluster name, (4) Cross-cluster mix, (5) Held-out entities (last 5 of 30 as rare-only), (6) Held-out target with trained distractors. Runs on ckpt_v11_step004000.pt. Tests the 3 gaps ChatGPT identified: held-out generalization, multiple successive updates, cross-distribution combinations.",
+      "files_touched": [
+        "colab/step2_7_b1_validation.py"
+      ],
+      "status": "success",
+      "notes": "B1 basic criteria PASS (S=94.8%/U=100%/D=99.8% vs thresholds 85/75/75). Honest verdict: pipeline validated on training distribution. Remaining rigor via 6 suites. Note: v11 trained on ALL 30 entities so true held-out test is limited - the last 5 entities get reduced training exposure due to random sampling but are not truly held out. Script measures performance degradation if any."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "07:30",
+      "requested": "Corrected: B1 is PASS. Next = B1.1 extended generalization, NOT re-validation of B1. Three separate blocks with honest labels.",
+      "executed": "B1 FORMAL VERDICT: PASS (criteria defined, criteria met). step2_7_b1_validation.py restructured as B1.1 Extended Validation with 3 distinct blocks: BLOCK 1 Scaling (3/5/8/12/15/16 facts, 3 types, N=500 each, Wilson CI reported). BLOCK 2 Update Chain Stability (chain=1/2/4/8 updates on same entity + leak test at chain=3 showing initial/intermediate leak). BLOCK 3 Generalization split into 3.1 Rare entities (NOT held-out - honest label), 3.1b Rare target + frequent distractors, 3.2 Cross-schema 4class (object/person NOT in training - expected low - evidence of compositional limit), 3.3 Cross-trained-cluster (animal+fantasy mixed, both in training). True held-out (v12) DEFERRED - requires retraining with entity exclusion, noted explicitly in script. Wilson confidence intervals on all measurements.",
+      "files_touched": [
+        "colab/step2_7_b1_validation.py"
+      ],
+      "status": "success",
+      "notes": "ChatGPT correct on two errors: (1) held-out terminology was wrong - rare frequency != held-out, fixed with honest labels. (2) Criteria moved after result - walked back, B1 stands as PASS. v12 will be new training with 5 entities COMPLETELY excluded from structural training to test true generalization."
+    },
+    {
+      "date": "2026-04-18",
+      "time": "08:00",
+      "requested": "Generate complete GitHub repository for backup with rigorous academic scientific documentation",
+      "executed": "COMPLETE REPOSITORY GENERATED. Structure: README.md (main page), LICENSE (proprietary with patent clauses), CITATION.cff (machine-readable citation), CHANGELOG.md (v1-v11 version history), QUICKSTART.md (5-step runbook), requirements.txt, .gitignore. Documentation: paper/progressive_development_report.md (715-line full scientific report with 11 sections + 3 appendices, abstract, methodology, results, discussion, references), paper/technical_note_three_bugs.md (386-line standalone bug investigation), docs/architecture.md (440-line architecture documentation), docs/experiments.md (355-line experiment log), docs/api.md (533-line API reference). Core code: dcortex/ (17 modules), colab/ (9 scripts including v2-v6 history, v11, ablation, diagnostic, B1.1 validation, benchmarks), scripts/verify_integration.py, tests/ (2 test files). Repository is ready for GitHub push. Total size ~1.3MB.",
+      "files_touched": [
+        "README.md",
+        "LICENSE",
+        "CITATION.cff",
+        "CHANGELOG.md",
+        "QUICKSTART.md",
+        ".gitignore",
+        "requirements.txt",
+        "paper/progressive_development_report.md",
+        "paper/technical_note_three_bugs.md",
+        "docs/architecture.md",
+        "docs/experiments.md",
+        "docs/api.md",
+        ".claude/project_concept.json"
+      ],
+      "status": "success",
+      "notes": "All documentation uses academic rigor: Wilson CI, proper citations, methodology section, limitations explicit. Honest framing: mechanism validated not universal product, validation crutches (force_bank, lexical_alpha, aux head) explicitly disclosed. Forward plan broken down with estimates. Patent EP25216372.0 referenced throughout. No em dashes used (per user convention). Python variable names with memory written in full."
+    }
+  ]
+}

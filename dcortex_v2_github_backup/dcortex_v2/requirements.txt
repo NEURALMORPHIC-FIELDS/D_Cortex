@@ -1,0 +1,18 @@
+# D_Cortex v2.0-alpha dependencies
+# Tested on Python 3.12 with CUDA 12.1 on A100-SXM4-40GB
+
+# Core ML
+torch>=2.0.0
+numpy>=1.24.0
+
+# Tokenization
+tiktoken>=0.5.0
+
+# Data
+datasets>=2.14.0  # Hugging Face datasets (TinyStories)
+
+# Visualization (optional, for plots)
+matplotlib>=3.7.0
+
+# Development (optional)
+# pytest>=7.4.0

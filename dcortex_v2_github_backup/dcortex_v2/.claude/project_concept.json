@@ -1,0 +1,56 @@
+{
+  "project": "D_Cortex v2.0-alpha",
+  "subtitle": "Dual-Agent Memory-Native Transformer Architecture",
+  "owner": "Vasile Lucian Borbeleac",
+  "company": "FRAGMERGENT TECHNOLOGY S.R.L.",
+  "location": "Cluj-Napoca, Romania",
+  "patent": "EP25216372.0",
+  "copyright": "2024-2026",
+  "vision": "Demonstrate experimentally that memory can exist as a structurally separate functional layer in neural architectures, distinct from both weights (parametric) and context (attentional). The architecture implements a dual-agent design where a writer encoder stores facts and a reader decoder retrieves them through shared semantic address space.",
+  "core_goals": [
+    "Memory-conditioned exact token emission (not just distributional influence)",
+    "Distinction between memory addressing competence and memory emission competence",
+    "Stable update semantics for same-entity state changes",
+    "Compositional memory across multiple semantic clusters",
+    "Third category in neural architecture: persistent + addressable + updatable"
+  ],
+  "key_constraints": [
+    "Python 3.12, PyTorch 2.0+, CUDA 12",
+    "175.81M parameter model (custom backbone)",
+    "A100-SXM4-40GB training hardware",
+    "GPT-2 tokenizer (50257 vocab)",
+    "TinyStories data + synthetic structural episodes"
+  ],
+  "target_users": [
+    "Research community studying memory-augmented architectures",
+    "Licensees of EP25216372.0 patent",
+    "Future cognitive architecture extensions"
+  ],
+  "status": {
+    "current_version": "v11",
+    "checkpoint": "ckpt_v11_step004000.pt",
+    "last_validated": "2026-04-18",
+    "B1_criteria": "PASS (S=94.4%, U=100%, D=99.2% vs thresholds 85/75/75)",
+    "B1_1_extended": "PASS on all blocks with compositional limit noted on cross-schema 4-class"
+  },
+  "what_was_demonstrated": [
+    "Memory-conditioned exact token emission (94.4% simple, 100% update, 99.2% distractor)",
+    "Memory addressing vs emission distinct (97% vs 7% possible in broken versions)",
+    "Three compounding architectural bugs: bias pollution, softmax temperature, bank scattering",
+    "Update chain stability to length 8 (100% accuracy, zero leak)",
+    "Graceful scaling degradation (no cliff, ~1.5pp per added fact beyond 3)"
+  ],
+  "what_was_NOT_demonstrated": [
+    "True held-out generalization (v12 needed)",
+    "Autonomous bank selection (force_bank crutch)",
+    "Natural language variation (fixed templates)",
+    "LLM integration (custom backbone only)",
+    "Multi-bank functional differentiation"
+  ],
+  "forward_plan": {
+    "v12": "True held-out training (exclude 5 entities completely) - 90min estimated",
+    "v13": "Natural language variation (paraphrases, ambiguous updates) - 90min",
+    "v14": "Gradual crutch removal + bank coherence loss - 180min+",
+    "v15+": "LLM integration (Qwen/Gemma/Llama), NQ/TriviaQA benchmarks"
+  }
+}

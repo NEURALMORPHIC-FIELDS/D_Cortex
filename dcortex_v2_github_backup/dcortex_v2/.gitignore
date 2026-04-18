@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+.env
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb_checkpoints/
+
+# PyTorch / ML
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.pkl
+
+# Training artifacts
+checkpoints/
+logs/
+runs/
+wandb/
+tensorboard/
+mlruns/
+
+# Data (large files - fetched at runtime)
+*.bin
+data/
+dataset_cache/
+tinystories_*.bin
+
+# Colab artifacts
+.colab/
+google-drive-credentials.json
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Project-specific
+results/
+outputs_local/
+/tmp/
+.claude/session*
+scratch/
