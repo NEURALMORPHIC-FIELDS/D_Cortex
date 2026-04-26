@@ -598,7 +598,7 @@ The forward agenda (true held-out validation, natural language variation, autono
 
 Complete source code, training scripts, validation scripts, and checkpoints are available at:
 
-- Repository: https://github.com/FRAGMERGENT/dcortex-v2  (to be created)
+- Repository: https://github.com/NEURALMORPHIC-FIELDS/D_Cortex
 - Patent: EP25216372.0
 
 All experiments were conducted on Google Colab A100-SXM4-40GB instances. Training from scratch (v10) requires approximately 60 minutes. Warm-started complex training (v11) requires approximately 90 minutes. Extended validation (B1.1) requires approximately 5-8 minutes on the same hardware.

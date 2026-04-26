@@ -1,5 +1,7 @@
 # D_Cortex v2.0-alpha dependencies
+# Sealed milestone: v15.7a (Pas 7a, 2026-04-26)
 # Tested on Python 3.12 with CUDA 12.1 on A100-SXM4-40GB
+# Full pipeline (v15.x layer) is sealed in steps/13_v15_7a_consolidation/code.py
 
 # Core ML
 torch>=2.0.0
