@@ -4,6 +4,97 @@ All notable changes to D_Cortex v2.0-alpha are documented in this file.
 
 Format: keep a changelog style. Dates in ISO 8601. Semantic versioning loosely applied.
 
+## [v15.7a Pas 7a SEALED] - 2026-04-26
+
+### First Longitudinal Organ Validated
+
+The first mechanism by which memory operates on its own history. Consolidator runs synchronously at `end_episode`, after the Pas 2/6 finalize, in fixed order: reconcile → prune → retrograde → promote. **All 10 D9 acceptance gates green.**
+
+### Core Operations Added (Consolidator Pipeline)
+
+- **Reconcile** (D.4): collapses exact `(slot, value, episode_id)` duplicates in provisional memory; does not touch bank.
+- **Prune** (D.5): drops provisional entries when slot has been silent for `K_prune_stale = 3` episodes; per-entry counting.
+- **Retrograde** (D.6): demotes a committed bank slot when a non-committed value accumulates `M_retrograde = 2` distinct challenger episodes. In-place mutation of `AttributeSlot` (`present=False`, `value_idx=-1`, `version+=1`, `value_emb=None`); removes slot from `BankStabilityIndex`. Provisional NOT modified in v1 (challenger remains for D.7 to elevate).
+- **Promote** (D.7): elevates a provisional value to bank when it accumulates `N_promote = 2` distinct confirmation episodes AND `K_promote_age = 2` episodes have passed since first appearance. Intra-pas exclusion: a slot retrograded in the same `end_episode` is skipped (forces 1-episode delay in L1). Bank-state policy: empty/absent → promote; same-value → idempotent finalize; different-value-stable → `PROMOTE_SKIPPED` (no transitive demote in v1).
+
+### Wiring (D.8)
+
+- New: `CommitArbiterPas7a(CommitArbiterPas6)` — overrides `end_episode` to call `_v15_7a_run_consolidator_pipeline` after `super().end_episode(...)`.
+- Pas 6 in-episode behavior (`write_fact`, RoMR, dual conflict rule, cross-episode challenger) **byte-identical, untouched**.
+- Audit log accumulates across all `end_episode` calls in `consolidation_audit_log`.
+
+### Evaluation (D.9)
+
+- New: `v15_7a_run_full_eval_d9(...)` — Phase A re-runs F1-F5 + S5/S6 with Pas 7a arbiter (verifies Gates 0-2). Phase B runs L1-L5 longitudinal sequences (n=20 each, 100 sequences total) and verifies Gates 3-9.
+- Artifact: `v15_7a/results/v15_7a_d9_full_eval.json` (per-trial detail, audit log, snapshot diff).
+- New: `_v15_7a_json_safe()` helper converts tuple keys `(entity_id, attr_type)` to `"entity::attr"` strings for JSON serialization.
+
+### Acceptance Gates (10/10)
+
+| Gate | Threshold | Result |
+|---|---|---:|
+| 0 | trusted regression byte-identical | PASS |
+| 1 | wrong_commit ≤ 0.02 across F1-F5 | PASS (0.000 all) |
+| 2 | F2 safe_resolution ≥ 0.95 | PASS (0.952) |
+| 3 | false_promote_rate = 0 | PASS (0/100) |
+| 4 | false_retrograde_rate = 0 | PASS (0/100) |
+| 5 | L1 promote_rate ≥ 0.95 | PASS (1.000) |
+| 6 | L2 retrograde_rate ≥ 0.90 | PASS (1.000) |
+| 7 | L3 false_retrograde = 0 on completions | PASS (0/20) |
+| 8 | L4 promote_count = 0 (anti-inflation) | PASS (0/20) |
+| 9 | L5 prune_count ≥ 1 per stale trial | PASS (2/trial) |
+
+### Added (artifacts)
+
+- `steps/13_v15_7a_consolidation/code.py`: full pipeline (~18,200 lines including v15.1-v15.6 base)
+- `steps/13_v15_7a_consolidation/README.md`: step spec + sealing status
+- `steps/13_v15_7a_consolidation/SEAL.md`: signed seal certificate
+- `steps/13_v15_7a_consolidation/NOTES.md`: internal dev journal D.1-D.9
+- `colab/d9_full_eval.ipynb`: self-contained Colab notebook to reproduce D9 (1MB, code.py embedded as base64)
+- `paper/D_CORTEX_PAS7A_SEAL.md`: citable seal certificate
+- `docs/PROGRESS.md`: chronological development log
+
+### Patches Applied (post-D.9, non-functional for critical path)
+
+1. **L2 ep3 template** (`gen_L2_retrograde_only`): `"A {chall_val} {entity} stood nearby."` → `"The {entity} stood {chall_val} nearby."`. Initial D9 run had Gate 6 = 0/20 because RoMR (Pas 6) correctly classified `{chall_val}` in NP-interior position as `ENTITY_MODIFIER`, suppressing the second challenger episode. Reordering to post-copular form (uses `stood`, in `V15_6_PAS6_COPULAS`) yields 20/20 retrogrades.
+2. **JSON serializer fix**: tuple keys → string keys for `json.dump` compatibility.
+
+Neither patch touches D.6/D.7/D.8 logic or gate semantics.
+
+### Hardware
+
+- NVIDIA A100-SXM4-40GB, bfloat16, TF32, SDPA. n_per_l_family=20, seed=20261103.
+
+## [v15.6 Pas 6 PASSED] - 2026-04-22
+
+### Role-of-Modifier Resolver (RoMR)
+
+Closed the F2 attr_write_failure gap (21.8% → 0.0%) by classifying value candidates structurally before commit.
+
+### Added
+
+- `RoleOfModifierResolver`: token-level labels `ENTITY_MODIFIER` / `ATTRIBUTE_VALUE` / `UNCERTAIN` based on position vs noun-phrase span and copula. 33 linking verbs in `V15_6_PAS6_COPULAS`.
+- Packet-level `REAL_CONFLICT` flag: promoted to `ATTR_CONFLICT_STRONG` when same attribute family has ≥2 distinct values ("The small horse is huge").
+- Recompute flag after filtering: value-dependent flags (`MULTIPLE_ATTR_TRIGGERS`, `ATTR_CONFLICT_STRONG`, `ATTR_VALUE_MISMATCH`, `VALUE_MISSING_OR_UNCLEAR`) re-derived; independent flags preserved.
+- `CommitArbiterPas6(CommitArbiterPas3)`: RoMR runs after v15.4 parser, before verifier, on shallow packet copy. Raw packet preserved.
+
+### Results (F2)
+
+| Metric | Pas 3 baseline | Pas 6 A100 |
+|---|---:|---:|
+| safe_resolution | 0.782 | **0.952** |
+| uncertain | 0.218 | 0.048 |
+| wrong_commit | 0.000 | 0.000 |
+| attr_write_fail post-RoMR | 0.218 | **0.000** |
+
+### Global
+
+- Trusted regression byte-identical before/after.
+- S5/S6 honesty 1.000 / overcommit 0.000.
+- F4 safe_resolution 1.000.
+- 7/7 Pas 6 acceptance gates green.
+- Artifact: `v15_6/results/v15_6_pas6_romr.json`.
+
 ## [v11] - 2026-04-18
 
 ### B1.1 Extended Validation Complete
