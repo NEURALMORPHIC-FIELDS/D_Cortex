@@ -1,18 +1,56 @@
-# D_Cortex v2.0-alpha
+# D_Cortex v2.0-alpha — v15.7a SEALED
 
-**Dual-agent memory-native transformer architecture**
+**Dual-agent memory-native transformer with longitudinal consolidation**
 
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)](LICENSE)
 [![Patent](https://img.shields.io/badge/Patent-EP25216372.0-blue.svg)](#patent)
-[![Status](https://img.shields.io/badge/Status-v11%20validated-green.svg)](#status)
+[![Status: v15.7a SEALED](https://img.shields.io/badge/Status-v15.7a%20SEALED-brightgreen.svg)](#status)
+[![Gates](https://img.shields.io/badge/Gates-10%2F10%20green-brightgreen.svg)](paper/D_CORTEX_PAS7A_SEAL.md)
 
-> **Memory can exist as a functional layer separate from weights and separate from context.**
+> **Memory can exist as a functional layer separate from weights and separate from context — and it can operate on its own history.**
 
-D_Cortex v2.0-alpha demonstrates experimentally that a language model can be extended with explicit memory as a structurally separate functional layer that is persistent, addressable by content, and updatable without retraining.
+D_Cortex demonstrates experimentally that a language model can be extended with explicit memory as a structurally separate functional layer that is persistent, addressable by content, updatable without retraining, and **capable of self-revising at episode boundaries** (consolidator pipeline: reconcile → prune → retrograde → promote).
 
-## Key Results
+The current sealed milestone is **v15.7a (Pas 7a, 2026-04-26)** — first longitudinal organ validated, all 10 acceptance gates green over 100 cross-episode sequences. The earlier v11 (2026-04-18) sealed memory-conditioned token emission and is preserved as the foundational layer underneath.
 
-After 11 development iterations and resolution of three compounding architectural bugs:
+## v15.x Progression — Memory Operates on Its Own History
+
+| Pas | Date | Headline | Verdict |
+|---|---|---|---|
+| v15.6 Pas 3 | 2026-04 | EntitySpanComposer for F2 multiword entities | F2 0.782 |
+| v15.6 Pas 6 | 2026-04-22 | RoleOfModifierResolver — entity_modifier vs attribute_value | F2 **0.952** (PASS, 7/7 gates) |
+| **v15.7a** | **2026-04-26** | **Consolidator at end_episode — reconcile, prune, retrograde, promote** | **PAS 7A SEALED** (10/10 gates) |
+
+Pas 7a defines the dynamic that distinguishes a passive store from a working memory:
+- **Stable can fall**: a committed value is demoted when a challenger accumulates `M=2` distinct confirming episodes.
+- **Provisional can rise**: a non-committed value is promoted when it accumulates `N=2` distinct confirmations and `K_age=2` episodes have passed.
+- **Pas 6 critical path is byte-identical**: the consolidator runs only at `end_episode`, after the Pas 2/6 finalize, and never contaminates single-episode behavior.
+
+D9 full evaluation (n=20 per L-family × 5 families = 100 sequences, A100):
+
+```
+Gate 0  trusted regression byte-identical              PASS
+Gate 1  wrong_commit ≤ 0.02 across F1-F5               PASS (0.000)
+Gate 2  F2 safe_resolution ≥ 0.95                       PASS (0.952)
+Gate 3  false_promote_rate = 0                          PASS (0/100)
+Gate 4  false_retrograde_rate = 0                       PASS (0/100)
+Gate 5  L1 promote_rate ≥ 0.95                          PASS (1.000)
+Gate 6  L2 retrograde_rate ≥ 0.90                       PASS (1.000)
+Gate 7  L3 false_retrograde = 0 on completions          PASS (0/20)
+Gate 8  L4 promote_count = 0 (anti-inflation)           PASS (0/20)
+Gate 9  L5 prune_count ≥ 1 per stale trial              PASS (2/trial)
+
+OVERALL: PAS 7A SEALED
+```
+
+Full seal certificate: [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md).
+Sealed development log: [docs/PROGRESS.md](docs/PROGRESS.md).
+Self-contained Colab notebook to reproduce D9: [colab/d9_full_eval.ipynb](colab/d9_full_eval.ipynb).
+Per-step sealed code: [steps/13_v15_7a_consolidation/](steps/13_v15_7a_consolidation/).
+
+## Foundational Results (v9 → v11)
+
+The v15.x progression builds on the v11 substrate. The original validation results below remain canonical for the foundational layer:
 
 | Metric | v9 (broken) | v10 (principle) | v11 (complex) |
 |--------|-------------|-----------------|---------------|
@@ -134,10 +172,17 @@ predicted_token = aux_logits.argmax(dim=-1).item()
 ## Directory Structure
 
 ```
-dcortex-v2/
-├── dcortex/                      # Core library
-│   ├── __init__.py
-│   ├── config.py                 # All hyperparameters
+D_Cortex/
+├── README.md                     # This file
+├── MISIUNEA.txt                  # Mission statement (foundational, do not modify)
+├── LICENSE                       # Proprietary license
+├── CITATION.cff                  # Citation information
+├── CHANGELOG.md                  # Version history
+├── QUICKSTART.md                 # Quick run instructions
+├── requirements.txt              # Python dependencies
+│
+├── dcortex/                      # Core library (v11 base substrate)
+│   ├── config.py                 # DCortexConfig: all hyperparameters
 │   ├── model.py                  # DCortexV2Model main class
 │   ├── encoder.py                # Writer agent (memory encoder)
 │   ├── shared_address.py         # SharedAddressEncoder (C_sigma)
@@ -148,36 +193,58 @@ dcortex-v2/
 │   │   ├── writer.py             # MemoryWriter with lexical binding
 │   │   ├── readers.py            # SemanticReader + Fusion
 │   │   ├── updater.py            # Theta-match + EMA updates
-│   │   └── consolidator.py       # Bank consolidation (not yet active)
+│   │   └── consolidator.py       # Bank consolidation (latent layer)
 │   └── backbone/                 # Standard transformer components
-│       ├── embeddings.py
-│       ├── transformer.py
-│       └── fusion_block.py
-├── colab/                        # Training and evaluation scripts
+│
+├── steps/                        # Sealed development steps (v15.x progression)
+│   ├── 08-10_v15_5_to_v15_6_pas3/    # Historical bundle: v15.5 holdout + Pas 3
+│   ├── 12_v15_6_pas6_romr/            # Pas 6 SEALED: RoMR, F2 0.952
+│   ├── 13_v15_7a_consolidation/       # Pas 7a SEALED: consolidator, 10/10 gates
+│   │   ├── README.md             # Step-level spec + status
+│   │   ├── SEAL.md               # Seal certificate (citable artifact)
+│   │   ├── NOTES.md              # Internal dev journal
+│   │   └── code.py               # Sealed source (18k+ lines, full pipeline)
+│   └── _template/                # Template for future steps
+│
+├── colab/                        # Colab notebooks + training scripts
+│   ├── d9_full_eval.ipynb        # Self-contained Pas 7a D9 reproducer (1MB)
 │   ├── step2_training_v6.py      # v10 training (from scratch)
 │   ├── step2_training_v11.py     # v11 training (warm start)
 │   ├── step2_5_ablation.py       # Ablation on memory conditions
 │   ├── step2_6_deep_diagnostic.py # 6-test diagnostic
 │   ├── step2_7_b1_validation.py  # B1.1 extended validation
 │   └── step3_benchmarks.py       # Standard benchmark suite
-├── scripts/
-│   └── verify_integration.py     # Module integration check
-├── tests/
-│   ├── test_forward_smoke.py     # End-to-end smoke test
-│   └── test_step2_fixes.py       # Regression tests
-├── paper/
-│   └── progressive_development_report.md  # Full scientific report
+│
 ├── docs/
+│   ├── PROGRESS.md               # Sealed-step development log (read this for history)
 │   ├── architecture.md           # Detailed architecture documentation
 │   └── experiments.md            # Experiment log
-├── configs/                      # Configuration presets
-├── results_archive/              # Historical results JSONs
-├── README.md                     # This file
-├── LICENSE                       # Proprietary license
-├── CITATION.cff                  # Citation information
-├── .gitignore
-└── requirements.txt
+│
+├── paper/
+│   ├── progressive_development_report.md  # Full scientific report (v9-v11)
+│   ├── technical_note_three_bugs.md       # Standalone note: 3 architectural bugs
+│   └── D_CORTEX_PAS7A_SEAL.md             # Pas 7a seal certificate
+│
+├── api.md                        # API reference
+├── architecture.md               # Architecture (root copy, mirrors docs/)
+├── experiments.md                # Experiment log (root copy)
+├── progressive_development_report.md      # Scientific report (root copy)
+├── technical_note_three_bugs.md           # Three bugs note (root copy)
+├── raport_stiintific_dcortex_dezvoltare_progresiva.pdf  # PDF version (RO)
+│
+├── scripts/
+│   └── verify_integration.py     # Module integration check
+└── tests/
+    ├── test_forward_smoke.py     # End-to-end smoke test
+    └── test_step2_fixes.py       # Regression tests
 ```
+
+**Reading order for new arrivals:**
+1. [README.md](README.md) (this file) — overview
+2. [docs/PROGRESS.md](docs/PROGRESS.md) — chronological development log
+3. [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md) — current seal certificate
+4. [steps/13_v15_7a_consolidation/README.md](steps/13_v15_7a_consolidation/README.md) — Pas 7a spec
+5. [paper/progressive_development_report.md](paper/progressive_development_report.md) — foundational v9-v11 report
 
 ## Development Timeline
 
@@ -220,10 +287,10 @@ See "Forward Agenda" in [paper/progressive_development_report.md](paper/progress
 
 ## Status
 
-**Current version**: v11 (April 18, 2026)  
-**Current checkpoint**: `ckpt_v11_step004000.pt`  
-**Validation status**: B1 PASS with margin, B1.1 Extended Validation complete  
-**Next milestone**: v12 True Held-out Training
+**Current sealed version**: **v15.7a (Pas 7a, April 26, 2026)** — first longitudinal organ.
+**Foundational checkpoint**: `ckpt_v11_step004000.pt` (April 18, 2026, B1.1 validated).
+**Validation status**: 10/10 D9 acceptance gates green. Pas 6 trusted regression byte-identical under Pas 7a arbiter.
+**Next milestone**: undecided — either Pas 7b (semantic abstraction layer that produces hypotheses for the consolidator to metabolize) or Pas 8 (integration of D_Cortex 7a as longitudinal backend for an explicit organism). Neither begins until an explicit adapter is defined.
 
 ## Reproducibility
 

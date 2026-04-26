@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "D_Cortex v2.0-alpha: A Dual-Agent Memory-Native Transformer Architecture"
-version: "2.0-alpha"
-date-released: 2026-04-18
+title: "D_Cortex v2.0-alpha (v15.7a SEALED): A Dual-Agent Memory-Native Transformer with Longitudinal Consolidation"
+version: "v15.7a"
+date-released: 2026-04-26
 authors:
   - family-names: Borbeleac
     given-names: Vasile Lucian
@@ -16,22 +16,32 @@ keywords:
   - address-value binding
   - cognitive architecture
   - neural memory systems
+  - longitudinal memory consolidation
+  - memory retrograde and promote
+  - role-of-modifier resolver
 license: Proprietary
-url: https://github.com/FRAGMERGENT/dcortex-v2
+url: https://github.com/NEURALMORPHIC-FIELDS/D_Cortex
 abstract: >
   D_Cortex v2.0-alpha is a dual-agent transformer architecture where
   explicit episodic memory operates as a structurally separate system
   from both model weights and context window. The architecture
   implements a clear three-way separation between writer encoder,
   reader decoder, and multi-bank memory substrate. Through eleven
-  development iterations, we identified and resolved three compounding
-  architectural bugs that prevented memory-to-emission coupling,
-  demonstrating that memory addressing and memory emission are distinct
-  computational competences requiring separate mechanisms. The final
-  validated system achieves 94.4% top-1 accuracy on 4-fact retrieval,
-  100% on update chains up to 8 successive modifications, 93.6%
-  distractor resistance at 15-fact capacity, and 95.3% accuracy on
-  rare entities among frequent distractors.
+  foundational iterations (v9-v11) we identified and resolved three
+  compounding architectural bugs that prevented memory-to-emission
+  coupling, demonstrating that memory addressing and memory emission
+  are distinct computational competences requiring separate mechanisms.
+  The v11 substrate achieves 94.4% top-1 on 4-fact retrieval, 100% on
+  update chains of length 8, 93.6% distractor resistance at 15-fact
+  capacity, and 95.3% accuracy on rare entities among frequent
+  distractors. The current sealed milestone is v15.7a (Pas 7a), which
+  introduces a synchronous consolidator pipeline at end_episode
+  (reconcile, prune, retrograde, promote) — the first mechanism by
+  which memory operates on its own history. All 10 D9 acceptance gates
+  are green over 100 cross-episode sequences (5 longitudinal families
+  x 20 trials), with Pas 6 trusted regression byte-identical under the
+  new arbiter. F2 multiword-entity safe_resolution improved from 0.782
+  (Pas 3) to 0.952 (Pas 6) via the Role-of-Modifier Resolver.
 references:
   - type: patent
     title: "Fractal Holographic Redundant Storage System (FHRSS)"
