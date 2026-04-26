@@ -1,5 +1,20 @@
 # D_Cortex v2.0-alpha: A Dual-Agent Memory-Native Transformer Architecture
 
+> **SCOPE NOTE (2026-04-26)**: This report covers the **foundational v9-v11
+> substrate** sealed on 2026-04-18. The current sealed milestone of the
+> project is **v15.7a (Pas 7a, 2026-04-26)** — first longitudinal organ
+> validated, all 10 D9 acceptance gates green. For the v15.x progression
+> (Pas 6 RoMR + Pas 7a consolidator pipeline), see:
+>
+> - [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md) — citable seal certificate
+> - [docs/PROGRESS.md](docs/PROGRESS.md) — chronological log of all sealed steps
+> - [architecture.md](architecture.md) Section 8 — v15.x architectural additions
+> - [experiments.md](experiments.md) v15.x section — Pas 6 RoMR + Pas 7a evaluation
+> - [steps/13_v15_7a_consolidation/](steps/13_v15_7a_consolidation/) — sealed Pas 7a code + spec
+>
+> The v9-v11 results below remain canonical for the substrate layer that
+> the v15.x consolidator wraps.
+
 ## Progressive Development Report
 
 **Author**: Vasile Lucian Borbeleac  

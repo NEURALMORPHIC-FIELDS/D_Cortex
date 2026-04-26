@@ -437,4 +437,171 @@ To extend D_Cortex for new tasks:
 
 ---
 
+## 8. v15.x Layer — Memory That Operates on Its Own History
+
+The architecture above (sections 1–7) describes the **v11 substrate**: dual-agent
+transformer with explicit memory banks, validated for memory-conditioned token
+emission (94.4% on 4-fact retrieval, 100% on 8-step update chains).
+
+The **v15.x layer** wraps this substrate with three additional sub-systems,
+each sealed in a separate development step:
+
+### 8.1 v15.6 Pas 6 — Role-of-Modifier Resolver (RoMR)
+
+**Location**: `steps/12_v15_6_pas6_romr/code.py` (sealed bundle).
+
+**Problem**: in the v11 substrate, the parser conflated `ENTITY_MODIFIER` ("a
+red dragon") with `ATTRIBUTE_VALUE` ("the dragon is red"). On the F2 holdout
+(multiword entities), `attr_write_failure` was 21.8 %.
+
+**Solution**: token-level role classification BEFORE the verifier runs.
+`RoleOfModifierResolver` labels each value candidate as one of
+`ENTITY_MODIFIER` / `ATTRIBUTE_VALUE` / `UNCERTAIN` based on:
+- position relative to the noun-phrase span
+- presence of a copula in `V15_6_PAS6_COPULAS` (33 linking verbs:
+  *is, was, became, seemed, appeared, stood, looked, felt, …*)
+- packet-level `REAL_CONFLICT` flag when the same attribute family has
+  ≥ 2 distinct values ("the small horse is huge")
+
+`CommitArbiterPas6` extends `CommitArbiterPas3`. RoMR runs after `v15_4`
+parser, before verifier, on a shallow copy of the packet. The raw packet is
+preserved for audit; only `value_candidates` are filtered.
+
+**Result**: F2 safe_resolution 0.782 → **0.952**, attr_write_fail 21.8 % →
+**0.000 %**, all 7 Pas 6 acceptance gates green. S5/S6 honesty 1.000
+preserved. Trusted regression byte-identical.
+
+### 8.2 v15.7a Pas 7a — Consolidator Pipeline at end_episode
+
+**Location**: `steps/13_v15_7a_consolidation/code.py` (sealed monolith).
+
+**Problem**: until Pas 6, memory was a passive store. Provisional entries
+accumulated indefinitely. Committed values were never demoted, even under
+strong contradicting evidence. There was no mechanism by which memory could
+operate on its own history.
+
+**Solution**: a synchronous consolidator pipeline at `end_episode`, executed
+**after** the existing Pas 2/6 finalize:
+
+```
+end_episode():
+    [existing Pas 2/6 finalize — unchanged]
+    consolidator.reconcile(...)   # collapse exact (slot,value,episode) duplicates
+    consolidator.prune(...)       # drop provisional stale beyond K_prune_stale
+    consolidator.retrograde(...)  # demote committed slot if M challenger episodes met
+    consolidator.promote(...)     # elevate provisional value if N confirms + age >= K_age
+```
+
+#### 8.2.1 Derivation Layer (D.3)
+
+Pure functions over `List[ProvisionalEntry]`:
+
+| Function | Returns |
+|---|---|
+| `_v15_7a_confirmation_episodes(entries, ent, attr, value_idx)` | distinct `episode_id`s where `(slot, value)` was deposited |
+| `_v15_7a_last_activity_episode(entries, ent, attr)` | max `episode_id` for any value of this slot |
+| `_v15_7a_first_seen_episode(entries, ent, attr, value_idx)` | min `episode_id` for `(slot, value)` |
+| `_v15_7a_distinct_values_for_slot(entries, ent, attr)` | set of `value_idx` observed |
+
+Predicates built on top:
+
+| Predicate | Truth condition |
+|---|---|
+| `is_promote_eligible(entries, ent, attr, v, current_ep)` | `\|confirms\| ≥ N=2` AND `current_ep − first_seen ≥ K_age=2` |
+| `is_retrograde_eligible(entries, ent, attr, committed_v)` | exists `v ≠ committed_v` with `\|confirms\| ≥ M=2`; tiebreak: most confirms, then smallest `value_idx` |
+| `is_stale_for_prune(entries, ent, attr, current_ep)` | `current_ep − last_activity ≥ K_stale=3` |
+
+#### 8.2.2 Atomic Operations
+
+Each operation emits a `V15_7a_ConsolidationRecord` (audit-trail dataclass:
+`episode_id`, `operation`, `entity_id`, `attr_type`, `value_idx`, `reason`,
+`state_before`, `state_after`).
+
+| Op | Mutates | Counting | Provisional handling |
+|---|---|---|---|
+| **reconcile** (D.4) | provisional only | 1 per fired slot (dedup duplicates by `(value, episode)`) | collapse, write_step tiebreak (earliest wins) |
+| **prune** (D.5) | provisional only | 1 per pruned entry (matches L5 `PRUNE: 2`) | drop entire stale slot |
+| **retrograde** (D.6) | bank + stability_index | 1 per demoted slot | NOT touched in v1 (challenger remains for D.7) |
+| **promote** (D.7) | bank + stability_index + provisional | 1 per promoted slot | clear `(slot, promoted_value)` only |
+
+#### 8.2.3 Bank-State Policy for Promote (No Transitive Demote)
+
+Promote is bound by an explicit four-case policy:
+
+| Bank state for `(ent, attr)` | Action |
+|---|---|
+| entity not in bank | `PROMOTE_SKIPPED` ("v1 consolidator does not allocate") |
+| `attr_slot.present == False` (post-retrograde or never-committed) | promote: in-place mutation, mark stability |
+| `present == True` and `value_idx == promote_value` | idempotent finalize (re-mark stability, clear provisional) |
+| `present == True` and `value_idx != promote_value` | `PROMOTE_SKIPPED` ("D.6 didn't demote it ⇒ not eligible for transitive overwrite") |
+
+#### 8.2.4 Intra-Pas Exclusion
+
+A slot retrograded in the **same** `end_episode` is excluded from the promote
+loop in that same episode. Implementation: scan the audit log for
+`RETROGRADE` records with `episode_id == current_episode`, build the exclusion
+set, skip those slots. This produces the L1 1-episode delay
+(retrograde at `end_ep3`, promote at `end_ep4`, never at `end_ep3`).
+
+#### 8.2.5 Wiring (D.8)
+
+`CommitArbiterPas7a(CommitArbiterPas6)` overrides `end_episode` only:
+
+```python
+def end_episode(self, ent_fn, cls_fn, val_fn):
+    ep_id = self.episode_buffer.episode_id
+    finalize = super().end_episode(ent_fn, cls_fn, val_fn)
+    ops = _v15_7a_run_consolidator_pipeline(
+        self.provisional_memory, self.bank, self.stability_index,
+        current_episode=finalize.episode_id,
+        audit=self.consolidation_audit_log,
+    )
+    self.last_consolidator_ops = ops
+    return finalize
+```
+
+Pas 6 in-episode behavior (`write_fact`, RoMR filter, dual conflict rule,
+cross-episode challenger detection) is **byte-identical** under Pas 7a.
+Read path (`ReadArbiter`) is untouched. Query path is untouched.
+
+#### 8.2.6 Acceptance Gates (D.9)
+
+The full evaluator `v15_7a_run_full_eval_d9(base_model, v15_1_memory)` runs
+two phases and verifies 10 gates. All passed (2026-04-26, A100,
+n_per_l_family=20, seed=20261103, 100 sequences total):
+
+| Gate | Threshold | Result |
+|---|---|---:|
+| 0 | trusted regression byte-identical | PASS |
+| 1 | wrong_commit ≤ 0.02 across F1-F5 | PASS (0.000) |
+| 2 | F2 safe_resolution ≥ 0.95 | PASS (0.952) |
+| 3 | false_promote_rate = 0 | PASS (0/100) |
+| 4 | false_retrograde_rate = 0 | PASS (0/100) |
+| 5 | L1 promote_rate ≥ 0.95 | PASS (1.000) |
+| 6 | L2 retrograde_rate ≥ 0.90 | PASS (1.000) |
+| 7 | L3 false_retrograde = 0 on completions | PASS (0/20) |
+| 8 | L4 promote_count = 0 (anti-inflation) | PASS (0/20) |
+| 9 | L5 prune_count ≥ 1 per stale trial | PASS (2/trial) |
+
+### 8.3 What Pas 7a Adds to the Architecture (in plain terms)
+
+| Before Pas 7a | After Pas 7a |
+|---|---|
+| Memory was a passive store. | Memory operates on its own history. |
+| Committed values were permanent. | **Stable can fall** under M=2 distinct contradicting episodes. |
+| Provisional entries accumulated. | **Provisional can rise** with N=2 distinct confirms + K_age=2 maturity. |
+| No reflexive structure. | Each consolidator op leaves an audit record with `state_before` / `state_after`. |
+| Single-episode tests sufficient. | Longitudinal regime (5 L families × 20 trials) measures cross-episode dynamics. |
+
+### 8.4 What Pas 7a Does NOT Do
+
+- Does not contaminate Pas 6 critical path (Gate 0 byte-identical).
+- Does not touch the read path or the query path.
+- Does not allocate new entities (consolidator is bank-mutator only on already-allocated entities).
+- Does not silently overwrite stable bank values (no transitive demote in v1).
+- Does not regenerate value embeddings on promote (`value_emb` left as-is).
+- Does not run as a background process — strictly synchronous at `end_episode`.
+
+---
+
 **End of Architecture Documentation**
