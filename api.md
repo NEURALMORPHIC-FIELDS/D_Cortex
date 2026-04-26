@@ -1,5 +1,12 @@
 # D_Cortex v2.0-alpha: API Reference
 
+> **Sealed milestone**: v15.7a (Pas 7a, 2026-04-26). The substrate API
+> below (DCortexConfig, DCortexV2Model, MemoryEncoder, etc.) is the v11
+> layer. The v15.x API (CommitArbiterPas6, CommitArbiterPas7a,
+> consolidator pipeline, evaluator) is documented in the dedicated
+> "v15.x API" section near the end. See
+> [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md).
+
 ## Top-Level Classes
 
 ### DCortexV2Model

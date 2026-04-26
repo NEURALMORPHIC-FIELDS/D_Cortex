@@ -106,9 +106,9 @@ Same architecture, same parameter count (175.81M), same data. Only three archite
 ### Installation
 
 ```bash
-git clone https://github.com/FRAGMERGENT/dcortex-v2.git
-cd dcortex-v2
-pip install torch tiktoken datasets matplotlib numpy
+git clone https://github.com/NEURALMORPHIC-FIELDS/D_Cortex.git
+cd D_Cortex
+pip install -r requirements.txt
 ```
 
 ### Running Experiments
@@ -317,13 +317,18 @@ See [LICENSE](LICENSE) for terms.
 
 ```bibtex
 @techreport{borbeleac2026dcortex,
-  title = {D_Cortex v2.0-alpha: A Dual-Agent Memory-Native Transformer Architecture},
+  title = {D_Cortex v2.0-alpha (v15.7a SEALED): A Dual-Agent Memory-Native
+           Transformer with Longitudinal Consolidation},
   author = {Borbeleac, Vasile Lucian},
   institution = {FRAGMERGENT TECHNOLOGY S.R.L.},
   year = {2026},
   month = {April},
   address = {Cluj-Napoca, Romania},
-  note = {Patent EP25216372.0. Progressive Development Report.},
+  version = {v15.7a},
+  url = {https://github.com/NEURALMORPHIC-FIELDS/D_Cortex},
+  note = {Patent EP25216372.0. Pas 7a sealed 2026-04-26, all 10 D9
+          acceptance gates green over 100 cross-episode sequences.
+          See paper/D_CORTEX_PAS7A_SEAL.md.},
 }
 ```
 
@@ -343,4 +348,4 @@ This work builds on the foundational FRAGMERGENT framework (fragment + emergence
 
 ---
 
-*D_Cortex v2.0-alpha: memory as a third category in neural architecture.*
+*D_Cortex v2.0-alpha (v15.7a SEALED): memory as a third category in neural architecture — and one that operates on its own history.*

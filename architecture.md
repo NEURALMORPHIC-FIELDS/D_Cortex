@@ -1,8 +1,14 @@
 # D_Cortex v2.0-alpha: Architecture Documentation
 
+> **Sealed milestone**: v15.7a (Pas 7a, 2026-04-26). Sections 1–7 below
+> describe the foundational v11 substrate. Section 8 documents the v15.x
+> additions (Pas 6 RoMR + Pas 7a consolidator pipeline) that wrap the
+> substrate. See [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md)
+> for the citable seal certificate.
+
 ## 1. High-Level Overview
 
-D_Cortex v2.0-alpha is a dual-agent transformer with explicit memory. The architecture separates three concerns:
+D_Cortex v2.0-alpha (sealed v15.7a) is a dual-agent transformer with explicit memory. The architecture separates three concerns:
 
 1. **Writer agent (encoder)**: processes facts, writes to memory
 2. **Reader agent (decoder)**: processes questions, reads from memory, produces output

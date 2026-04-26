@@ -1,6 +1,6 @@
 # Quickstart Guide
 
-Fast-track guide to running D_Cortex v2.0-alpha experiments.
+Fast-track guide to running D_Cortex experiments. Current sealed milestone: **v15.7a (Pas 7a, 2026-04-26)** — first longitudinal organ validated, all 10 D9 acceptance gates green. See [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md). For one-click reproduction of the current sealed state, jump to the section near the bottom of this guide.
 
 ## Prerequisites
 
@@ -11,8 +11,8 @@ Fast-track guide to running D_Cortex v2.0-alpha experiments.
 ## Step 1: Clone Repository
 
 ```bash
-git clone https://github.com/FRAGMERGENT/dcortex-v2.git
-cd dcortex-v2
+git clone https://github.com/NEURALMORPHIC-FIELDS/D_Cortex.git
+cd D_Cortex
 ```
 
 ## Step 2: Setup Colab Environment

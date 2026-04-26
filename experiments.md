@@ -1,5 +1,10 @@
 # D_Cortex v2.0-alpha: Experiments Log
 
+> **Sealed milestone**: v15.7a (Pas 7a, 2026-04-26). The v9-v11 experiments
+> below validate the foundational substrate. The v15.x experiments
+> (Pas 6 RoMR, Pas 7a consolidator) are appended in their own section
+> at the end. See [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md).
+
 This document records every experiment run during development, with outcomes, decisions, and lessons learned. Chronological order. All dates 2026.
 
 ## Version Summary Table
