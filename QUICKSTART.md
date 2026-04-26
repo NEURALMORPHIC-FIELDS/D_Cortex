@@ -232,10 +232,94 @@ Wilson 95% confidence intervals: Use lower bound for conservative reporting, upp
 
 ## Next Steps
 
-- Read `paper/progressive_development_report.md` for full scientific context
-- Read `docs/architecture.md` for architectural details
-- Read `docs/experiments.md` for development history
-- Read `paper/technical_note_three_bugs.md` for the bug investigation
+- Read `paper/progressive_development_report.md` for full scientific context (v9-v11)
+- Read `paper/D_CORTEX_PAS7A_SEAL.md` for the current sealed milestone (v15.7a)
+- Read `architecture.md` Section 8 for v15.x architectural additions
+- Read `experiments.md` v15.x section for Pas 6 RoMR and Pas 7a evaluation details
+- Read `docs/PROGRESS.md` for chronological development log
+
+---
+
+## Reproducing the Current Sealed Milestone (v15.7a Pas 7a, 10/10 gates)
+
+The current sealed state is **v15.7a (Pas 7a, 2026-04-26)** — first
+longitudinal organ validated with all 10 D9 acceptance gates green over
+100 cross-episode sequences.
+
+The fastest path to reproduce (zero external file upload required):
+
+### 1. Open the self-contained Colab notebook
+
+Go to: **`colab/d9_full_eval.ipynb`** in this repo.
+
+Click **Open in Colab** (or download the `.ipynb` and upload manually
+to Colab via *File → Upload notebook*).
+
+The notebook is ~1 MB and embeds the entire pipeline source
+(`steps/13_v15_7a_consolidation/code.py`, ~18,200 lines, 750 KB) as a
+base64 payload in Cell 2. No additional file upload required.
+
+### 2. Set runtime to A100 GPU
+
+*Runtime → Change runtime type → GPU → A100*.
+
+### 3. Run all
+
+*Runtime → Run all*.
+
+Cell 1 mounts Drive, sets `MODE=pas6_full` and `V15_7A_D9_MODE=run`.
+Cell 2 decodes the embedded `code.py`. Cell 3 executes the full pipeline
+(v15.1 substrate → Pas 6 → Pas 7a → D.9 evaluation). Cell 4 prints the
+verdicts in priority order (Gate 0 → 4 → 3 → 5-9 → 1, 2) and saves the
+artifact JSON to Drive.
+
+### Expected output
+
+```
+D9 VERDICTS  (priority: Gate 0 -> Gate 4 -> Gate 3 -> 5,6,7,8,9 -> 1,2)
+========================================================================
+  [PASS] Gate 0: trusted regression byte-identical (Pas 6 single-episode)
+  [PASS] Gate 4: false_retrograde_rate = 0 across all L sequences
+  [PASS] Gate 3: false_promote_rate = 0 across all L sequences
+  [PASS] Gate 5: L1 promote_rate >= 0.95 (challenger reaches bank by end_ep4)
+  [PASS] Gate 6: L2 retrograde_rate >= 0.90 (committed demoted at end_ep3)
+  [PASS] Gate 7: L3 false_retrograde_rate = 0 (completion is consolidator no-op)
+  [PASS] Gate 8: L4 promote_count = 0 (anti-inflation: 1 distinct ep < N=2)
+  [PASS] Gate 9: L5 prune_count >= 1 per trial (stale slot pruned at end_ep4)
+  [PASS] Gate 1: wrong_commit_rate <= 0.02 on all 5 holdout families (F1-F5)
+  [PASS] Gate 2: F2 safe_resolution >= 0.95
+
+OVERALL: PAS 7A SEALED (toate 10 gates verzi)
+
+[D9] artifact: /content/drive/MyDrive/dcortex_v2/v15_7a/results/v15_7a_d9_full_eval.json
+```
+
+### Hardware and timing
+
+- A100-SXM4-40GB, bfloat16, TF32, SDPA
+- Phase A (re-runs F1-F5 + S5/S6 = 5×500 + 2×200 = 2,900 single-episode trials): ~10-15 min including model warm-up
+- Phase B (5 L-families × 20 trials × ~3-4 episodes/sequence = ~350 episodes): ~2-3 min
+- Total wall time: ~15-20 min on a fresh runtime
+
+If `dcortex_v2/v15_2/checkpoints/shadow_final.pt` is missing on Drive,
+the notebook regenerates it (~1 min, 2000 steps).
+
+### Local structural checks (no GPU)
+
+To validate the sealed Pas 7a logic without running Colab, the
+self-check scripts in `steps/13_v15_7a_consolidation/` (D.3 through
+D.8) can be run locally with environment variables:
+
+```bash
+# Each runs the corresponding sealed self-check in isolation
+V15_7A_D6_MODE=run python -c "exec(open('steps/13_v15_7a_consolidation/code.py').read())"
+V15_7A_D7_MODE=run python -c "..."
+# etc.
+```
+
+Or use the dispatch in `code.py` directly. Self-checks have zero GPU
+dependency; they verify atomic operation correctness and gate logic on
+synthetic data with mock bank/stability_index.
 
 ---
 

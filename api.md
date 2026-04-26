@@ -530,4 +530,160 @@ End-to-end smoke test: encode facts, decode question, verify gradient flow throu
 
 ---
 
+## v15.x API — Pas 6 RoMR + Pas 7a Consolidator
+
+The v15.x layer is delivered as a sealed monolithic source in
+`steps/13_v15_7a_consolidation/code.py`. The canonical entry points are
+listed below. All v15.x state machines preserve v11 substrate APIs
+unchanged (Gate 0 byte-identical guarantee).
+
+### CommitArbiterPas6 (Pas 6)
+
+**Location**: `steps/13_v15_7a_consolidation/code.py`
+
+Inherits from `CommitArbiterPas3`. Adds Role-of-Modifier Resolver (RoMR)
+filtering of value candidates BEFORE the verifier runs, on a shallow copy
+of the parser packet. Raw packet preserved for audit.
+
+```python
+arbiter = CommitArbiterPas6(
+    bank, provisional_memory, episode_buffer, stability_index,
+    composer_trace_log=...,        # optional, list to capture composer traces
+    romr_trace_log=...,            # optional, list to capture RoMR results
+)
+arbiter.begin_episode(episode_id)
+result = arbiter.write_fact(fact_text, ent_fn, cls_fn, val_fn, write_step=j)
+finalize = arbiter.end_episode(ent_fn, cls_fn, val_fn)
+```
+
+### CommitArbiterPas7a (Pas 7a)
+
+**Location**: `steps/13_v15_7a_consolidation/code.py`
+
+Inherits from `CommitArbiterPas6`. The ONLY override is `end_episode`,
+which calls the consolidator pipeline AFTER `super().end_episode(...)`.
+In-episode behavior identical to Pas 6.
+
+```python
+arbiter = CommitArbiterPas7a(
+    bank, provisional_memory, episode_buffer, stability_index,
+    composer_trace_log=...,
+    romr_trace_log=...,
+    consolidation_audit_log=audit_list,   # accumulates across all end_episode calls
+)
+# ... write_fact identical to Pas 6 ...
+finalize = arbiter.end_episode(ent_fn, cls_fn, val_fn)
+ops = arbiter.last_consolidator_ops
+# ops = {"RECONCILE": int, "PRUNE": int, "RETROGRADE": int, "PROMOTE": int}
+```
+
+### Consolidator Pipeline (Direct Helper)
+
+For unit testing or custom integration:
+
+```python
+ops = _v15_7a_run_consolidator_pipeline(
+    provisional_memory,
+    bank,
+    stability_index,
+    current_episode=ended_episode_id,
+    audit=audit_log_list,
+    N=V15_7A_N_PROMOTE,           # default 2
+    M=V15_7A_M_RETROGRADE,        # default 2
+    K_age=V15_7A_K_PROMOTE_AGE,   # default 2
+    K_stale=V15_7A_K_PRUNE_STALE, # default 3
+)
+```
+
+Order of internal calls is fixed: `reconcile → prune → retrograde → promote`.
+
+### Atomic Operations
+
+Each consolidator op can be invoked individually for testing:
+
+```python
+n = _v15_7a_reconcile(provisional_memory, current_episode, audit)
+n = _v15_7a_prune(provisional_memory, current_episode, audit, K_stale=3)
+n = _v15_7a_retrograde(provisional_memory, bank, stability_index,
+                       current_episode, audit, M=2)
+n = _v15_7a_promote(provisional_memory, bank, stability_index,
+                    current_episode, audit, N=2, K_age=2)
+```
+
+Each returns `op_count: int` and appends `V15_7a_ConsolidationRecord`s
+to the audit list.
+
+### V15_7a_ConsolidationRecord (Audit Schema)
+
+```python
+@dataclass
+class V15_7a_ConsolidationRecord:
+    episode_id:   int
+    operation:    str   # "RECONCILE" | "PRUNE" | "RETROGRADE" | "PROMOTE" | "PROMOTE_SKIPPED"
+    entity_id:    str
+    attr_type:    str
+    value_idx:    Optional[int]
+    reason:       str   # human-readable
+    state_before: Dict[str, Any]
+    state_after:  Dict[str, Any]
+```
+
+`PROMOTE_SKIPPED` is audit-only (not counted as a fired op). It records
+why a promote was blocked (entity not in bank / bank stable with
+different value / etc.).
+
+### Predicates (Pure Functions over List[ProvisionalEntry])
+
+```python
+eps:  Set[int]      = _v15_7a_confirmation_episodes(entries, ent, attr, value_idx)
+last: Optional[int] = _v15_7a_last_activity_episode(entries, ent, attr)
+first: Optional[int] = _v15_7a_first_seen_episode(entries, ent, attr, value_idx)
+vals: Set[int]      = _v15_7a_distinct_values_for_slot(entries, ent, attr)
+
+ok: bool = _v15_7a_is_promote_eligible(entries, ent, attr, value_idx,
+                                        current_episode, N=2, K_age=2)
+ok, challenger = _v15_7a_is_retrograde_eligible(entries, ent, attr,
+                                                 committed_value_idx, M=2)
+ok: bool = _v15_7a_is_stale_for_prune(entries, ent, attr,
+                                       current_episode, K_stale=3)
+```
+
+### v15_7a_run_full_eval_d9 (D.9 Full Evaluator)
+
+End-to-end evaluator over all 10 acceptance gates. Requires the full
+Pas 6 stack.
+
+```python
+d9_result = v15_7a_run_full_eval_d9(
+    base_model_v15_6,
+    v15_1_memory_v15_6,
+    n_per_l_family=20,            # default 20
+    seed=20261103,
+)
+
+# d9_result schema:
+#   "config":   {n_per_l_family, seed}
+#   "verdicts": {Gate 0..9 -> bool}
+#   "overall":  bool   (all true iff sealed)
+#   "phase_a":  {trusted snapshots before/after, family_results}
+#   "phase_b":  {per_l_family details, aggregate metrics}
+```
+
+JSON serialization uses `_v15_7a_json_safe` to convert tuple keys
+`(entity_id, attr_type)` into stable strings `"entity_id::attr_type"`.
+
+### Activation via Environment Variables
+
+The sealed `code.py` is dispatch-gated:
+
+```bash
+export MODE=pas6_full              # required: load Pas 6 stack
+export V15_7A_D9_MODE=run          # required: trigger D9 evaluation
+# all unit self-checks default to skip
+```
+
+Or use `colab/d9_full_eval.ipynb` which sets these automatically.
+
+---
+
 **End of API Reference**

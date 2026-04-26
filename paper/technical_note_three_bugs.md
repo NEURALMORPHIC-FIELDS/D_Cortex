@@ -1,5 +1,12 @@
 # Technical Note: Three Compounding Architectural Bugs in Memory-Augmented Transformers
 
+> **SCOPE NOTE (2026-04-26)**: This note documents three substrate-level bugs
+> identified and fixed during the v9 → v10 → v11 iterations (sealed
+> 2026-04-18). The current sealed milestone of D_Cortex is **v15.7a**, which
+> adds a longitudinal consolidator pipeline on top of the v11 substrate. This
+> note remains canonical for the substrate layer; for the v15.x layer see
+> [paper/D_CORTEX_PAS7A_SEAL.md](paper/D_CORTEX_PAS7A_SEAL.md).
+
 **Author**: Vasile Lucian Borbeleac  
 **Affiliation**: FRAGMERGENT TECHNOLOGY S.R.L.  
 **Date**: April 18, 2026  
