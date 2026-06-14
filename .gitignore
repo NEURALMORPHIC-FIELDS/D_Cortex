@@ -1,0 +1,19 @@
+# Local training runs and caches (never commit, multi-GB binaries)
+runs/
+*.bin
+*.pt
+*.pt.tmp
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# OS and editor cruft
+.DS_Store
+Thumbs.db
