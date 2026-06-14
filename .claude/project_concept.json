@@ -1,0 +1,34 @@
+{
+  "project_name": "D_Cortex v2.0-alpha - Local Training Bring-up",
+  "owner": "Vasile Lucian Borbeleac / FRAGMERGENT TECHNOLOGY S.R.L.",
+  "patent": "EP25216372.0",
+  "vision": "Dual-agent, memory-native transformer (D_Cortex) where two separate neural networks (Encoder/Agent A writes facts to memory banks; Decoder/Agent B reads memory and produces language) meet ONLY through shared memory banks, with no weight sharing and no gradient leak between agents.",
+  "subproject_objective": "Bring up a REAL local single-GPU training run of DCortexV2Model on a Windows 11 + NVIDIA RTX 5080 (Blackwell, sm_120) machine, adapted from the Colab reference colab/step2_training_v11.py. Deliver a working run with genuinely decreasing training loss and resumable atomic checkpoints in one pass.",
+  "core_goals": [
+    "Reproduce the v11 'Objective B1: Complex Episodes' training locally without Google Colab/Drive.",
+    "Use bf16 autocast with NO GradScaler (Blackwell behaves like A100 here).",
+    "Verify four pre-declared PASS/FAIL gates on real measured numbers: ENV, FIT (<15GB peak VRAM), LEARNS (>=15% train-loss drop over 300 steps), RESUME (checkpoint continuity)."
+  ],
+  "platform": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "cpu": "AMD Ryzen 7 5800X (16 threads)",
+    "ram_gb": 64,
+    "gpu": "NVIDIA GeForce RTX 5080, 16 GB GDDR7, Blackwell GB203, compute capability sm_120 (12.0)",
+    "driver_version": "610.47",
+    "python": "3.11.9 (py -3.11)",
+    "torch_requirement": "torch>=2.7 built for CUDA 12.8 (cu128) - older cu121/cu124 fail with 'no kernel image available' on sm_120"
+  },
+  "key_constraints": [
+    "DO NOT modify the dcortex/ model architecture or any file under dcortex/.",
+    "Precision: bf16 autocast, NO GradScaler. Do not use the fp16+GradScaler path.",
+    "16 GB VRAM: gradient checkpointing on, reduced batch, peak VRAM target < 15 GB.",
+    "No synthetic LM data: if dataset acquisition fails, raise RuntimeError with instructions.",
+    "Atomic checkpoints (.tmp then os.rename), full content, numeric-sort resume.",
+    "All code/comments/filenames in English, no em dashes, copyright header on new standalone .py."
+  ],
+  "dataset": {
+    "structural_episodes": "Synthetic entity->color fact episodes (simple/update/distractor), generated in-process. Independent of any corpus.",
+    "lm_corpus": "Local E:\\DATA\\training_data_clean BYON jsonl files ({\"text\": ...} schema), tokenized to .bin via the same pipeline the repo used for TinyStories. Chosen by user on 2026-06-15 over the repo default (TinyStories) to honor the local data path and enable fully offline operation."
+  },
+  "target_users": ["Internal R&D - FRAGMERGENT TECHNOLOGY S.R.L."]
+}

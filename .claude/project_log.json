@@ -1,0 +1,80 @@
+{
+  "entries": [
+    {
+      "date": "2026-06-15",
+      "time": "01:10",
+      "requested": "Bring up D_Cortex training locally on Windows + RTX 5080 (sm_120), adapt colab/step2_training_v11.py to single-GPU local execution, run a real training run with 4 verification gates.",
+      "executed": "Explored repo (dcortex package, colab v11 script, config/model). Verified repo model is compatible with v11 training loop. Verified GPU at driver level: RTX 5080, driver 610.47, compute_cap 12.0, 16303 MiB. Confirmed base python 3.11.9 has torch 2.4.1+cpu only (no CUDA). Inspected local dataset E:\\DATA\\training_data_clean ({\"text\":...} jsonl).",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Reflect-back delivered. Highest training ref = v11. Model exposes encode/decode/reset_memory/begin_episode/clear_overlays + shared_* + aux_answer_head."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:12",
+      "requested": "Resolve dataset contradiction (header E:\\DATA path vs body 'keep TinyStories').",
+      "executed": "Asked architectural question. User chose: use local E:\\DATA\\training_data_clean (BYON jsonl) for the 25% LM slice, via the same tokenize-to-.bin pipeline, fully offline. Structural episodes remain synthetic either way.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Decision recorded in project_concept.json dataset.lm_corpus."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:13",
+      "requested": "Set up environment and project memory before coding.",
+      "executed": "Kicked off background cu128 venv build (.venv, py 3.11, torch>=2.7 cu128 + numpy/tiktoken/datasets/matplotlib). Created .claude/ with project_concept.json, project_structure.json, project_log.json.",
+      "files_touched": [
+        ".claude/project_concept.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Install running in background (torch cu128 wheel is large). Next: write verify_env_local.py and train_local.py, then run gates."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:25",
+      "requested": "Run Gate 1 ENV and adapt the v11 training script for local single-GPU Windows.",
+      "executed": "Installed torch 2.11.0+cu128 (cuda 12.8). Ran scripts/verify_env_local.py: PASS. Wrote colab/train_local.py (drops Drive mount and inline write_source, imports real dcortex package, local PROJECT_ROOT, local E:\\DATA LM tokenizer, bf16/no-GradScaler, gradient checkpointing on decoder StandardTransformerBlock via training-side wrap, atomic _step_ checkpoints with numeric resume + RNG + loss_history, OOM guard, aggregate train_loss, peak VRAM tracking). Wrote scripts/emit_verdict.py.",
+      "files_touched": ["scripts/verify_env_local.py", "colab/train_local.py", "scripts/emit_verdict.py"],
+      "status": "success",
+      "notes": "ENV PASS source: PowerShell run of verify_env_local.py. Evidence: cuda available; RTX 5080; capability 12.0; bf16 4096x4096 matmul OK; torch=2.11.0+cu128. Total VRAM reported 15.92 GB."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:30",
+      "requested": "Smoke-test the adapted script before the real run.",
+      "executed": "12-step smoke run exposed a real Windows bug: os.rename raises FileExistsError when the destination checkpoint exists (POSIX replaces, Windows does not). Fixed save_ckpt to use os.replace (atomic on both OSes) and guarded the redundant final save. Re-ran two-phase smoke (fresh->6, resume->12): resume reproduced the continuous trajectory BIT-IDENTICALLY (step 6 loss 6.2928 in both), loss_history restored (n_logged 12), resumed=true.",
+      "files_touched": ["colab/train_local.py"],
+      "status": "success",
+      "notes": "Source: PowerShell smoke runs, run_meta_smoke_p1/p2.json. RNG restore in checkpoint makes resume continuation bit-identical to a continuous run."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:37",
+      "requested": "Run the real 300-step training (Gate 2 FIT, Gate 3 LEARNS).",
+      "executed": "Ran colab/train_local.py --total-steps 300 --max-steps 300 fresh in runs/dcortex on the local E:\\DATA BYON corpus (5M train / 0.5M val tokens). Completed 300 steps in 7.81 min, 0 OOM, checkpoints at 100/200/300.",
+      "files_touched": ["runs/dcortex/results/run_meta_main.json", "runs/dcortex/results/loss_history.json", "runs/dcortex/checkpoints/ckpt_dcortex_step_000100.pt", "runs/dcortex/checkpoints/ckpt_dcortex_step_000200.pt", "runs/dcortex/checkpoints/ckpt_dcortex_step_000300.pt"],
+      "status": "success",
+      "notes": "VERIFIED numbers (source: runs/dcortex/results/run_meta_main.json + background task bocqguly8). FIT: peak alloc 3.234 GB, peak@step50 3.234 GB, peak reserved 3.711 GB, OOM 0 -> well under 15 GB target. LEARNS: loss_first 11.7897, loss_last 3.0807, loss_min 2.1056, loss_max 11.7897; emit 6.043 -> 1.317. dtype bfloat16, gradient_checkpointing true. Final verdict JSON pending RESUME gate + emit_verdict run."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:40",
+      "requested": "Run Gate 4 RESUME.",
+      "executed": "First two RESUME attempts crashed in phase 1 (~step 25, exit 1/-1, NO Python traceback). Diagnosed via nvidia-smi: GPU contention from an orphaned python from an earlier foreground attempt (piping native exe into Select-Object terminated the parent but left the child training process alive on the GPU). Stopped background tasks, killed stray pythons (GPU back to 1302 MiB / 1%), re-launched RESUME with exclusive GPU access (phase1 fresh->100 with ckpts at 50/100, phase2 resume->150).",
+      "files_touched": [],
+      "status": "partial",
+      "notes": "Not a training-math bug: the main 300-step run used the same seed 42 and survived those exact steps. Root cause = concurrent GPU processes. RESUME re-run in progress (task b62ig9tlc); verdict pending."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:46",
+      "requested": "Complete Gate 4 RESUME with exclusive GPU and emit the final 4-gate verdict JSON + loss curve.",
+      "executed": "RESUME re-run on a clean GPU succeeded: phase1 fresh->100 (ckpts 50,100, P1_EXIT=0), phase2 resumed from ckpt_dcortex_step_000100.pt at step 100 and ran ->150 (P2_EXIT=0). Ran scripts/emit_verdict.py: ALL 4 GATES PASS. Wrote runs/dcortex/results/verdict.json and loss_curve.png.",
+      "files_touched": ["runs/dcortex/results/verdict.json", "runs/dcortex/results/loss_curve.png", "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000050.pt", "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000100.pt", "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000150.pt", "runs/dcortex_resume/results/run_meta_resume_p1.json", "runs/dcortex_resume/results/run_meta_resume_p2.json"],
+      "status": "success",
+      "notes": "VERIFIED verdict (source: runs/dcortex/results/verdict.json, emit_verdict.py task b6qs4391d). ENV PASS (cap 12.0, bf16 matmul). FIT PASS (peak 3.234 GB < 15 GB). LEARNS PASS (drop 68.9%; smoothed 10.6258->3.3045; raw 11.7897->3.0807; min 2.1056, median 3.9417, max 11.7897). RESUME PASS (resumed from step 100, first post-resume loss 4.1651, on-trajectory, not reset). Deliverable complete."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "last_modified": "2026-06-15",
+  "repo_root": "e:\\proiecte_active\\D_Cortex\\D_Cortex-main",
+  "project_root_runs": "runs/dcortex (created under repo: checkpoints/, logs/, dataset_cache/bin/, results/, configs/)",
+  "venv": ".venv (Python 3.11, torch cu128)",
+  "model_package": {
+    "path": "dcortex/",
+    "status": "untouched - canonical, imported as-is",
+    "entry": "dcortex.model.DCortexV2Model",
+    "config": "dcortex.config.DCortexConfig",
+    "public_api_used_by_training": [
+      "reset_memory()", "begin_episode()", "clear_overlays()",
+      "encode(input_ids, answer_token_id, lexical_alpha, force_bank)",
+      "decode(input_ids, return_retrieved)",
+      "shared_token_emb", "shared_pos_emb", "shared_address_encoder",
+      "shared_query_engine", "aux_answer_head"
+    ],
+    "compat_verified": "Repo model exposes every method/attribute the v11 training loop calls (verified by grep on 2026-06-15)."
+  },
+  "reference_training_script": {
+    "path": "colab/step2_training_v11.py",
+    "status": "reference only - NOT modified",
+    "notes": "Highest-numbered colab/step2_training_v*.py (v11, 3043 lines). Inlines a copy of the model source and writes it to disk (write_source) then imports from dcortex package. Mounts Google Drive. A100/cap>=8 branch already selects bf16+no GradScaler."
+  },
+  "modules": {
+    "scripts/verify_env_local.py": {
+      "status": "active_verified",
+      "purpose": "Gate 1 ENV: assert torch.cuda.is_available(), capability (12,0), run a real bf16 cuda matmul, print torch/cuda versions.",
+      "verified": "PASS on 2026-06-15: torch 2.11.0+cu128, cap 12.0, bf16 4096x4096 matmul OK."
+    },
+    "colab/train_local.py": {
+      "status": "active_verified",
+      "purpose": "Adapted single-GPU Windows training script. Drops Drive mount and inline write_source, imports real dcortex package, local PROJECT_ROOT, local E:\\DATA LM corpus tokenizer, bf16+no GradScaler, gradient checkpointing on decoder StandardTransformerBlock, atomic _step_ checkpoints (os.replace, Windows-atomic) with numeric-sort resume + RNG + loss_history, OOM guard, aggregate train_loss series, peak VRAM tracking, run_meta JSON.",
+      "verified": "300-step run on 2026-06-15: loss 11.79->3.08, peak VRAM 3.234 GB, 0 OOM, ckpts 100/200/300. Resume reproduces trajectory bit-identically.",
+      "windows_fixes": ["stdout.reconfigure(utf-8) for cp1252 console", "os.replace instead of os.rename for atomic checkpoint write", "num_workers not used (no DataLoader for memmap)"]
+    },
+    "scripts/emit_verdict.py": {
+      "status": "active",
+      "purpose": "Verifier: reads run_meta + loss_history artifacts, re-checks ENV live, evaluates 4 gates (ENV/FIT/LEARNS/RESUME), writes results/verdict.json and results/loss_curve.png. Generation/verification separated."
+    }
+  },
+  "run_artifacts": {
+    "runs/dcortex/": "main 300-step run: checkpoints/ (step 100/200/300), results/loss_history.json, results/run_meta_main.json, results/verdict.json, results/loss_curve.png, dataset_cache/bin/byon_{train,val}.bin, configs/train_config.json",
+    "runs/dcortex_resume/": "dedicated RESUME gate run (phase1 fresh->100, phase2 resume->150)",
+    "runs/dcortex_smoke/": "throwaway smoke-test dir (12-step validation)"
+  },
+  "dependencies": ["torch>=2.7 (cu128)", "numpy", "tiktoken", "datasets", "matplotlib"],
+  "verification_gates": {
+    "ENV": "cuda available + capability (12,0) + real cuda matmul",
+    "FIT": "measured peak VRAM over a real 50-step run < 15 GB",
+    "LEARNS": "final train loss < initial by >= 15% over 300 steps; report initial/final/min/median/max",
+    "RESUME": "stop after a checkpoint, restart, resume from correct step with continuous loss"
+  }
+}
