@@ -1,0 +1,365 @@
+[
+  {
+    "file": "01_raw_extracted-003_BYON.jsonl",
+    "size_bytes": 15224856346,
+    "size_gb": 14.179,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 1,
+    "sample_records": 0,
+    "top_schemas": [],
+    "text_fields": {},
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 0,
+    "tokens_per_byte": 0.0,
+    "est_total_tokens": 0,
+    "est_records": 0,
+    "avg_tokens_per_record": 0.0,
+    "language": {
+      "ro_score": 0.0,
+      "en_score": 0.0,
+      "ro_diacritics_per_kchar": 0.0
+    },
+    "first_snippet": ""
+  },
+  {
+    "file": "02_cleaned_chunks-002_BYON.jsonl",
+    "size_bytes": 18604887574,
+    "size_gb": 17.327,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 3079,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        3079
+      ]
+    ],
+    "text_fields": {
+      "text": 3079
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 407499,
+    "tokens_per_byte": 0.0679,
+    "est_total_tokens": 1263578846,
+    "est_records": 9547408,
+    "avg_tokens_per_record": 132.3,
+    "language": {
+      "ro_score": 0.2,
+      "en_score": 99.8,
+      "ro_diacritics_per_kchar": 0.01
+    },
+    "first_snippet": "The Mykonos Windmills are iconic feature of the Greek island of the Mykonos. The island is one of the Cyclades islands, which neighbour Delos in the Aegean Sea. The windmills can be seen from every point of the village of Mykonos, the islan"
+  },
+  {
+    "file": "03_instructional_format-004_BYON.jsonl",
+    "size_bytes": 19957697954,
+    "size_gb": 18.587,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 2870,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        2870
+      ]
+    ],
+    "text_fields": {
+      "text": 2870
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 414724,
+    "tokens_per_byte": 0.0691,
+    "est_total_tokens": 1379489387,
+    "est_records": 9546432,
+    "avg_tokens_per_record": 144.5,
+    "language": {
+      "ro_score": 0.2,
+      "en_score": 99.8,
+      "ro_diacritics_per_kchar": 0.01
+    },
+    "first_snippet": "[SYSTEM] You are a knowledgeable AI that provides accurate, well-structured information.  [USER] Summarize this content.  [ASSISTANT] The Mykonos Windmills are iconic feature of the Greek island of the Mykonos. The island is one of the Cycl"
+  },
+  {
+    "file": "04_deduplicated-001_BYON.jsonl",
+    "size_bytes": 19939723945,
+    "size_gb": 18.57,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 2870,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        2870
+      ]
+    ],
+    "text_fields": {
+      "text": 2870
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 414724,
+    "tokens_per_byte": 0.0691,
+    "est_total_tokens": 1378247012,
+    "est_records": 9537834,
+    "avg_tokens_per_record": 144.5,
+    "language": {
+      "ro_score": 0.2,
+      "en_score": 99.8,
+      "ro_diacritics_per_kchar": 0.01
+    },
+    "first_snippet": "[SYSTEM] You are a knowledgeable AI that provides accurate, well-structured information.  [USER] Summarize this content.  [ASSISTANT] The Mykonos Windmills are iconic feature of the Greek island of the Mykonos. The island is one of the Cycl"
+  },
+  {
+    "file": "06_BYON_READY.jsonl",
+    "size_bytes": 5283491326,
+    "size_gb": 4.921,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 2872,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        2872
+      ]
+    ],
+    "text_fields": {
+      "text": 2872
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 433210,
+    "tokens_per_byte": 0.0722,
+    "est_total_tokens": 381476879,
+    "est_records": 2529031,
+    "avg_tokens_per_record": 150.8,
+    "language": {
+      "ro_score": 0.1,
+      "en_score": 99.9,
+      "ro_diacritics_per_kchar": 0.02
+    },
+    "first_snippet": "[SYSTEM] You are a knowledgeable AI that provides accurate, well-structured information.  [USER] Summarize this content.  [ASSISTANT] The Independent Jane For all the love, romance and scandal in Jane Austen’s books, what they are really ab"
+  },
+  {
+    "file": "06_FINAL_TRAINING_READY-003_BYON.jsonl",
+    "size_bytes": 5274686231,
+    "size_gb": 4.912,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 2877,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        2877
+      ]
+    ],
+    "text_fields": {
+      "text": 2877
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 429094,
+    "tokens_per_byte": 0.0715,
+    "est_total_tokens": 377222702,
+    "est_records": 2529212,
+    "avg_tokens_per_record": 149.1,
+    "language": {
+      "ro_score": 0.1,
+      "en_score": 99.9,
+      "ro_diacritics_per_kchar": 0.02
+    },
+    "first_snippet": "[SYSTEM] You are a knowledgeable AI that provides accurate, well-structured information.  [USER] Summarize this content.  [ASSISTANT] The Independent Jane For all the love, romance and scandal in Jane Austen’s books, what they are really ab"
+  },
+  {
+    "file": "BYON_COMPLETE_TRAINING.jsonl",
+    "size_bytes": 60206244567,
+    "size_gb": 56.071,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 2849,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        2849
+      ]
+    ],
+    "text_fields": {
+      "text": 2849
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 683607,
+    "tokens_per_byte": 0.1139,
+    "est_total_tokens": 6859568371,
+    "est_records": 28587931,
+    "avg_tokens_per_record": 239.9,
+    "language": {
+      "ro_score": 11.2,
+      "en_score": 88.8,
+      "ro_diacritics_per_kchar": 3.31
+    },
+    "first_snippet": "{ \"cells\": [ { \"cell_type\": \"markdown\", \"metadata\": {}, \"source\": [ \"# 🧬 Υⁿ∇ Geneomatic Engine v2.1\\n\", \"## Fragmergent DNA Analysis System with FHRSS Integration\\n\", \"\\n\", \"**The Genome as Reality Interface — Controlled Fragmergence + Holo"
+  },
+  {
+    "file": "COLAB_NOTEBOOKS_BYON.jsonl",
+    "size_bytes": 68093889,
+    "size_gb": 0.063,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 10,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        10
+      ]
+    ],
+    "text_fields": {
+      "text": 10
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 3917003,
+    "tokens_per_byte": 0.6528,
+    "est_total_tokens": 44453994,
+    "est_records": 113,
+    "avg_tokens_per_record": 391700.3,
+    "language": {
+      "ro_score": 16.6,
+      "en_score": 83.4,
+      "ro_diacritics_per_kchar": 0.59
+    },
+    "first_snippet": "[NOTEBOOK: Adaptive holographic memory.ipynb]  [CODE]  # ============================================================ # MFA-AR v2.0 Multimodal Simulation — by Aminas # Memorie Fragmergentă Adaptivă cu Redundanță Dinamică și Date Sintetice #"
+  },
+  {
+    "file": "TECH_CODE_BYON.jsonl",
+    "size_bytes": 18038505,
+    "size_gb": 0.017,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 68,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        68
+      ]
+    ],
+    "text_fields": {
+      "text": 68
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 920396,
+    "tokens_per_byte": 0.1534,
+    "est_total_tokens": 2767094,
+    "est_records": 204,
+    "avg_tokens_per_record": 13535.2,
+    "language": {
+      "ro_score": 2.3,
+      "en_score": 97.7,
+      "ro_diacritics_per_kchar": 0.24
+    },
+    "first_snippet": "[CODE .py: extract_tech_data.py]  \"\"\" Extract training data from D:\\Tech Generates 2 files: CODE and TEXT \"\"\" import json from pathlib import Path  INPUT_DIR = Path(r\"D:\\Tech\") OUTPUT_CODE = Path(r\"D:\\training_data_clean\\TECH_CODE_BYON.json"
+  },
+  {
+    "file": "TECH_DOCX_BYON.jsonl",
+    "size_bytes": 17639989,
+    "size_gb": 0.016,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 57,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        57
+      ]
+    ],
+    "text_fields": {
+      "text": 57
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 647367,
+    "tokens_per_byte": 0.1079,
+    "est_total_tokens": 1903257,
+    "est_records": 167,
+    "avg_tokens_per_record": 11357.3,
+    "language": {
+      "ro_score": 20.3,
+      "en_score": 79.7,
+      "ro_diacritics_per_kchar": 24.97
+    },
+    "first_snippet": "[DOCX: Beyond Spiritual Comprehension en - Copy.docx]  \"Beyond Spiritual Comprehension\"  In the realms of contemplative thought, where philosophy, spirituality, and mathematics intertwine, we find ourselves on a journey that takes us \"Beyon"
+  },
+  {
+    "file": "TECH_PDF_BYON.jsonl",
+    "size_bytes": 26236396,
+    "size_gb": 0.024,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 47,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        47
+      ]
+    ],
+    "text_fields": {
+      "text": 47
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 624437,
+    "tokens_per_byte": 0.1041,
+    "est_total_tokens": 2730496,
+    "est_records": 205,
+    "avg_tokens_per_record": 13285.9,
+    "language": {
+      "ro_score": 13.9,
+      "en_score": 86.1,
+      "ro_diacritics_per_kchar": 14.95
+    },
+    "first_snippet": "[PDF: Beyond Spiritual Comprehension en - Copy.pdf]                                                   ---  \"Beyond Spiritual Comprehension\"     In the realms of contemplative thought, where philosophy, spirituality, and mathematics intertwi"
+  },
+  {
+    "file": "TECH_TEXT_BYON.jsonl",
+    "size_bytes": 156502850,
+    "size_gb": 0.146,
+    "encoding": "utf-8",
+    "parse_errors_in_sample": 0,
+    "sample_records": 41,
+    "top_schemas": [
+      [
+        [
+          "text"
+        ],
+        41
+      ]
+    ],
+    "text_fields": {
+      "text": 41
+    },
+    "has_fact_question_answer_keys": false,
+    "sample_tokens": 1778280,
+    "tokens_per_byte": 0.2964,
+    "est_total_tokens": 46384314,
+    "est_records": 1069,
+    "avg_tokens_per_record": 43372.7,
+    "language": {
+      "ro_score": 3.9,
+      "en_score": 96.1,
+      "ro_diacritics_per_kchar": 6.27
+    },
+    "first_snippet": "[JSON: settings.local.json]  {   \"permissions\": {     \"allow\": [       \"Bash(find:*)\",       \"Bash(powershell -Command:*)\",       \"Bash(python:*)\"     ]   } } "
+  }
+]

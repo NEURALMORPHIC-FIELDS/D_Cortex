@@ -4,6 +4,11 @@ runs/
 *.pt
 *.pt.tmp
 
+# Adapter episodes derived from the proprietary corpus (never commit)
+episodes_*.bin
+episodes_*.jsonl
+episode_*cache
+
 # Python virtual environments
 .venv/
 venv/

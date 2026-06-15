@@ -14,6 +14,12 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
 
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8")
+    except Exception:  # noqa: BLE001
+        pass
+
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 PKG_ROOT = REPO_ROOT / "dcortex"
@@ -31,6 +37,14 @@ CRITICAL = {
     "dcortex.backbone.transformer",
     "dcortex.backbone.fusion_block",
     "dcortex.model",
+    "dcortex.semantic_adapter",
+    "dcortex.semantic_producer",
+    "dcortex.semantic_query_bridge",
+    "dcortex.semantic_fact_producer",
+    "dcortex.semantic_grounded_reader",
+    "dcortex.semantic_object_reader",
+    "dcortex.semantic_role_binder",
+    "dcortex.semantic_role_conditioned",
 }
 
 
@@ -173,6 +187,13 @@ def main() -> int:
 
     # Also always consider the entry itself wired
     wired.add(entry)
+
+    # Public package API modules are wired entry points even when they are not
+    # part of DCortexV2Model's runtime graph.
+    package_init = PKG_ROOT / "__init__.py"
+    for public_module in extract_imports(package_init):
+        if public_module.startswith("dcortex"):
+            wired.update(transitive_closure(public_module))
 
     all_modules = list_all_modules()
     classification = classify(all_modules, wired)

@@ -1,0 +1,230 @@
+{
+  "entries": [
+    {
+      "date": "2026-06-15",
+      "time": "01:10",
+      "requested": "Bring up D_Cortex training locally on Windows + RTX 5080 (sm_120), adapt colab/step2_training_v11.py to single-GPU local execution, run a real training run with 4 verification gates.",
+      "executed": "Explored repo (dcortex package, colab v11 script, config/model). Verified repo model is compatible with v11 training loop. Verified GPU at driver level: RTX 5080, driver 610.47, compute_cap 12.0, 16303 MiB. Confirmed base python 3.11.9 has torch 2.4.1+cpu only (no CUDA). Inspected local dataset E:\\DATA\\training_data_clean ({\"text\":...} jsonl).",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Reflect-back delivered. Highest training ref = v11. Model exposes encode/decode/reset_memory/begin_episode/clear_overlays + shared_* + aux_answer_head."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:12",
+      "requested": "Resolve dataset contradiction (header E:\\DATA path vs body 'keep TinyStories').",
+      "executed": "Asked architectural question. User chose: use local E:\\DATA\\training_data_clean (BYON jsonl) for the 25% LM slice, via the same tokenize-to-.bin pipeline, fully offline. Structural episodes remain synthetic either way.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "Decision recorded in project_concept.json dataset.lm_corpus."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:13",
+      "requested": "Set up environment and project memory before coding.",
+      "executed": "Kicked off background cu128 venv build (.venv, py 3.11, torch>=2.7 cu128 + numpy/tiktoken/datasets/matplotlib). Created .claude/ with project_concept.json, project_structure.json, project_log.json.",
+      "files_touched": [
+        ".claude/project_concept.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Install running in background (torch cu128 wheel is large). Next: write verify_env_local.py and train_local.py, then run gates."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:25",
+      "requested": "Run Gate 1 ENV and adapt the v11 training script for local single-GPU Windows.",
+      "executed": "Installed torch 2.11.0+cu128 (cuda 12.8). Ran scripts/verify_env_local.py: PASS. Wrote colab/train_local.py (drops Drive mount and inline write_source, imports real dcortex package, local PROJECT_ROOT, local E:\\DATA LM tokenizer, bf16/no-GradScaler, gradient checkpointing on decoder StandardTransformerBlock via training-side wrap, atomic _step_ checkpoints with numeric resume + RNG + loss_history, OOM guard, aggregate train_loss, peak VRAM tracking). Wrote scripts/emit_verdict.py.",
+      "files_touched": [
+        "scripts/verify_env_local.py",
+        "colab/train_local.py",
+        "scripts/emit_verdict.py"
+      ],
+      "status": "success",
+      "notes": "ENV PASS source: PowerShell run of verify_env_local.py. Evidence: cuda available; RTX 5080; capability 12.0; bf16 4096x4096 matmul OK; torch=2.11.0+cu128. Total VRAM reported 15.92 GB."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:30",
+      "requested": "Smoke-test the adapted script before the real run.",
+      "executed": "12-step smoke run exposed a real Windows bug: os.rename raises FileExistsError when the destination checkpoint exists (POSIX replaces, Windows does not). Fixed save_ckpt to use os.replace (atomic on both OSes) and guarded the redundant final save. Re-ran two-phase smoke (fresh->6, resume->12): resume reproduced the continuous trajectory BIT-IDENTICALLY (step 6 loss 6.2928 in both), loss_history restored (n_logged 12), resumed=true.",
+      "files_touched": [
+        "colab/train_local.py"
+      ],
+      "status": "success",
+      "notes": "Source: PowerShell smoke runs, run_meta_smoke_p1/p2.json. RNG restore in checkpoint makes resume continuation bit-identical to a continuous run."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:37",
+      "requested": "Run the real 300-step training (Gate 2 FIT, Gate 3 LEARNS).",
+      "executed": "Ran colab/train_local.py --total-steps 300 --max-steps 300 fresh in runs/dcortex on the local E:\\DATA BYON corpus (5M train / 0.5M val tokens). Completed 300 steps in 7.81 min, 0 OOM, checkpoints at 100/200/300.",
+      "files_touched": [
+        "runs/dcortex/results/run_meta_main.json",
+        "runs/dcortex/results/loss_history.json",
+        "runs/dcortex/checkpoints/ckpt_dcortex_step_000100.pt",
+        "runs/dcortex/checkpoints/ckpt_dcortex_step_000200.pt",
+        "runs/dcortex/checkpoints/ckpt_dcortex_step_000300.pt"
+      ],
+      "status": "success",
+      "notes": "VERIFIED numbers (source: runs/dcortex/results/run_meta_main.json + background task bocqguly8). FIT: peak alloc 3.234 GB, peak@step50 3.234 GB, peak reserved 3.711 GB, OOM 0 -> well under 15 GB target. LEARNS: loss_first 11.7897, loss_last 3.0807, loss_min 2.1056, loss_max 11.7897; emit 6.043 -> 1.317. dtype bfloat16, gradient_checkpointing true. Final verdict JSON pending RESUME gate + emit_verdict run."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:40",
+      "requested": "Run Gate 4 RESUME.",
+      "executed": "First two RESUME attempts crashed in phase 1 (~step 25, exit 1/-1, NO Python traceback). Diagnosed via nvidia-smi: GPU contention from an orphaned python from an earlier foreground attempt (piping native exe into Select-Object terminated the parent but left the child training process alive on the GPU). Stopped background tasks, killed stray pythons (GPU back to 1302 MiB / 1%), re-launched RESUME with exclusive GPU access (phase1 fresh->100 with ckpts at 50/100, phase2 resume->150).",
+      "files_touched": [],
+      "status": "partial",
+      "notes": "Not a training-math bug: the main 300-step run used the same seed 42 and survived those exact steps. Root cause = concurrent GPU processes. RESUME re-run in progress (task b62ig9tlc); verdict pending."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "01:46",
+      "requested": "Complete Gate 4 RESUME with exclusive GPU and emit the final 4-gate verdict JSON + loss curve.",
+      "executed": "RESUME re-run on a clean GPU succeeded: phase1 fresh->100 (ckpts 50,100, P1_EXIT=0), phase2 resumed from ckpt_dcortex_step_000100.pt at step 100 and ran ->150 (P2_EXIT=0). Ran scripts/emit_verdict.py: ALL 4 GATES PASS. Wrote runs/dcortex/results/verdict.json and loss_curve.png.",
+      "files_touched": [
+        "runs/dcortex/results/verdict.json",
+        "runs/dcortex/results/loss_curve.png",
+        "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000050.pt",
+        "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000100.pt",
+        "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000150.pt",
+        "runs/dcortex_resume/results/run_meta_resume_p1.json",
+        "runs/dcortex_resume/results/run_meta_resume_p2.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED verdict (source: runs/dcortex/results/verdict.json, emit_verdict.py task b6qs4391d). ENV PASS (cap 12.0, bf16 matmul). FIT PASS (peak 3.234 GB < 15 GB). LEARNS PASS (drop 68.9%; smoothed 10.6258->3.3045; raw 11.7897->3.0807; min 2.1056, median 3.9417, max 11.7897). RESUME PASS (resumed from step 100, first post-resume loss 4.1651, on-trajectory, not reset). Deliverable complete."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "02:10",
+      "requested": "New task: real training campaign of DCortexV2Model on E:\\DATA\\training_data_clean (RTX 5080). PHASE 1: inspect data, classify route, build held-out split, pick config, REPORT and STOP before GO.",
+      "executed": "Wrote scripts/inspect_corpus.py and ran it (tiktoken gpt2, 6 MB sample/file). 12 jsonl files, 135 GB. ALL files schema {\"text\": ...} free-form (no fact/question/answer or context/query FIELDS). Predominantly English (instructional 06/02/03/04 ~99.8% EN; BYON_COMPLETE 88.8% EN/11.2% RO; TECH_DOCX 79.7% EN/20.3% RO). Files 01->04 are sequential pipeline stages (raw->cleaned->instructional->deduplicated, ~1.38B tok). 06_FINAL_TRAINING_READY=377M tok curated instructional. BYON_COMPLETE_TRAINING=6.86B tok master (incl notebooks/code/RO). Instantiated big config on CPU: 344.70M params (enc 116.30M, dec 225.71M, shared 64.92M); LM_DECODER trained subset dec+shared=290.63M.",
+      "files_touched": [
+        "scripts/inspect_corpus.py",
+        "scripts/corpus_inspection.json"
+      ],
+      "status": "success",
+      "notes": "ROUTE = LM_DECODER (free-form prose; v11 DUAL_AGENT episode generator is synthetic entity-color and cannot consume this corpus; single text field -> next-token LM). CONFIG = big (hidden 1024, 16 heads, ff 4096, dec 16L, enc 4L, fusion 4, seq 2048) since tokens >> 20M. Encoder frozen in this route (never in forward graph). 01_raw sampled est_tokens=0 due to a single record exceeding the 6 MB prefix (sampling limitation, not empty). PHASE 1 report delivered; WAITING for user GO before autotune/train. Default training source recommended: 06_FINAL_TRAINING_READY-003_BYON.jsonl."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "02:40",
+      "requested": "GO with 06_FINAL_TRAINING_READY. Amendments: add GPT-2(124M) held-out ppl reference on identical split; label artifact as deliberately undertrained decoder-backbone pass; report absolute ppl alongside >=30% gate. Run PHASE 2-4.",
+      "executed": "Wrote colab/train_campaign.py (autotune+train, LM_DECODER, gradient checkpointing, encoder frozen) and scripts/campaign_verdict.py (held-out ppl + GPT-2 124M reference + generations + gates). Installed transformers 5.12.0 (torch 2.11.0+cu128 intact). Tokenized 120M train / 8M val from 06_FINAL_TRAINING_READY (5% held-out, seed 42). First autotune (candidates >=16:1024) hit 22.77 GB at 1563 tok/s = Windows shared-memory SPILL (logits tensor [batch*ctx,50257] dominates); stopped it, re-autotuned with fitting ascending candidates + early-stop.",
+      "files_touched": [
+        "colab/train_campaign.py",
+        "scripts/campaign_verdict.py",
+        "runs/campaign/dataset_cache/bin/campaign_train.bin",
+        "runs/campaign/dataset_cache/bin/campaign_val.bin",
+        "runs/campaign/results/autotune.json"
+      ],
+      "status": "success",
+      "notes": "PHASE 2 autotune (VERIFIED, runs/campaign/results/autotune.json): 8:512=7.65GB, 12:512=9.67GB, 16:512=11.69GB, 8:1024=13.20GB, 12:768=13.55GB (raw winner), 16:768=16.85GB OVER. CHOSEN for training: batch 8 / context 1024 (13.20 GB, 13272 tok/s) over raw winner 12:768, so train context == eval context == GPT-2 native 1024 (clean reference, no untrained-pos-emb mismatch). grad_accum 8 -> eff batch 64 seq / 65536 tok/step. total_steps 700, warmup 70, eval every 60, max_minutes 75 guard. PHASE 3 launched (task bz0gagmmz). KEY LESSON: on Windows WDDM the GPU oversubscribes into shared system RAM instead of OOM-ing, so peak can exceed 16 GB with a 10x slowdown; the <14 GB ceiling must be enforced to avoid spill."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "02:55",
+      "requested": "Keep peak VRAM < 14.0 GB during the campaign.",
+      "executed": "First training launch (batch 8 / ctx 1024) hit steady-state peak 14.23 GB at step 10-20 (over the 14.0 GB ceiling), because the AdamW optimizer states (m,v for 287.94M params, ~2.3 GB) allocate lazily AFTER step 0, so the real steady-state is ~1 GB above what autotune measured (step-0 peak 12.15 GB -> 14.23 GB steady). Stopped it, killed python, relaunched at batch 6 / ctx 1024 / grad_accum 10.",
+      "files_touched": [],
+      "status": "success",
+      "notes": "VERIFIED batch 6 steady-state (task b37pd3lo5): peak 11.84 GB (< 14.0 GB, ~2.2 GB margin), tok/s 14238 (full speed, no spill), train_loss 10.99->9.31->8.31 over first 20 steps, baseline ppl 59193.72. tokens/step=61440 (eff batch 60 seq). LESSON: autotune underestimates steady-state by ~1 GB because Adam states allocate after the first optimizer.step; target autotune peak <= ~12.5 GB to leave real margin under 14. PHASE 4 verdict chained (task b0edwitom). Train+verdict ETA ~49 min."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "03:32",
+      "requested": "Complete PHASES 3-4: training campaign, quality eval, verdict.json, best_model.pt, curves. Report actual numbers.",
+      "executed": "Campaign complete (52.04 min, 700 steps, peak 11.84 GB, stop=max_steps, no overfit). Held-out ppl curve (periodic, 96 windows): 661.88->408.99->316.64->264.21->222.03->194.83->175.77->161.01->151.67->145.53->141.14->139.20. PHASE 4 (campaign_verdict.py, 512 windows ctx 1024): OUR ppl 140.75, GPT-2(124M) ppl 36.40 on identical windows, baseline 59193.72. 4 generations saved. ALL 3 GATES PASS.",
+      "files_touched": [
+        "runs/campaign/results/best_model.pt",
+        "runs/campaign/results/verdict.json",
+        "runs/campaign/results/generations.txt",
+        "runs/campaign/results/campaign_curves.png",
+        "runs/campaign/results/campaign_meta.json",
+        "runs/campaign/results/loss_history.json",
+        "runs/campaign/checkpoints/ckpt_campaign_step_000350.pt",
+        "runs/campaign/checkpoints/ckpt_campaign_step_000700.pt"
+      ],
+      "status": "success",
+      "notes": "VERIFIED verdict (source: runs/campaign/results/verdict.json, task b0edwitom). Gate PPL_IMPROVE_30PCT: PASS (59193.72 -> 140.75, 99.8% improvement). Gate NO_OVERFIT_DIVERGENCE: PASS (overfit_divergence=False, 12 evals, val monotonically decreasing). Gate BEST_MODEL_RELOADABLE: PASS (reloaded step 700, recomputed ppl 140.75, 4 gens). Config: big (344.70M total, 287.94M trained, encoder+memory frozen), batch 6 / ctx 1024 / grad_accum 10. ABSOLUTE held-out ppl: ours 140.75 vs GPT-2(124M) 36.40 vs baseline 59193.72. HONEST: generations are locally fluent but globally incoherent (word-salad) - consistent with a deliberately undertrained 700-step from-scratch decoder backbone. Data safety: all artifacts local in D_Cortex-main/runs (not a git repo); nothing committed."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "10:45",
+      "requested": "Warm-start the D_Cortex decoder from gpt2-medium. Produce warmstarted_init.pt (BIG config) with std decoder blocks + token emb + final norm from gpt2-medium, fusion+memory-cross-attn zero-init. Verify by immediate held-out ppl before training. 3 gates.",
+      "executed": "PHASE A: read transformer.py + fusion_block.py + model.py, wrote docs/warmstart_map.md (FusionBlock = StandardTransformerBlock self-attn/FFN + memory cross-attn, so 12 std + 4 fusion self-attn/FFN = 16 mappable blocks). PHASE B: scripts/warmstart_gpt2.py maps 16 of 24 gpt2-medium layers [0,2,3,4,6,8,9,10,12,14,15,16,18,20,21,22] (Conv1D weights transposed), wte->shared_token_emb, wpe[:1024]->shared_pos_emb, ln_f->dec_final_norm, zeros fusion cross_attn.out. PHASE C: scripts/warmstart_verify.py, 3 gates.",
+      "files_touched": [
+        "docs/warmstart_map.md",
+        "scripts/warmstart_gpt2.py",
+        "scripts/warmstart_verify.py",
+        "docs/MEMORY_TRAINING.md",
+        "runs/warmstart/warmstarted_init.pt",
+        "runs/warmstart/warmstart_manifest.json",
+        "runs/warmstart/warmstart_verdict.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED (runs/warmstart/warmstart_verdict.json). ALL 3 GATES PASS. MAPPED_COUNT: PASS (198 ops, 16 blocks + emb + final norm, 0 shape errors, lm_head tied, finite). CLEAN_WARMSTART_PPL: PASS 46.95 (< 80; 1261x over random 59193.72). INERT_FRESH: PASS (max logit diff 0.0). KEY DIAGNOSIS: first build gave ppl 133.65 (FAIL). Decomposed via 16-layer-pruned gpt2-medium in its own arch = 46.45 floor, and emb per-token std = 0.12. Root cause: dec_emb_norm (extra LayerNorm, no gpt2 source) at default weight=1 inflated residual scale ~8.3x. FIX: dec_emb_norm.weight = gpt2 emb std (0.121), bias=0 -> ppl 133.65 -> 46.95 (~= 46.45 pruning floor). gpt2-medium native (24L) = 27.99; the remaining gap is pure layer pruning, fine-tuned away by the campaign. Activation drift gpt2 gelu_new(tanh) vs dcortex nn.GELU(exact) reported, kept (would not survive state_dict load). Data safety: warmstarted_init.pt under runs/ + *.pt gitignored; gpt2-medium cache in user cache; D_Cortex-main untracked; nothing committed."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "11:00",
+      "requested": "Full MEMORY training campaign from the warm-started decoder (PHASE 1: materialize adapter episodes + re-autotune, then STOP for GO).",
+      "executed": "Verified the two stated preconditions. P1 (warmstarted_init.pt exists + reproduces held-out ppl ~46.95): MET, reloaded ppl 46.11 on 128 windows (full 512-window = 46.95). P2 (adapter verdict.json shows MEMORY ABLATION passed): NOT MET. scripts/episode_adapter.py and docs/episode_contract.md are MISSING; no adapter verdict.json, no episodes_*.bin/.jsonl anywhere. The episode-adapter task was interrupted (by the warm-start task) right after the data probe, before the adapter was built.",
+      "files_touched": [],
+      "status": "blocked",
+      "notes": "STOPPED per the task's 'STOP if unmet' instruction. PHASE 1 step 1 (run scripts/episode_adapter.py) cannot execute because the adapter does not exist. Did NOT build the adapter (separate unrequested task with its own gates). Carried-forward data finding from the interrupted adapter probe (4000 sampled records of 03_instructional and 06_FINAL): ALL records are single-turn, only 4 distinct USER templates ('Summarize this content.', 'What does this text discuss?', 'Analyze this information.', 'Explain the following information.'), 0 multi-turn records -> the adapter MULTI_TURN path yields 0 episodes and the SINGLE_TURN bundling has near-identical queries, so the retrieval/disambiguation needed for the MEMORY ABLATION gate is at risk. The architect should resolve the adapter (and likely the episode-source/query design) before this campaign can run."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "11:30",
+      "requested": "Architect chose adapter design: facts from declarative content (cloze relatie). Build the episode adapter and validate it (unblocks the memory campaign precondition 2).",
+      "executed": "PHASE A: docs/episode_contract.md (exact v11 DUAL_AGENT contract). PHASE B: scripts/episode_adapter.py - parses [SYSTEM]/[USER]/[ASSISTANT] (exact-marker regex, code-bracket safe), extracts relation-cloze facts from the [ASSISTANT] declarative content (subject + salient proper-noun/number value), query = clause truncated before the value, answer = first gpt2 token of the value, with TOKEN-LEVEL leakage guard (answer token absent from query) and a subject-content-word filter. Bundles K=6 distinct-subject facts + SYSTEM as extra fact, seed-42 record holdout. scripts/train_memory_probe.py runs the v11 structural path on real episodes (small config) + held-out enabled-vs-zeroed ablation.",
+      "files_touched": [
+        "docs/episode_contract.md",
+        "scripts/episode_adapter.py",
+        "scripts/train_memory_probe.py",
+        "runs/adapter/episodes_train.jsonl",
+        "runs/adapter/episodes_heldout.jsonl",
+        "runs/adapter/adapter_stats.json",
+        "runs/adapter/verdict.json",
+        "dcortex_repo/.gitignore"
+      ],
+      "status": "success",
+      "notes": "ALL 4 ADAPTER GATES PASS (runs/adapter/verdict.json). PARSE: 95.0% (75977/80000 marker-bearing, >=90%), facts/record min1/median5/max33. ROUNDTRIP: 100% (200/200). PATH_ACCEPTS: train_loss 12.71->9.36 over 300 steps (no model change). MEMORY_ABLATION (decisive): held-out answer-token CE enabled=9.00 vs zeroed=10.77 = 16.4% lower (>=10%), on 600 UNSEEN episodes; uplift grew 7.3%->16.1%->16.4% (steps 100/200/300) = memory path is trained AND generalizes. Source EPISODE_SOURCE=06_FINAL_TRAINING_READY (80000 records). Small config used for fast validation (campaign uses big+warmstart). VALIDATION HONESTY: single-seed MEASURED ablation, not legal-grade; >=20 seeds to PROVE. ==> CAMPAIGN PRECONDITION 2 NOW MET. Next: campaign PHASE 1 (materialize campaign-scale episodes + re-autotune full-graph BIG VRAM) then STOP for GO. Data safety: episodes local under runs/adapter (untracked), episodes_* gitignored."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "14:41",
+      "requested": "Run the full memory campaign from the gpt2-warmstarted decoder (PHASE 1 250K materialize + autotune, then straight into 6000-step campaign, no second GO; stop early only on a gate fail or no-fit).",
+      "executed": "Materialized 250K records -> 1,141,004 train / 126,863 heldout episodes (94.8% parse). Wrote scripts/train_memory_campaign.py (load warmstart, parameter-group LRs from manifest, full-graph DUAL_AGENT, per-episode memory reset, multi-metric heldout eval, early-stop on NO-FORGET/overfit, best_model, 5-gate verdict + K-char). Smoke-validated pipeline. PHASE 1 autotune fit (grad_accum 8 -> peak 5.14 GB < 14; first auto-pick grad_accum 24 was 6.2h so forced 8 = ~1.9h). Ran full 6000 steps in 157 min.",
+      "files_touched": [
+        "scripts/train_memory_campaign.py",
+        "runs/adapter/episodes_train.jsonl",
+        "runs/adapter/episodes_heldout.jsonl",
+        "runs/memory_campaign/results/verdict.json",
+        "runs/memory_campaign/results/best_model.pt",
+        "runs/memory_campaign/results/loss_history.json",
+        "runs/memory_campaign/checkpoints/ckpt_memory_step_00{1000..6000}.pt"
+      ],
+      "status": "success",
+      "notes": "ALL 5 GATES PASS (runs/memory_campaign/results/verdict.json, campaign task bvuggd4ub, 6000 steps stop_reason=max_steps, 157.05 min, peak 7.77 GB). HELDOUT_MEMORY_UPLIFT: enabled CE 0.0051 vs zeroed 10.5985 = 100.0% lower (>=15%), n=1000 unseen. RECALL: heldout exact-match 99.8% (floor 5%) vs zeroed control 0.0%. NO_FORGET: backbone ppl(512x1024) 48.45 < 94 (warmstart 46.95 reproduced 46.11 at start; minimal forgetting), no breach. NO_BYPASS_NO_OVERFIT: final uplift 100% = peak (no collapse). BEST_MODEL_RELOADABLE: best_model.pt step 6000 reloaded, recomputed CE 0.0051. K-characterization: recall ~99.2-100% across K=2..16, zeroed 0.0% at every K. Param groups: LOW 255.1M (lr 2e-5, warmstarted) / HIGH 89.6M (lr 2e-4, fresh encoder+memory+cross-attn). VALIDATION HONESTY: single-seed single-env MEASURED, not legal-grade; >=20 seeds required to PROVE any external/patent memory-uplift figure. Data safety: all artifacts local under runs/ (untracked), runs/+*.pt+episodes_* gitignored, nothing committed."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "16:00",
+      "requested": "Run the full hardened legal-grade memory benchmark end to end, one pass, eval only: 4 systems, K sweep {2..256}, >=20 seeds, 5 frozen gates, auto-hardening, adversarial review, verdict+report+plots.",
+      "executed": "Wrote scripts/memory_benchmark.py. Probed model: working bank=16 slots (SYS_MEM capacity 16), aux_answer_head single-token (LM head 4.7% at chance), so answer unit=first token. Built confusable held-out set with auto-hardening (5 attempts), 4 systems (SYS_MEM, SYS_INCTX_self best_model decoder mem-zeroed, SYS_INCTX_ref warmstart decoder, SYS_LEX token-overlap). Fixed an in-context bug (EOT separators broke cross-fact attention -> newline). Ran 20 seeds x 10 episodes x 8 K x 4 systems.",
+      "files_touched": [
+        "scripts/memory_benchmark.py",
+        "runs/benchmark/results/verdict.json",
+        "runs/benchmark/results/benchmark_report.txt",
+        "runs/benchmark/results/recall_vs_k.png",
+        "runs/benchmark/results/cost_vs_k.png"
+      ],
+      "status": "success",
+      "notes": "3/5 GATES PASS, 2 reported FAIL (runs/benchmark/results/verdict.json, 20 seeds). G1_PARITY PASS (feasible K<=16: SYS_MEM median 100% vs in-context ref 50-75%, margin +0.25 -> memory matches/beats in-context in-regime). G2_OVERFLOW_WIN FAIL (K=256: SYS_MEM 0.0 vs in-context 0.1, margin -0.10; working bank 16 < ~30-fact context window, so SYS_MEM is the SMALLER store -> no overflow win; differentiator is cost not capacity). G3_NON_TRIVIALITY FAIL (SYS_LEX 100% after hardening=5; cloze query is a verbatim prefix so token-overlap retrieval solves it -> task is lexically solvable, memory recall is not beyond lexical). G4_ROBUSTNESS PASS (SYS_MEM K=16 confusable 100% vs clean 90%, +10pp; learned keys not surface). G5_COST PASS (SYS_MEM flat 5 fused reads all K; in-context 83->1018 tokens to the 1024 wall; crossover K=2). Reference: CE reproduced 0.0111, mean fact 33.9 tok, cross1024 K=32, cross2048 K=64. CLAIM STATUS: cost differentiator MEASURED at legal-grade (>=20 seeds, baselined), single environment; NOT PROVEN. SYS_MEM is single-token + 16-slot bounded; full multi-token EM reported as transparent secondary. Data safety: all local under runs/benchmark (untracked), gitignored."
+    }
+  ]
+}

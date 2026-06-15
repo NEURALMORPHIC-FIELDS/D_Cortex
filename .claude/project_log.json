@@ -36,7 +36,11 @@
       "time": "01:25",
       "requested": "Run Gate 1 ENV and adapt the v11 training script for local single-GPU Windows.",
       "executed": "Installed torch 2.11.0+cu128 (cuda 12.8). Ran scripts/verify_env_local.py: PASS. Wrote colab/train_local.py (drops Drive mount and inline write_source, imports real dcortex package, local PROJECT_ROOT, local E:\\DATA LM tokenizer, bf16/no-GradScaler, gradient checkpointing on decoder StandardTransformerBlock via training-side wrap, atomic _step_ checkpoints with numeric resume + RNG + loss_history, OOM guard, aggregate train_loss, peak VRAM tracking). Wrote scripts/emit_verdict.py.",
-      "files_touched": ["scripts/verify_env_local.py", "colab/train_local.py", "scripts/emit_verdict.py"],
+      "files_touched": [
+        "scripts/verify_env_local.py",
+        "colab/train_local.py",
+        "scripts/emit_verdict.py"
+      ],
       "status": "success",
       "notes": "ENV PASS source: PowerShell run of verify_env_local.py. Evidence: cuda available; RTX 5080; capability 12.0; bf16 4096x4096 matmul OK; torch=2.11.0+cu128. Total VRAM reported 15.92 GB."
     },
@@ -45,7 +49,9 @@
       "time": "01:30",
       "requested": "Smoke-test the adapted script before the real run.",
       "executed": "12-step smoke run exposed a real Windows bug: os.rename raises FileExistsError when the destination checkpoint exists (POSIX replaces, Windows does not). Fixed save_ckpt to use os.replace (atomic on both OSes) and guarded the redundant final save. Re-ran two-phase smoke (fresh->6, resume->12): resume reproduced the continuous trajectory BIT-IDENTICALLY (step 6 loss 6.2928 in both), loss_history restored (n_logged 12), resumed=true.",
-      "files_touched": ["colab/train_local.py"],
+      "files_touched": [
+        "colab/train_local.py"
+      ],
       "status": "success",
       "notes": "Source: PowerShell smoke runs, run_meta_smoke_p1/p2.json. RNG restore in checkpoint makes resume continuation bit-identical to a continuous run."
     },
@@ -54,7 +60,13 @@
       "time": "01:37",
       "requested": "Run the real 300-step training (Gate 2 FIT, Gate 3 LEARNS).",
       "executed": "Ran colab/train_local.py --total-steps 300 --max-steps 300 fresh in runs/dcortex on the local E:\\DATA BYON corpus (5M train / 0.5M val tokens). Completed 300 steps in 7.81 min, 0 OOM, checkpoints at 100/200/300.",
-      "files_touched": ["runs/dcortex/results/run_meta_main.json", "runs/dcortex/results/loss_history.json", "runs/dcortex/checkpoints/ckpt_dcortex_step_000100.pt", "runs/dcortex/checkpoints/ckpt_dcortex_step_000200.pt", "runs/dcortex/checkpoints/ckpt_dcortex_step_000300.pt"],
+      "files_touched": [
+        "runs/dcortex/results/run_meta_main.json",
+        "runs/dcortex/results/loss_history.json",
+        "runs/dcortex/checkpoints/ckpt_dcortex_step_000100.pt",
+        "runs/dcortex/checkpoints/ckpt_dcortex_step_000200.pt",
+        "runs/dcortex/checkpoints/ckpt_dcortex_step_000300.pt"
+      ],
       "status": "success",
       "notes": "VERIFIED numbers (source: runs/dcortex/results/run_meta_main.json + background task bocqguly8). FIT: peak alloc 3.234 GB, peak@step50 3.234 GB, peak reserved 3.711 GB, OOM 0 -> well under 15 GB target. LEARNS: loss_first 11.7897, loss_last 3.0807, loss_min 2.1056, loss_max 11.7897; emit 6.043 -> 1.317. dtype bfloat16, gradient_checkpointing true. Final verdict JSON pending RESUME gate + emit_verdict run."
     },
@@ -72,9 +84,531 @@
       "time": "01:46",
       "requested": "Complete Gate 4 RESUME with exclusive GPU and emit the final 4-gate verdict JSON + loss curve.",
       "executed": "RESUME re-run on a clean GPU succeeded: phase1 fresh->100 (ckpts 50,100, P1_EXIT=0), phase2 resumed from ckpt_dcortex_step_000100.pt at step 100 and ran ->150 (P2_EXIT=0). Ran scripts/emit_verdict.py: ALL 4 GATES PASS. Wrote runs/dcortex/results/verdict.json and loss_curve.png.",
-      "files_touched": ["runs/dcortex/results/verdict.json", "runs/dcortex/results/loss_curve.png", "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000050.pt", "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000100.pt", "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000150.pt", "runs/dcortex_resume/results/run_meta_resume_p1.json", "runs/dcortex_resume/results/run_meta_resume_p2.json"],
+      "files_touched": [
+        "runs/dcortex/results/verdict.json",
+        "runs/dcortex/results/loss_curve.png",
+        "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000050.pt",
+        "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000100.pt",
+        "runs/dcortex_resume/checkpoints/ckpt_dcortex_step_000150.pt",
+        "runs/dcortex_resume/results/run_meta_resume_p1.json",
+        "runs/dcortex_resume/results/run_meta_resume_p2.json"
+      ],
       "status": "success",
       "notes": "VERIFIED verdict (source: runs/dcortex/results/verdict.json, emit_verdict.py task b6qs4391d). ENV PASS (cap 12.0, bf16 matmul). FIT PASS (peak 3.234 GB < 15 GB). LEARNS PASS (drop 68.9%; smoothed 10.6258->3.3045; raw 11.7897->3.0807; min 2.1056, median 3.9417, max 11.7897). RESUME PASS (resumed from step 100, first post-resume loss 4.1651, on-trajectory, not reset). Deliverable complete."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "17:43",
+      "requested": "Make dcortex_repo the canonical repository and perform a controlled migration from D_Cortex-main.",
+      "executed": "Inventoried both trees before migration. After excluding artifacts and normalizing line endings, found 13 files missing from the canonical repository and no substantive shared-code differences; only project_log.json differs because D_Cortex-main contains later historical entries.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Migration planned before code changes. Excludes runs/, models, binary datasets, caches, virtual environments, and files.zip. Verification pending."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "17:44",
+      "requested": "Complete the controlled migration into dcortex_repo and verify the canonical tree.",
+      "executed": "Copied 13 missing validated code/documentation files from D_Cortex-main, preserved the complete source project history in a dedicated migration file, verified all 13 copies by SHA-256, compiled all Python sources, ran integration verification and smoke tests.",
+      "files_touched": [
+        ".claude/migration_source_history_2026-06-15.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json",
+        ".gitignore",
+        "colab/train_campaign.py",
+        "docs/MEMORY_TRAINING.md",
+        "docs/episode_contract.md",
+        "docs/warmstart_map.md",
+        "scripts/campaign_verdict.py",
+        "scripts/corpus_inspection.json",
+        "scripts/episode_adapter.py",
+        "scripts/inspect_corpus.py",
+        "scripts/memory_benchmark.py",
+        "scripts/train_memory_campaign.py",
+        "scripts/train_memory_probe.py",
+        "scripts/warmstart_gpt2.py",
+        "scripts/warmstart_verify.py"
+      ],
+      "status": "partial",
+      "notes": "Verified at 2026-06-15T17:44:50+03:00. SHA-256 copies 13/13 MATCH; py_compile PASS; verify_integration PASS with 14 WIRED, 0 NOT_WIRED, 0 DUPLICATE; test_forward_smoke.py PASS. pytest produced 5 passed and 2 fixture errors. Direct test_step2_fixes.py fails at episode SSM grouping with 169 unassigned parameters; the same failure was reproduced in D_Cortex-main, so it predates migration. No run/model/dataset/cache artifacts were imported."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "17:47",
+      "requested": "Continue after canonical migration.",
+      "executed": "Diagnosed the preexisting Step 2 test failure before modification. The test targets an obsolete single-agent/top-level parameter namespace, is not pytest-compatible for two parameterized helpers, and uses the obsolete model.updater path.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Planned repair is test-only. No dcortex/ architecture or runtime behavior will be modified."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "17:49",
+      "requested": "Repair the preexisting test failure before Adapter v2 work.",
+      "executed": "Updated tests/test_step2_fixes.py for the current dual-agent namespaces, changed obsolete model.updater references to model.encoder.updater, and added pytest-compatible no-argument wrappers while preserving direct execution.",
+      "files_touched": [
+        "tests/test_step2_fixes.py",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session outputs: pytest PASS 7/7; direct tests/test_step2_fixes.py PASS with 169/169 trainable tensors assigned and 5 EpisodeSSM tensors tracked; verify_integration.py PASS with 14 WIRED, 0 NOT_WIRED, 0 DUPLICATE; py_compile PASS. No dcortex/ runtime files changed."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "17:58",
+      "requested": "Autonomously evolve D_Cortex according to the documented vision.",
+      "executed": "Reviewed the canonical mission, forward agenda, Pas 7a seal, neural-memory benchmark limitations, and existing data. Selected Pas 7b conservative semantic abstraction as the next architectural step. Froze the explicit adapter contract and ten acceptance gates before implementation.",
+      "files_touched": [
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "No semantic producer or architecture code written yet. Pas 7a remains untouched. The adapter forbids direct commit and requires provenance plus deterministic audit."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:04",
+      "requested": "Continue autonomous Pas 7b evolution after freezing the adapter contract.",
+      "executed": "Implemented and verified the conservative semantic adapter. Froze the successor producer contract and eight gates before producer code.",
+      "files_touched": [
+        "dcortex/semantic_adapter.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_adapter.py",
+        "scripts/semantic_adapter_verdict.py",
+        "scripts/verify_integration.py",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session output: semantic adapter 10/10 gates PASS; pytest 17/17 PASS; integration 15 WIRED, 0 NOT_WIRED, 0 DUPLICATE; Pas 7a source SHA-256 unchanged. No claim of semantic-quality improvement."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:13",
+      "requested": "Continue autonomous development according to the documented memory-native vision.",
+      "executed": "Ran the frozen token-mean semantic producer probe, accepted its negative verdict without relaxing thresholds, diagnosed the representation, and froze a separate decoder-native causal-likelihood producer contract before implementation.",
+      "files_touched": [
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session outputs: token-mean probe P6 FAIL 0/20 with 0 emissions; P7 PASS 10/10 abstentions; pytest 22/22 PASS; integration 16 WIRED, 0 NOT_WIRED, 0 DUPLICATE. Exploratory decoder-likelihood diagnostic is not a verdict and is used only to justify the next frozen experiment."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:23",
+      "requested": "Continue autonomous development after the token-mean producer failure.",
+      "executed": "Implemented the decoder-native causal-likelihood producer and ran its first frozen held-out verdict. Accepted the coverage failure, preserved all gates and thresholds, diagnosed the single-view limitation, and froze a multi-view evidence-fusion successor sourced from sealed F5 definitions.",
+      "files_touched": [
+        "dcortex/semantic_producer.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_producer.py",
+        "scripts/semantic_likelihood_probe.py",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T18:19:02+03:00: Q5 FAIL 19/32 (59.4%), Q7 FAIL, all other Q gates PASS; emitted precision 19/19; ambiguous abstention 15/16; token-mean baseline 0/32; model buffers byte-identical. Full pytest 25/25 PASS; integration 16 WIRED, 0 NOT_WIRED, 0 DUPLICATE."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:36",
+      "requested": "Continue autonomous development after the single-view likelihood failure.",
+      "executed": "Implemented multi-view likelihood evidence fusion, ran the frozen 500-trial sealed-F5 verdict, accepted its negative result, stopped prompt optimization, and froze one formal trained semantic-internalizer cycle.",
+      "files_touched": [
+        "dcortex/semantic_producer.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_producer.py",
+        "scripts/semantic_multiview_probe.py",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T18:29:19+03:00: R6 FAIL 317/500 (63.4%), R7 FAIL 18 wrong/500 (3.6%), all other R gates PASS; ambiguous abstention 85/100; token-mean baseline 0/500; full pytest 27/27 PASS; integration 16 WIRED, 0 NOT_WIRED, 0 DUPLICATE. Development-only pooled-classifier feasibility is not a verdict."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:44",
+      "requested": "Continue autonomous semantic-internalization development after multi-view failure.",
+      "executed": "Implemented and trained a pooled semantic query internalizer over frozen D_Cortex embeddings, ran the first frozen F1/F3/F5 verdict, accepted the partial result, and froze a leave-one-form-out semantic curriculum successor.",
+      "files_touched": [
+        "dcortex/semantic_producer.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_producer.py",
+        "scripts/train_semantic_internalizer.py",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T18:43:14+03:00: F1 FAIL 47.2%, F3 FAIL 50.6% with 19.8% wrong, F5 PASS 87.6% with 0.6% wrong, ambiguity abstention 100%, substrate byte-identical. Full pytest 30/30 PASS; integration 16 WIRED, 0 NOT_WIRED, 0 DUPLICATE."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:51",
+      "requested": "Continue autonomous semantic abstraction development after standard-only internalizer failure.",
+      "executed": "Implemented four-fold leave-one-form-out F1/F3 curriculum and a final F5 head, ran the frozen verdict, accepted the isolated F1 failure, diagnosed order-insensitive pooling, and froze a contextual decoder feature successor.",
+      "files_touched": [
+        "scripts/semantic_curriculum_crossval.py",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict: C2 F1 FAIL 369/528 (69.9%); F3 PASS 463/528 (87.7%), F5 PASS 94.2%, wrong rates F1/F3/F5 0.0%/0.4%/0.0%, ambiguity 100%, all other C gates PASS. Development-only contextual diagnostic reached F1 88.6% with zero wrong; not a verdict."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:57",
+      "requested": "Continue autonomous development after the pooled curriculum isolated F1 syntax failure.",
+      "executed": "Implemented a frozen contextual decoder feature backend with explicit memory bypass, ran the unchanged semantic curriculum, passed all 11 contextual gates, and sealed the narrow query-side Pas 7b-Q submilestone.",
+      "files_touched": [
+        "dcortex/semantic_producer.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_producer.py",
+        "scripts/train_semantic_internalizer.py",
+        "scripts/semantic_curriculum_crossval.py",
+        "scripts/semantic_contextual_curriculum.py",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        "steps/14_v15_7b_semantic_adapter/SEAL.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T18:57:17+03:00: 11/11 D gates PASS; F1 451/528 (85.4%), F3 474/528 (89.8%), F5 463/500 (92.6%), wrong 0.0%/0.0%/0.2%, ambiguity abstention 200/200, substrate byte-identical, memory bypass true, Pas 7a hash unchanged. Claim remains query-side only."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "18:59",
+      "requested": "Verify and seal the autonomous query-side contextual milestone without overstating its scope.",
+      "executed": "Created and read the narrow query-side seal, appended the project progress record, re-ran adapter, test, integration, compile, JSON, diff, and hash verification.",
+      "files_touched": [
+        "steps/14_v15_7b_semantic_adapter/SEAL.md",
+        "steps/14_v15_7b_semantic_adapter/README.md",
+        "steps/14_v15_7b_semantic_adapter/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session outputs at 2026-06-15T18:59:21+03:00: semantic adapter 10/10 PASS; pytest 31/31 PASS; integration 16 WIRED, 0 NOT_WIRED, 0 DUPLICATE; py_compile PASS; project JSON validation PASS; git diff check PASS with line-ending warnings only; seal hashes match."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:03",
+      "requested": "Continue autonomous D_Cortex evolution after the query-side contextual seal.",
+      "executed": "Inspected the sealed Pas 7a query/read contract and the locally executable neural-memory path, then froze a separate pure read-only semantic query bridge contract and thirteen bridge-readiness gates before implementation.",
+      "files_touched": [
+        "steps/15_v15_7b_read_only_bridge/README.md",
+        "steps/15_v15_7b_read_only_bridge/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "No bridge/runtime code written yet. The frozen evaluation uses 200 trials each for F1/F3/F5/S5/S6, preserves exact fallback, and explicitly treats the neural working-memory experiment as bridge readiness rather than Pas 7a committed-memory integration."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:12",
+      "requested": "Continue autonomous read-only bridge development and run the first frozen end-to-end verdict.",
+      "executed": "Implemented the pure read-only semantic query bridge, verified its contract, and ran the unchanged 1000-trial neural-memory bridge-readiness evaluation.",
+      "files_touched": [
+        "dcortex/semantic_query_bridge.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_query_bridge.py",
+        "scripts/semantic_bridge_end_to_end.py",
+        "scripts/verify_integration.py",
+        "runs/semantic_bridge_end_to_end/results/verdict.json",
+        "steps/15_v15_7b_read_only_bridge/VERDICT.md",
+        "steps/15_v15_7b_read_only_bridge/README.md",
+        "steps/15_v15_7b_read_only_bridge/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T19:12:02+03:00: bridge contract/state gates PASS; B7 uplift FAIL (F1 13.0%->13.5%, F3 36.0%->36.0%, F5 36.5%->36.5%); B11 honesty FAIL (S5/S6 overcommit 100%). No thresholds changed."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:13",
+      "requested": "Select and freeze the justified successor after the negative bridge-readiness verdict.",
+      "executed": "Accepted the negative verdict, stopped query-routing iterations after a development-only cloze diagnostic showed no meaningful uplift, and froze a separate fact-side PROVISIONAL_ONLY semantic producer contract before implementation.",
+      "files_touched": [
+        "steps/16_v15_7b_fact_provisional/README.md",
+        "steps/16_v15_7b_fact_provisional/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "No fact-producer code written yet. The successor cannot ingest into Pas 7a or write committed memory."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:22",
+      "requested": "Continue autonomous fact-side provisional semantic development.",
+      "executed": "Implemented the three-axis contextual fact producer and ran its unchanged four-fold leave-one-form-out verdict. Accepted the isolated coverage failure and froze an attribute-conditioned value-decoding successor before implementation.",
+      "files_touched": [
+        "dcortex/semantic_fact_producer.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_fact_producer.py",
+        "scripts/semantic_fact_curriculum.py",
+        "scripts/verify_integration.py",
+        "runs/semantic_fact_curriculum/results/verdict.json",
+        "steps/16_v15_7b_fact_provisional/VERDICT.md",
+        "steps/16_v15_7b_fact_provisional/README.md",
+        "steps/17_v15_7b_conditioned_fact/README.md",
+        "steps/17_v15_7b_conditioned_fact/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T19:22:25+03:00: F2 coverage FAIL 1199/2000 (60.0%); wrong provisional PASS 1.1%; ambiguity PASS 100%; adapter provisional-only PASS 1221/1221; all other F gates PASS. No thresholds changed."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:28",
+      "requested": "Continue autonomous D_Cortex evolution after the fact-side provisional verdict.",
+      "executed": "Implemented the frozen attribute-conditioned value decoder, repaired one misplaced test assertion found by verification, ran the unchanged new-sample verdict, accepted the negative result, and stopped the post-hoc conditioning branch.",
+      "files_touched": [
+        "dcortex/semantic_fact_producer.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_fact_producer.py",
+        "scripts/semantic_fact_conditioned_verdict.py",
+        "runs/semantic_fact_conditioned/results/verdict.json",
+        "steps/17_v15_7b_conditioned_fact/README.md",
+        "steps/17_v15_7b_conditioned_fact/NOTES.md",
+        "steps/17_v15_7b_conditioned_fact/VERDICT.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T19:28:26+03:00: K2 FAIL 60.6%; K3 FAIL 3.8% wrong; K5 FAIL +0.2pp; ambiguity 100%; safety/seal gates PASS. Post-hoc filtering branch stopped without threshold changes."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:35",
+      "requested": "Select the next justified autonomous evolution after Step 17.",
+      "executed": "Verified that direct import of sealed Pas 7a is blocked by its Colab-only environment setup, rejected a misleading runtime-integration claim, and froze a direct semantic-coordinate object-read contract before implementation.",
+      "files_touched": [
+        "steps/18_v15_7b_semantic_object_read/README.md",
+        "steps/18_v15_7b_semantic_object_read/NOTES.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "No Step 18 runtime code written yet. Contract forbids raw-text rerouting, parser use, memory mutation, and Pas 7a runtime claims."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:39",
+      "requested": "Implement and evaluate the frozen direct semantic object-read contract.",
+      "executed": "Implemented immutable epistemic object snapshots and direct semantic-coordinate reads, ran a new 1000-trial verdict, accepted the two gate failures, diagnosed arbitrary referent approval on pronoun-only S6, and froze an explicit-referent grounding safety successor.",
+      "files_touched": [
+        "dcortex/semantic_object_reader.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_object_reader.py",
+        "scripts/semantic_object_read_verdict.py",
+        "scripts/verify_integration.py",
+        "runs/semantic_object_read/results/verdict.json",
+        "steps/18_v15_7b_semantic_object_read/README.md",
+        "steps/18_v15_7b_semantic_object_read/NOTES.md",
+        "steps/18_v15_7b_semantic_object_read/VERDICT.md",
+        "steps/19_v15_7b_referent_grounding/README.md",
+        "steps/19_v15_7b_referent_grounding/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T19:39:32+03:00: O3 FAIL because F1 84.5% < 85%; O6 FAIL because S6 honesty 93.5% and overcommit 6.5%; wrong committed reads 0% on F1/F3/F5; S5 honesty 100%; all direct/immutable/no-mutation/seal gates PASS."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:45",
+      "requested": "Continue autonomous development after the direct object-read referent failure.",
+      "executed": "Implemented an exact explicit-referent grounding guard, ran a new frozen predecessor-versus-successor verdict, accepted the relative-uplift gate failure despite zero successor overcommit, stopped the branch without rerunning the seed, and froze a non-trivial fact role-binding benchmark contract.",
+      "files_touched": [
+        "dcortex/semantic_grounded_reader.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_grounded_reader.py",
+        "scripts/semantic_referent_grounding_verdict.py",
+        "scripts/verify_integration.py",
+        "runs/semantic_referent_grounding/results/verdict.json",
+        "steps/19_v15_7b_referent_grounding/README.md",
+        "steps/19_v15_7b_referent_grounding/NOTES.md",
+        "steps/19_v15_7b_referent_grounding/VERDICT.md",
+        "steps/20_v15_7b_role_binding_benchmark/README.md",
+        "steps/20_v15_7b_role_binding_benchmark/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T19:44:57+03:00: grounded S6 overcommit 0/200 and honesty 100%; H3 FAIL because uplift was +3.5pp versus frozen +5pp; F1/F3/F5 and S5 preserved exactly; all safety/seal gates PASS."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "19:50",
+      "requested": "Validate a non-trivial fact-side benchmark before another semantic model.",
+      "executed": "Implemented and ran the frozen RB0 role-binding benchmark with four lexical/position baselines, passed all non-triviality gates, sealed the benchmark, and froze one conservative learned role-binder experiment.",
+      "files_touched": [
+        "scripts/semantic_role_binding_benchmark.py",
+        "tests/test_semantic_role_binding_benchmark.py",
+        "runs/semantic_role_binding_benchmark/results/sample.json",
+        "runs/semantic_role_binding_benchmark/results/verdict.json",
+        "steps/20_v15_7b_role_binding_benchmark/README.md",
+        "steps/20_v15_7b_role_binding_benchmark/NOTES.md",
+        "steps/20_v15_7b_role_binding_benchmark/VERDICT.md",
+        "steps/21_v15_7b_role_binder/README.md",
+        "steps/21_v15_7b_role_binder/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session verdict timestamp 2026-06-15T19:49:55+03:00: 8/8 gates PASS; best non-abstaining lexical baseline 37.1% exact-known; safe abstain 0% known coverage; sample 2000 unique records; Pas 7a hash unchanged."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "20:09",
+      "requested": "Continue autonomous development with the frozen conservative learned role binder.",
+      "executed": "Implemented the RB1 complete-candidate scalar scorer and provisional-only policy, ran the single frozen verdict, corrected one expected-hash literal in J10 without rerunning training or test, accepted the negative role-binding result, stopped pooled candidate views, and froze a token-level role-conditioned successor.",
+      "files_touched": [
+        "dcortex/semantic_role_binder.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_role_binder.py",
+        "tests/test_semantic_role_binder_verdict.py",
+        "scripts/semantic_role_binder_verdict.py",
+        "scripts/verify_integration.py",
+        "runs/semantic_role_binder/results/verdict.json",
+        "steps/21_v15_7b_role_binder/README.md",
+        "steps/21_v15_7b_role_binder/NOTES.md",
+        "steps/21_v15_7b_role_binder/VERDICT.md",
+        "steps/22_v15_7b_role_conditioned_binding/README.md",
+        "steps/22_v15_7b_role_conditioned_binding/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session RB1 timestamp 2026-06-15T20:03:22+03:00: after harness-only J10 correction, 8 PASS and 3 FAIL; exact known binding 48.4%, wrong mapping 51.6%, ambiguity abstention 100%, lexical uplift +11.7pp. No threshold or test rerun."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "20:17",
+      "requested": "Continue autonomous development after freezing the RB2 token-level role-conditioned successor.",
+      "executed": "Implemented frozen contextual token extraction, exact candidate-role masks, and a learned role-conditioned bidirectional sequence scorer; ran the single frozen RB2 verdict; passed all gates; sealed the controlled seen-syntax submilestone; and froze a leave-one-syntax-family-out successor before further integration.",
+      "files_touched": [
+        "dcortex/semantic_role_conditioned.py",
+        "dcortex/__init__.py",
+        "tests/test_semantic_role_conditioned.py",
+        "tests/test_semantic_role_conditioned_verdict.py",
+        "scripts/semantic_role_conditioned_verdict.py",
+        "scripts/verify_integration.py",
+        "runs/semantic_role_conditioned/results/verdict.json",
+        "steps/22_v15_7b_role_conditioned_binding/README.md",
+        "steps/22_v15_7b_role_conditioned_binding/NOTES.md",
+        "steps/22_v15_7b_role_conditioned_binding/VERDICT.md",
+        "steps/23_v15_7b_syntax_holdout/README.md",
+        "steps/23_v15_7b_syntax_holdout/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session RB2 timestamp 2026-06-15T20:14:04+03:00: 13/13 gates PASS; known exact 256/256; wrong 0/256; ambiguous abstention 57/57; RB1 uplift +51.6pp; lexical uplift +63.3pp; full pytest 67/67 PASS; integration 22 WIRED, 0 NOT_WIRED, 0 DUPLICATE."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "20:23",
+      "requested": "Continue autonomous development by testing RB2 beyond development-exposed syntax families.",
+      "executed": "Implemented and ran four-fold leave-one-syntax-family-out evaluation with unchanged RB2 architecture, accepted the negative generalization verdict without reruns, blocked memory integration, and froze an independent role-binding corpus gate as the next data-only prerequisite.",
+      "files_touched": [
+        "scripts/semantic_syntax_holdout_verdict.py",
+        "tests/test_semantic_syntax_holdout.py",
+        "runs/semantic_syntax_holdout/results/verdict.json",
+        "steps/23_v15_7b_syntax_holdout/README.md",
+        "steps/23_v15_7b_syntax_holdout/NOTES.md",
+        "steps/23_v15_7b_syntax_holdout/VERDICT.md",
+        "steps/24_v15_7b_independent_role_corpus/README.md",
+        "steps/24_v15_7b_independent_role_corpus/NOTES.md",
+        "docs/PROGRESS.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "VERIFIED current-session RB3 timestamp 2026-06-15T20:20:25+03:00: 9 PASS and 3 FAIL; aggregate unseen-syntax exact 911/1600 (56.9%), wrong 503/1600 (31.4%), minimum family exact 39.2%, ambiguity abstention 100% in every fold. No threshold, fold, or test-family rerun."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "20:24",
+      "requested": "Close the current autonomous development cycle with verified artifacts and no misleading integration claim.",
+      "executed": "Read the final RB2/RB3 verdict documents and RB4 data prerequisite, validated all project/verdict JSON, ran full tests, compileall, integration verification, and rechecked every sealed source hash.",
+      "files_touched": [
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session output at 2026-06-15T20:24:05+03:00: pytest 68/68 PASS; compileall PASS; integration 22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; project and verdict JSON valid; Pas 7a/query-side seal hashes unchanged. No memory-ingestion or open-domain capability claim."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "21:01",
+      "requested": "Commit the reproduced RB2/RB3 semantic milestone on a separate branch and continue RB4 without overfitting.",
+      "executed": "Prepared a separate-branch checkpoint plan in project memory before git operations. D_Cortex-main has no .git, so the branch will be created in dcortex_repo; target-side synchronization was already verified from D_Cortex-main.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Pre-commit memory update only. No commit hash exists yet. Planned branch: milestone/rb2-rb3-verified. Claim guard: RB2 seen-syntax pass and RB3 unseen-syntax fail are both part of the milestone."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "21:02",
+      "requested": "Pre-commit verification for the RB2/RB3 separate-branch milestone.",
+      "executed": "Ran tests, compileall, integration verification, JSON validation, staged-file audit, and critical verdict hash checks before commit.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "VERIFIED current-session pre-commit output: pytest 68/68 PASS; compileall PASS; integration 22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; 106 staged files; no .pt/.bin or files over 20MB staged; RB2/RB3 verdict hashes match expected. Commit not yet created at this log entry."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "21:03",
+      "requested": "Record the separate-branch RB2/RB3 milestone commit in project memory.",
+      "executed": "Created the milestone branch commit and prepared an amend so the project memory records the commit action in the same branch checkpoint.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Commit message: milestone: seal RB2 seen-syntax and RB3 holdout verdicts. Final commit hash is reported from git after amend, not inferred here."
     }
   ]
 }

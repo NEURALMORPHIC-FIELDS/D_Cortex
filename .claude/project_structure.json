@@ -9,11 +9,16 @@
     "entry": "dcortex.model.DCortexV2Model",
     "config": "dcortex.config.DCortexConfig",
     "public_api_used_by_training": [
-      "reset_memory()", "begin_episode()", "clear_overlays()",
+      "reset_memory()",
+      "begin_episode()",
+      "clear_overlays()",
       "encode(input_ids, answer_token_id, lexical_alpha, force_bank)",
       "decode(input_ids, return_retrieved)",
-      "shared_token_emb", "shared_pos_emb", "shared_address_encoder",
-      "shared_query_engine", "aux_answer_head"
+      "shared_token_emb",
+      "shared_pos_emb",
+      "shared_address_encoder",
+      "shared_query_engine",
+      "aux_answer_head"
     ],
     "compat_verified": "Repo model exposes every method/attribute the v11 training loop calls (verified by grep on 2026-06-15)."
   },
@@ -32,7 +37,11 @@
       "status": "active_verified",
       "purpose": "Adapted single-GPU Windows training script. Drops Drive mount and inline write_source, imports real dcortex package, local PROJECT_ROOT, local E:\\DATA LM corpus tokenizer, bf16+no GradScaler, gradient checkpointing on decoder StandardTransformerBlock, atomic _step_ checkpoints (os.replace, Windows-atomic) with numeric-sort resume + RNG + loss_history, OOM guard, aggregate train_loss series, peak VRAM tracking, run_meta JSON.",
       "verified": "300-step run on 2026-06-15: loss 11.79->3.08, peak VRAM 3.234 GB, 0 OOM, ckpts 100/200/300. Resume reproduces trajectory bit-identically.",
-      "windows_fixes": ["stdout.reconfigure(utf-8) for cp1252 console", "os.replace instead of os.rename for atomic checkpoint write", "num_workers not used (no DataLoader for memmap)"]
+      "windows_fixes": [
+        "stdout.reconfigure(utf-8) for cp1252 console",
+        "os.replace instead of os.rename for atomic checkpoint write",
+        "num_workers not used (no DataLoader for memmap)"
+      ]
     },
     "scripts/emit_verdict.py": {
       "status": "active",
@@ -44,11 +53,736 @@
     "runs/dcortex_resume/": "dedicated RESUME gate run (phase1 fresh->100, phase2 resume->150)",
     "runs/dcortex_smoke/": "throwaway smoke-test dir (12-step validation)"
   },
-  "dependencies": ["torch>=2.7 (cu128)", "numpy", "tiktoken", "datasets", "matplotlib"],
+  "dependencies": [
+    "torch>=2.7 (cu128)",
+    "numpy",
+    "tiktoken",
+    "datasets",
+    "matplotlib"
+  ],
   "verification_gates": {
     "ENV": "cuda available + capability (12,0) + real cuda matmul",
     "FIT": "measured peak VRAM over a real 50-step run < 15 GB",
     "LEARNS": "final train loss < initial by >= 15% over 300 steps; report initial/final/min/median/max",
     "RESUME": "stop after a checkpoint, restart, resume from correct step with continuous loss"
+  },
+  "canonical_migration_2026_06_15": {
+    "status": "planned",
+    "source": "e:\\proiecte_active\\D_Cortex\\D_Cortex-main",
+    "destination": "e:\\proiecte_active\\D_Cortex\\dcortex_repo",
+    "scope": "Import validated source code and documentation missing from the canonical Git repository.",
+    "excluded": [
+      "runs/",
+      ".venv/",
+      "__pycache__/",
+      "*.pt",
+      "*.bin",
+      "*.pyc",
+      "files.zip"
+    ],
+    "pre_migration_inventory": {
+      "source_files": 77,
+      "destination_files": 66,
+      "missing_in_destination": 13,
+      "content_changed_after_line_ending_normalization": 1
+    }
+  },
+  "canonical_migration_result_2026_06_15": {
+    "status": "completed_with_preexisting_test_failure",
+    "completed_at": "2026-06-15T17:44:50+03:00",
+    "imported_files": [
+      "colab/train_campaign.py",
+      "docs/MEMORY_TRAINING.md",
+      "docs/episode_contract.md",
+      "docs/warmstart_map.md",
+      "scripts/campaign_verdict.py",
+      "scripts/corpus_inspection.json",
+      "scripts/episode_adapter.py",
+      "scripts/inspect_corpus.py",
+      "scripts/memory_benchmark.py",
+      "scripts/train_memory_campaign.py",
+      "scripts/train_memory_probe.py",
+      "scripts/warmstart_gpt2.py",
+      "scripts/warmstart_verify.py"
+    ],
+    "preserved_source_history": ".claude/migration_source_history_2026-06-15.json",
+    "verification": {
+      "sha256_source_matches": "13/13",
+      "python_compile": "PASS",
+      "integration": "PASS: 14 WIRED, 0 NOT_WIRED, 0 DUPLICATE",
+      "dual_agent_smoke": "PASS",
+      "pytest": "5 passed, 2 fixture errors",
+      "step2_direct": "FAIL: test_episode_ssm_grouping reports 169 unassigned parameters; reproduced identically in source tree"
+    }
+  },
+  "test_repair_2026_06_15": {
+    "status": "complete",
+    "scope": "Update tests/test_step2_fixes.py to validate the current dual-agent parameter namespace and run correctly under both pytest and direct execution.",
+    "architecture_changes": "none",
+    "diagnosis": [
+      "The grouping test still expects obsolete top-level names such as embeddings, standard_blocks, writer, and episode_ssm.",
+      "The current model namespaces those modules under shared_*, encoder.*, and dec_*.",
+      "Two helper functions are collected by pytest as fixture-based tests although no fixtures exist.",
+      "The conflict helper references obsolete model.updater instead of model.encoder.updater."
+    ],
+    "verification": {
+      "completed_at": "2026-06-15T17:49:00+03:00",
+      "pytest": "PASS: 7 passed",
+      "step2_direct": "PASS: all offline tests passed; 169/169 parameters assigned; EpisodeSSM 5 tensors tracked",
+      "integration": "PASS: 14 WIRED, 0 NOT_WIRED, 0 DUPLICATE",
+      "python_compile": "PASS"
+    },
+    "files_changed": [
+      "tests/test_step2_fixes.py"
+    ]
+  },
+  "step_14_v15_7b_semantic_adapter": {
+    "status": "query_side_contextual_submilestone_sealed_end_to_end_open",
+    "path": "steps/14_v15_7b_semantic_adapter/",
+    "purpose": "Explicit conservative adapter between future semantic hypothesis producers and the sealed Pas 7a longitudinal consolidator.",
+    "invariants": [
+      "Pas 7a sealed source untouched",
+      "No direct committed-memory write",
+      "Every decision requires deterministic audit",
+      "Semantic fact hypotheses are provisional-only",
+      "Semantic query hypotheses are read-only"
+    ],
+    "frozen_gates": [
+      "G0_SEALED_UNTOUCHED",
+      "G1_NO_DIRECT_COMMIT",
+      "G2_PROVENANCE_REQUIRED",
+      "G3_QUERY_READ_ONLY",
+      "G4_ANTI_INFLATION",
+      "G5_LONGITUDINAL_CONFIRMATION",
+      "G6_CONFLICT_PRESERVATION",
+      "G7_DETERMINISTIC_AUDIT",
+      "G8_ROUNDTRIP",
+      "G9_INVALID_RANGE_REJECTED"
+    ],
+    "adapter_verification": {
+      "timestamp": "2026-06-15T18:04:00+03:00",
+      "result": "PASS: 10/10 frozen gates",
+      "source": "runs/semantic_adapter/results/verdict.json"
+    },
+    "producer_frozen_gates": [
+      "P0_ADAPTER_REQUIRED",
+      "P1_NO_DIRECT_COMMIT",
+      "P2_THRESHOLD_ABSTENTION",
+      "P3_MARGIN_ABSTENTION",
+      "P4_DETERMINISTIC",
+      "P5_NO_SYNONYM_MAP",
+      "P6_QUERY_NOVEL_FORM",
+      "P7_AMBIGUOUS_HONESTY"
+    ],
+    "producer_iteration_1_verification": {
+      "timestamp": "2026-06-15T18:08:00+03:00",
+      "result": "FAIL: P6_QUERY_NOVEL_FORM 0/20 with zero emissions; P7 ambiguous abstention 10/10; P0-P5 PASS",
+      "source": "runs/semantic_producer/results/verdict.json",
+      "diagnosis": "Warm-start shared-token mean selected attribute top-1 20/20 and entity top-1 15/20, but semantic margins did not separate novel intent from ambiguity."
+    },
+    "producer_iteration_2_plan": {
+      "status": "contract_frozen_before_implementation",
+      "type": "decoder-native causal-likelihood query producer",
+      "calibration_policy": "Observed iteration-1 query sets are calibration only; choose the smallest attribute margin threshold that abstains on at least 80% calibration ambiguous queries.",
+      "evaluation_policy": "New frozen query and ambiguity sets; threshold unchanged after first evaluation.",
+      "frozen_gates": [
+        "Q0_ADAPTER_REQUIRED",
+        "Q1_NO_DIRECT_COMMIT",
+        "Q2_CALIBRATION_SEPARATION",
+        "Q3_DETERMINISTIC",
+        "Q4_NO_SYNONYM_MAP",
+        "Q5_NOVEL_QUERY_ACCURACY",
+        "Q6_AMBIGUOUS_HONESTY",
+        "Q7_NON_TRIVIAL_LABEL_OVERLAP",
+        "Q8_BASELINE_UPLIFT",
+        "Q9_READ_ONLY_MODEL_STATE",
+        "Q10_SEALED_UNTOUCHED"
+      ]
+    },
+    "producer_iteration_2_verification": {
+      "timestamp": "2026-06-15T18:19:02+03:00",
+      "result": "FAIL: Q5 held-out accuracy 19/32 (59.4%) and Q7 consequently failed; all other gates PASS",
+      "source": "runs/semantic_likelihood/results/verdict.json",
+      "measured_limits": "19/19 emitted interpretations correct; ambiguous abstention 15/16; frozen token-mean baseline 0/32; model buffers byte-identical."
+    },
+    "producer_iteration_3_plan": {
+      "status": "contract_frozen_before_implementation",
+      "type": "multi-view decoder-likelihood evidence fusion",
+      "evaluation": "500 query-intent trials generated from AST-extracted sealed Pas 7a F5 definitions, seed 20261215; 100 newly frozen generic ambiguous queries, seed 20261216.",
+      "frozen_gates": [
+        "R0_ADAPTER_REQUIRED",
+        "R1_NO_DIRECT_COMMIT",
+        "R2_SEALED_F5_SOURCE",
+        "R3_CALIBRATION_SEPARATION",
+        "R4_DETERMINISTIC",
+        "R5_NO_SYNONYM_MAP",
+        "R6_F5_QUERY_INTERPRETATION",
+        "R7_WRONG_INTERPRETATION",
+        "R8_AMBIGUOUS_HONESTY",
+        "R9_TOKEN_MEAN_UPLIFT",
+        "R10_MULTIVIEW_CONSENSUS",
+        "R11_READ_ONLY_MODEL_STATE",
+        "R12_SEALED_UNTOUCHED"
+      ]
+    },
+    "producer_iteration_3_verification": {
+      "timestamp": "2026-06-15T18:29:19+03:00",
+      "result": "FAIL: R6 sealed-F5 interpretation 317/500 (63.4%); R7 wrong emitted 18/500 (3.6%); all other R gates PASS",
+      "source": "runs/semantic_multiview/results/verdict.json",
+      "diagnosis": "Prompt fusion is useful but state interpretation remains weak; prompt tuning is stopped."
+    },
+    "producer_iteration_4_plan": {
+      "status": "contract_frozen_before_implementation",
+      "type": "trained pooled semantic query internalizer",
+      "training_scope": "Frozen D_Cortex token embeddings; separate entity/attribute MLPs; sealed standard V15 facts and queries only; F1/F3/F5 excluded.",
+      "frozen_policy": {
+        "head_hidden_width": 256,
+        "training_seed": 20261220,
+        "attribute_margin": 0.4,
+        "entity_margin": 0.0,
+        "F1_trials_seed": "500@20261221",
+        "F3_trials_seed": "500@20261223",
+        "F5_trials_seed": "500@20261225",
+        "ambiguous_trials_seed": "200@20261226"
+      },
+      "frozen_gates": [
+        "T0_TRAINING_SEPARATION",
+        "T1_REAL_OPTIMIZATION",
+        "T2_DETERMINISTIC_DATA",
+        "T3_F1_QUERY_INTERPRETATION",
+        "T4_F3_QUERY_INTERPRETATION",
+        "T5_F5_QUERY_INTERPRETATION",
+        "T6_WRONG_INTERPRETATION",
+        "T7_AMBIGUOUS_HONESTY",
+        "T8_ADAPTER_REQUIRED",
+        "T9_FROZEN_SUBSTRATE",
+        "T10_BASELINE_UPLIFT",
+        "T11_SEALED_UNTOUCHED"
+      ]
+    },
+    "producer_iteration_4_verification": {
+      "timestamp": "2026-06-15T18:43:14+03:00",
+      "result": "FAIL: F1 236/500 (47.2%), F3 253/500 (50.6%), T6 failed due F3 wrong rate 19.8%; F5 PASS 438/500 (87.6%) with 0.6% wrong; all other T gates PASS",
+      "source": "runs/semantic_internalizer/results/verdict.json",
+      "diagnosis": "Standard V15 language supports F5 form generalization but does not create F1/F3 semantic abstraction."
+    },
+    "producer_iteration_5_plan": {
+      "status": "contract_frozen_before_implementation",
+      "type": "four-fold leave-one-form-out F1/F3 semantic curriculum plus final F5 head",
+      "evaluation": "Each of four F1/F3 form indices is evaluated only in the fold where absent from training; final all-curriculum head evaluated on F5 n=500 seed 20261225 and a new ambiguous set n=200 seed 20261236.",
+      "frozen_gates": [
+        "C0_FORM_HOLDOUT",
+        "C1_REAL_OPTIMIZATION",
+        "C2_F1_OUT_OF_FOLD",
+        "C3_F3_OUT_OF_FOLD",
+        "C4_OUT_OF_FOLD_WRONG",
+        "C5_F5_FINAL",
+        "C6_AMBIGUOUS_HONESTY",
+        "C7_ADAPTER_REQUIRED",
+        "C8_FROZEN_SUBSTRATE",
+        "C9_DETERMINISTIC",
+        "C10_SEALED_UNTOUCHED"
+      ]
+    },
+    "producer_iteration_5_verification": {
+      "timestamp": "2026-06-15T18:49:15+03:00",
+      "result": "FAIL: C2 F1 out-of-fold 369/528 (69.9%); all other C gates PASS, including F3 87.7%, F5 94.2%, ambiguity 100%, wrong rates <=0.4%",
+      "source": "runs/semantic_curriculum/results/verdict.json",
+      "diagnosis": "Raw pooled token features solve held-out lexical aliases but remain order-insensitive and fail unseen F1 syntax."
+    },
+    "producer_iteration_6_plan": {
+      "status": "verified_all_11_gates_pass",
+      "type": "frozen contextual decoder feature backend with unchanged semantic curriculum",
+      "claim_guard": "F1 forms were used in development-only contextual feasibility diagnosis; successor verdict is architecture regression measurement, not independent proof.",
+      "frozen_gates": [
+        "D0_FORM_HOLDOUT",
+        "D1_F1_CONTEXTUAL_OUT_OF_FOLD",
+        "D2_F3_CONTEXTUAL_OUT_OF_FOLD",
+        "D3_F5_CONTEXTUAL_FINAL",
+        "D4_WRONG_INTERPRETATION",
+        "D5_AMBIGUOUS_HONESTY",
+        "D6_ADAPTER_REQUIRED",
+        "D7_FROZEN_SUBSTRATE",
+        "D8_DETERMINISTIC",
+        "D9_MEMORY_BYPASS",
+        "D10_SEALED_UNTOUCHED"
+      ]
+    },
+    "query_side_contextual_seal": {
+      "status": "sealed",
+      "timestamp": "2026-06-15T18:57:17+03:00",
+      "source": "runs/semantic_contextual/results/verdict.json",
+      "seal_document": "steps/14_v15_7b_semantic_adapter/SEAL.md",
+      "result": "PASS: 11/11 contextual gates",
+      "metrics": {
+        "F1_out_of_fold": "451/528 (85.4%), wrong 0.0%",
+        "F3_out_of_fold": "474/528 (89.8%), wrong 0.0%",
+        "F5_final": "463/500 (92.6%), wrong 0.2%",
+        "ambiguous_abstention": "200/200 (100%)"
+      },
+      "invariants": [
+        "All emissions accepted through adapter as QUERY_ONLY",
+        "No memory read/write in contextual feature path",
+        "Loaded substrate state byte-identical and zero trainable substrate parameters",
+        "Pas 7a sealed source SHA-256 unchanged"
+      ],
+      "claim_guard": "Query-side architecture regression measurement in one local environment; not fact-side internalization, end-to-end memory improvement, open-domain proof, or semantic-memory advantage."
+    },
+    "query_side_contextual_final_verification": {
+      "timestamp": "2026-06-15T18:59:21+03:00",
+      "semantic_adapter": "PASS: 10/10 gates",
+      "pytest": "PASS: 31/31",
+      "integration": "PASS: 16 WIRED, 0 NOT_WIRED, 0 DUPLICATE",
+      "python_compile": "PASS",
+      "json_validation": "PASS",
+      "git_diff_check": "PASS; line-ending warnings only",
+      "seal_hashes_verified": "PASS"
+    }
+  },
+  "step_15_v15_7b_read_only_bridge": {
+    "status": "bridge_verified_end_to_end_integration_blocked",
+    "path": "steps/15_v15_7b_read_only_bridge/",
+    "purpose": "Pure read-only routing bridge from adapter-approved semantic query interpretations to canonical memory-read queries, followed by a frozen neural-memory bridge-readiness evaluation.",
+    "invariants": [
+      "Pas 7a sealed source untouched",
+      "Semantic adapter, producer, and contextual evaluator sealed sources untouched",
+      "Accepted QUERY_ONLY decisions are the only routable input",
+      "Every rejection or abstention preserves the original query exactly",
+      "Bridge has no memory/model/read/write/commit/provisional/consolidator dependency"
+    ],
+    "frozen_evaluation": {
+      "trials_per_family": 200,
+      "seed": 20261315,
+      "families": [
+        "F1_novel_paraphrase_syntax",
+        "F3_novel_lexical_alias",
+        "F5_novel_query_forms",
+        "S5_conflict_intercalated",
+        "S6_entity_competition_cross"
+      ],
+      "memory_model": "D_Cortex-main/runs/memory_campaign/results/best_model.pt",
+      "query_substrate": "D_Cortex-main/runs/warmstart/warmstarted_init.pt",
+      "semantic_heads": "runs/semantic_contextual/results/*_best_head.pt",
+      "claim_guard": "Bridge-readiness experiment on the locally executable neural working-memory path; not Pas 7a committed/provisional integration."
+    },
+    "frozen_gates": [
+      "B0_SEALS_UNTOUCHED",
+      "B1_ACCEPTED_QUERY_ONLY",
+      "B2_NO_MUTATION_API",
+      "B3_FALLBACK_EQUIVALENCE",
+      "B4_DETERMINISTIC_ROUTE",
+      "B5_MISMATCH_REJECTED",
+      "B6_SEMANTIC_ROUTE_QUALITY",
+      "B7_END_TO_END_UPLIFT",
+      "B8_NO_FAMILY_HARM",
+      "B9_FACT_WRITE_INVARIANCE",
+      "B10_READ_ONLY_STATE",
+      "B11_S5_S6_HONESTY",
+      "B12_SEALED_SAMPLE"
+    ],
+    "frozen_source_hashes": {
+      "pas7a": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3",
+      "semantic_adapter": "719afbe8359af4ee98006e0fa19f169a0a40f22ee0cc41e5dc1459d6e07e605e",
+      "semantic_producer": "24797a121c90f78161518362f0401bbc1b161546e87bac194adb4144f4aa67d0",
+      "semantic_contextual_evaluator": "bab8ec1268d5000d5a9da5ae5946d29946822efa9a6b0b3ce53be59052631b57"
+    },
+    "first_frozen_verdict": {
+      "timestamp": "2026-06-15T19:12:02+03:00",
+      "source": "runs/semantic_bridge_end_to_end/results/verdict.json",
+      "artifact_sha256": "3ca8397eacbfe47301d9a7659466403e54527271e808959667bbfb6fba0a32a2",
+      "result": "FAIL: B7_END_TO_END_UPLIFT and B11_S5_S6_HONESTY; all other B gates PASS",
+      "semantic_route_quality": {
+        "F1": "88.5%, wrong 0.0%",
+        "F3": "93.5%, wrong 0.0%",
+        "F5": "94.5%, wrong 0.0%"
+      },
+      "neural_memory_recall": {
+        "F1": "13.0% baseline -> 13.5% routed",
+        "F3": "36.0% baseline -> 36.0% routed",
+        "F5": "36.5% baseline -> 36.5% routed"
+      },
+      "honesty": "S5/S6 routed honesty 0.0%/0.0%; overcommit 100%/100%",
+      "diagnosis": "Accurate query interpretations do not repair downstream fact/value emission or add refusal semantics to the neural reader."
+    }
+  },
+  "step_16_v15_7b_fact_provisional": {
+    "status": "honest_partial_coverage_gate_failed",
+    "path": "steps/16_v15_7b_fact_provisional/",
+    "purpose": "Leave-one-form-out contextual semantic fact producer whose only allowed output is an adapter-approved provisional candidate.",
+    "invariants": [
+      "Every emission is FACT and PROVISIONAL_ONLY",
+      "No direct committed-memory write",
+      "Attribute-qualified value must agree with independently selected attribute",
+      "Pas 7a and query-side sealed sources untouched",
+      "Frozen contextual substrate, trainable heads only"
+    ],
+    "frozen_gates": [
+      "F0_FORM_HOLDOUT",
+      "F1_REAL_OPTIMIZATION",
+      "F2_FACT_OUT_OF_FOLD",
+      "F3_WRONG_PROVISIONAL",
+      "F4_AMBIGUOUS_HONESTY",
+      "F5_ADAPTER_PROVISIONAL_ONLY",
+      "F6_NO_DIRECT_COMMIT",
+      "F7_FROZEN_SUBSTRATE",
+      "F8_DETERMINISTIC",
+      "F9_SEALS_UNTOUCHED",
+      "F10_ANTI_INFLATION"
+    ],
+    "claim_guard": "Fact-side provisional hypothesis experiment only; not Pas 7a ingestion, promotion, committed-memory improvement, or open-domain proof.",
+    "first_frozen_verdict": {
+      "timestamp": "2026-06-15T19:22:25+03:00",
+      "source": "runs/semantic_fact_curriculum/results/verdict.json",
+      "artifact_sha256": "185e8f102449c69b2a1bad08afde475ac8319aed23da15dae41cd712499185d3",
+      "result": "FAIL: F2_FACT_OUT_OF_FOLD 1199/2000 (60.0%); all other F gates PASS",
+      "wrong_provisional": "22/2000 (1.1%)",
+      "ambiguity_abstention": "2400/2400 (100%)",
+      "adapter_provisional_only": "1221/1221",
+      "diagnosis": "Global attribute-qualified value decoding redundantly disagrees with the separately accepted attribute and causes conservative abstention."
+    }
+  },
+  "step_17_v15_7b_conditioned_fact": {
+    "status": "negative_verdict_branch_stopped",
+    "path": "steps/17_v15_7b_conditioned_fact/",
+    "purpose": "Constrain existing value probabilities to the accepted attribute plus UNKNOWN_VALUE, with unchanged heads and margins, then evaluate a newly frozen sample.",
+    "frozen_policy": {
+      "new_trials_per_fold": 500,
+      "heldout_seeds": "20261450..20261453",
+      "ambiguity_trials": 600,
+      "ambiguity_seed": 20261460,
+      "entity_margin": 0.0,
+      "attribute_margin": 0.4,
+      "value_margin": 0.4
+    },
+    "frozen_gates": [
+      "K0_PREDECESSOR_PRESERVED",
+      "K1_NEW_SAMPLE_HOLDOUT",
+      "K2_CONDITIONED_ACCURACY",
+      "K3_WRONG_PROVISIONAL",
+      "K4_AMBIGUOUS_HONESTY",
+      "K5_COVERAGE_UPLIFT",
+      "K6_ADAPTER_PROVISIONAL_ONLY",
+      "K7_FROZEN_SUBSTRATE",
+      "K8_SEALS_UNTOUCHED",
+      "K9_NO_DIRECT_COMMIT"
+    ],
+    "claim_guard": "Architecture regression on the same F1 form families with a new frozen sample; not independent or open-domain proof.",
+    "verification": {
+      "timestamp": "2026-06-15T19:28:26+03:00",
+      "source": "runs/semantic_fact_conditioned/results/verdict.json",
+      "artifact_sha256": "d90802aaed7e77627bbba7ccb9e19ec170b32bb148131ab8f60f06fab7fa49bb",
+      "result": "FAIL: 7 PASS, 3 FAIL",
+      "conditioned_accuracy": "1211/2000 (60.6%)",
+      "wrong_provisional": "76/2000 (3.8%)",
+      "coverage_uplift": "+0.2pp (60.4% to 60.6%)",
+      "ambiguity_abstention": "2400/2400 (100%)",
+      "diagnosis": "Post-hoc conditioning amplifies weak matching-attribute values and does not create missing role-binding evidence."
+    }
+  },
+  "step_18_v15_7b_semantic_object_read": {
+    "status": "honest_partial_referent_honesty_open",
+    "path": "steps/18_v15_7b_semantic_object_read/",
+    "purpose": "Read immutable epistemic object-memory snapshots directly from adapter-approved semantic query coordinates, with no textual reroute or parser.",
+    "frozen_policy": {
+      "trials_per_family": 200,
+      "sample_seed": 20261480,
+      "families": [
+        "F1",
+        "F3",
+        "F5",
+        "S5",
+        "S6"
+      ],
+      "known_family_snapshots": "pre-populated committed target slot; query-side isolation",
+      "reader_input": "accepted semantic coordinate only",
+      "pas7a_runtime_claim": "explicitly not claimed"
+    },
+    "frozen_gates": [
+      "O0_ACCEPTED_QUERY_ONLY",
+      "O1_DIRECT_COORDINATE",
+      "O2_SNAPSHOT_IMMUTABLE",
+      "O3_F1_F3_F5_CORRECT",
+      "O4_WRONG_READ",
+      "O5_S5_DISPUTE_HONESTY",
+      "O6_S6_REFERENT_HONESTY",
+      "O7_NO_MUTATION_PATH",
+      "O8_DETERMINISTIC",
+      "O9_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "Direct semantic object-read contract only; not Pas 7a runtime integration, fact-side writing, consolidation, open-domain proof, or proven semantic-memory advantage.",
+    "verification": {
+      "timestamp": "2026-06-15T19:39:32+03:00",
+      "source": "runs/semantic_object_read/results/verdict.json",
+      "artifact_sha256": "13d0df32d6d4de17446c7a09dddf048108866cc051a5a95fd7058ff5eb63efa2",
+      "result": "FAIL: 8 PASS, 2 FAIL",
+      "known_correct": "F1 169/200 (84.5%); F3 182/200 (91.0%); F5 187/200 (93.5%)",
+      "known_wrong_reads": "0/200 each",
+      "S5": "100% honest, 0% overcommit",
+      "S6": "93.5% honest, 13/200 (6.5%) overcommit",
+      "diagnosis": "Pronoun-only queries can receive arbitrary approved entity coordinates; explicit referent grounding is required before object-memory access."
+    }
+  },
+  "step_19_v15_7b_referent_grounding": {
+    "status": "absolute_safety_target_met_frozen_uplift_gate_failed",
+    "path": "steps/19_v15_7b_referent_grounding/",
+    "purpose": "Require explicit source-text evidence for an approved semantic entity coordinate before direct object-memory access.",
+    "frozen_policy": {
+      "trials_per_family": 200,
+      "sample_seed": 20261500,
+      "grounding": "contiguous normalized entity-token sequence in hypothesis source_text",
+      "aliases": "forbidden",
+      "F1_coverage": "remains outside this safety target"
+    },
+    "frozen_gates": [
+      "H0_PREDECESSOR_PRESERVED",
+      "H1_EXPLICIT_EVIDENCE_ONLY",
+      "H2_S6_OVERCOMMIT",
+      "H3_S6_UPLIFT",
+      "H4_KNOWN_NO_REGRESSION",
+      "H5_S5_PRESERVED",
+      "H6_IMMUTABLE_DETERMINISTIC",
+      "H7_NO_MUTATION_PATH",
+      "H8_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "Referent-grounding safety only; does not close F1 coverage, prove general coreference resolution, or establish Pas 7a runtime integration.",
+    "verification": {
+      "timestamp": "2026-06-15T19:44:57+03:00",
+      "source": "runs/semantic_referent_grounding/results/verdict.json",
+      "artifact_sha256": "c2284d0c348235722c8770b7cf5fd91b8c84ac63b1b23f4b843991b314adcfd7",
+      "result": "FAIL: 8 PASS, 1 FAIL",
+      "absolute_S6": "200/200 honest, 0/200 overcommit",
+      "S6_uplift": "+3.5pp (96.5% to 100.0%), below frozen +5pp gate",
+      "known_no_regression": "F1/F3/F5 correct rates and 0% wrong reads preserved",
+      "S5": "100% honesty preserved",
+      "decision": "Threshold unchanged; sample not rerun; branch stopped as verified safety improvement without all-gates seal."
+    }
+  },
+  "step_20_v15_7b_role_binding_benchmark": {
+    "status": "sealed_non_trivial_benchmark",
+    "path": "steps/20_v15_7b_role_binding_benchmark/",
+    "purpose": "Validate a fact-side role-binding benchmark where lexical inventory is insufficient to determine the exact entity-value mapping.",
+    "frozen_policy": {
+      "records_per_family": 400,
+      "sample_seed": 20261520,
+      "known_families": 4,
+      "ambiguous_families": 1,
+      "model_evaluation": "none"
+    },
+    "frozen_gates": [
+      "RB0_DETERMINISTIC",
+      "RB1_STRUCTURE",
+      "RB2_AMBIGUITY",
+      "RB3_NO_DUPLICATE_TEXT",
+      "RB4_LEXICAL_NON_TRIVIAL",
+      "RB5_NO_TRIVIAL_SAFE_WIN",
+      "RB6_SAFE_ABSTAIN_COST",
+      "RB7_SEALED_SOURCE"
+    ],
+    "claim_guard": "Benchmark non-triviality only; does not demonstrate a semantic fact internalizer or memory improvement.",
+    "verification": {
+      "timestamp": "2026-06-15T19:49:55+03:00",
+      "source": "runs/semantic_role_binding_benchmark/results/verdict.json",
+      "artifact_sha256": "c4dcd47d471d679fa20e78e178943599d2cda383e9fbcc23b5bcde39fe1bb876",
+      "sample_source": "runs/semantic_role_binding_benchmark/results/sample.json",
+      "sample_file_sha256": "2c4a2dd117535b6ee7929bbb1c9882eddd95ab50fd97c4b1a343a9c196fd3625",
+      "sample_hash": "7e1d681c84ceb728fa92cf04e7c463605fd1e9a2af720e01875de45d843a956a",
+      "result": "PASS: 8/8 gates",
+      "best_non_abstaining_lexical": "minimum_distance 593/1600 (37.1%)",
+      "safe_abstain": "0% known coverage, 0% ambiguity overcommit"
+    }
+  },
+  "step_21_v15_7b_role_binder": {
+    "status": "negative_verdict_pooled_candidate_branch_stopped",
+    "path": "steps/21_v15_7b_role_binder/",
+    "purpose": "Train a conservative assignment scorer over frozen contextual features and emit only adapter-approved provisional role-bound facts.",
+    "frozen_policy": {
+      "predecessor": "sealed RB0 sample",
+      "split": "70/15/15 deterministic text-hash",
+      "candidate_views": [
+        "identity",
+        "swapped",
+        "unresolved"
+      ],
+      "hidden_width": 256,
+      "training_seed": 20261530,
+      "margin_calibration": "validation only; smallest 0.05 grid value with ambiguity overcommit <=2%"
+    },
+    "frozen_gates": [
+      "J0_RB0_PRESERVED",
+      "J1_SPLIT_SEPARATION",
+      "J2_REAL_OPTIMIZATION",
+      "J3_TEST_EXACT_BINDING",
+      "J4_TEST_WRONG_MAPPING",
+      "J5_AMBIGUOUS_HONESTY",
+      "J6_LEXICAL_UPLIFT",
+      "J7_ADAPTER_PROVISIONAL_ONLY",
+      "J8_FROZEN_SUBSTRATE",
+      "J9_NO_DIRECT_COMMIT",
+      "J10_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "Controlled development-exposed role-binding measurement on held-out texts/identifiers with seen syntax families; not unseen-syntax, open-domain, Pas 7a ingestion, or committed-memory proof.",
+    "verification": {
+      "timestamp": "2026-06-15T20:03:22+03:00",
+      "source": "runs/semantic_role_binder/results/verdict.json",
+      "corrected_artifact_sha256": "92035e5d8148ead5d03d3ba5fac571bc646103ee1acd8a2677216e07d30c0b6f",
+      "trained_head_sha256": "0ee30342cf9ca9b1b942e16b60b7b684489fa93f9bbd93fcc1f79346d333313d",
+      "result": "FAIL after harness-only J10 correction: 8 PASS, 3 FAIL",
+      "known_exact": "124/256 (48.4%)",
+      "known_wrong": "132/256 (51.6%)",
+      "ambiguity_abstention": "57/57 (100%)",
+      "lexical_uplift": "+11.7pp",
+      "diagnosis": "Pooled complete-candidate views learn unresolved detection but leave identity versus swapped assignment near chance."
+    }
+  },
+  "step_22_v15_7b_role_conditioned_binding": {
+    "status": "sealed_controlled_role_binding_submilestone",
+    "path": "steps/22_v15_7b_role_conditioned_binding/",
+    "purpose": "Test token-level candidate-conditioned relational evidence after RB1 pooled features failed identity-versus-swapped binding.",
+    "frozen_policy": {
+      "predecessors": "sealed RB0 sample and corrected frozen RB1 verdict",
+      "split": "unchanged RB1 70/15/15 deterministic text-hash",
+      "role_labels": [
+        "NONE",
+        "ENTITY_A",
+        "VALUE_A",
+        "ENTITY_B",
+        "VALUE_B"
+      ],
+      "context": "frozen final D_Cortex decoder-standard token states",
+      "projection_width": 128,
+      "role_embedding_width": 32,
+      "sequence_model": "one bidirectional GRU layer, hidden 128 per direction, masked attention pooling",
+      "training_seed": 20261540,
+      "margin_calibration": "validation only; smallest 0.05 grid value with ambiguity overcommit <=2%"
+    },
+    "frozen_gates": [
+      "L0_PREDECESSORS_PRESERVED",
+      "L1_SPLIT_SEPARATION",
+      "L2_ROLE_MASK_INTEGRITY",
+      "L3_REAL_OPTIMIZATION",
+      "L4_TEST_EXACT_BINDING",
+      "L5_TEST_WRONG_MAPPING",
+      "L6_AMBIGUOUS_HONESTY",
+      "L7_RB1_UPLIFT",
+      "L8_LEXICAL_UPLIFT",
+      "L9_ADAPTER_PROVISIONAL_ONLY",
+      "L10_FROZEN_SUBSTRATE",
+      "L11_NO_HANDWRITTEN_RELATION_OR_COMMIT",
+      "L12_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "Controlled development-exposed token-level role-binding measurement on held-out texts/identifiers with seen syntax families; not unseen-syntax, open-domain, Pas 7a ingestion, committed-memory, or end-to-end memory proof.",
+    "verification": {
+      "timestamp": "2026-06-15T20:14:04+03:00",
+      "source": "runs/semantic_role_conditioned/results/verdict.json",
+      "artifact_sha256": "e370695d2bce6c6843e8b4514a31e3e37c3e14a78e8eabe7879d9250a1b54705",
+      "trained_head_sha256": "44d3c2b6ea4ddcba57b19905cfd031c95957a16ee18c3c6fc357bfedd7a61613",
+      "result": "PASS: 13/13 gates",
+      "known_exact": "256/256 (100%)",
+      "known_wrong": "0/256 (0%)",
+      "ambiguity_abstention": "57/57 (100%)",
+      "rb1_uplift": "+51.6pp",
+      "lexical_uplift": "+63.3pp"
+    }
+  },
+  "step_23_v15_7b_syntax_holdout": {
+    "status": "negative_generalization_verdict_memory_integration_blocked",
+    "path": "steps/23_v15_7b_syntax_holdout/",
+    "purpose": "Test whether the sealed RB2 role-conditioned architecture generalizes binding to an unseen syntax construction family.",
+    "frozen_policy": {
+      "folds": [
+        "RB1",
+        "RB2",
+        "RB3",
+        "RB4"
+      ],
+      "heldout": "one complete known family absent from train and validation per fold",
+      "seen_family_split": "frozen RB1 text-hash train/validation partitions",
+      "ambiguity_split": "frozen RB1 RB5 train/validation/test partitions",
+      "architecture": "sealed RB2 unchanged",
+      "margin_calibration": "per-fold validation only; smallest 0.05 grid value with ambiguity overcommit <=2%"
+    },
+    "frozen_gates": [
+      "M0_PREDECESSORS_PRESERVED",
+      "M1_SYNTAX_FAMILY_HOLDOUT",
+      "M2_ROLE_MASK_INTEGRITY",
+      "M3_REAL_OPTIMIZATION",
+      "M4_UNSEEN_SYNTAX_BINDING",
+      "M5_WRONG_MAPPING",
+      "M6_AMBIGUOUS_HONESTY",
+      "M7_LEXICAL_UPLIFT",
+      "M8_ADAPTER_PROVISIONAL_ONLY",
+      "M9_FROZEN_SUBSTRATE",
+      "M10_NO_HANDWRITTEN_RELATION_OR_COMMIT",
+      "M11_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "Leave-one-construction-family-out generalization over four controlled synthetic families; not open-domain language understanding, Pas 7a ingestion, committed-memory, or end-to-end memory proof.",
+    "verification": {
+      "timestamp": "2026-06-15T20:20:25+03:00",
+      "source": "runs/semantic_syntax_holdout/results/verdict.json",
+      "artifact_sha256": "a6551156e655b714ceb7360c9792c55a69ffde4de20944c0757011dba8cd22c4",
+      "result": "FAIL: 9 PASS, 3 FAIL",
+      "aggregate_exact": "911/1600 (56.9%)",
+      "aggregate_wrong": "503/1600 (31.4%)",
+      "minimum_family_exact": "RB2 157/400 (39.2%)",
+      "ambiguity_abstention": "100% in every fold",
+      "lexical_uplift": "+19.9pp",
+      "decision": "Memory ingestion blocked; no further tuning on the same four syntax families."
+    }
+  },
+  "step_24_v15_7b_independent_role_corpus": {
+    "status": "data_prerequisite_frozen_no_model_code_justified",
+    "path": "steps/24_v15_7b_independent_role_corpus/",
+    "purpose": "Require an independently sourced and auditable construction-separated role-binding corpus before further model training or memory ingestion.",
+    "frozen_policy": {
+      "source_independence": "constructions not derived from RB0-RB3 templates",
+      "required_fields": [
+        "source_text",
+        "entity_inventory",
+        "value_inventory",
+        "attribute",
+        "exact_mapping_or_ambiguity",
+        "construction_family",
+        "provenance"
+      ],
+      "split": "construction-family disjoint train/validation/evaluation",
+      "duplicate_policy": "no exact or normalized structural overlap",
+      "model_training": "forbidden until corpus gate passes"
+    },
+    "frozen_gates": [
+      "N0_PREDECESSORS_PRESERVED",
+      "N1_PROVENANCE",
+      "N2_CONSTRUCTION_SEPARATION",
+      "N3_LABEL_STRUCTURE",
+      "N4_NO_DUPLICATE_LEAKAGE",
+      "N5_NON_TRIVIAL_BASELINES",
+      "N6_AMBIGUITY_AUDIT",
+      "N7_DATA_ONLY",
+      "N8_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "Independent corpus audit only; no model capability, memory integration, or semantic advantage claim."
+  },
+  "milestone_branch_checkpoint_2026_06_15_rb2_rb3": {
+    "status": "committed_pending_final_hash_report",
+    "timestamp": "2026-06-15T21:01:30+03:00",
+    "branch": "milestone/rb2-rb3-verified",
+    "purpose": "Checkpoint the verified RB2 seen-syntax success and RB3 unseen-syntax failure on a separate git branch without implying generalization.",
+    "repo": "e:\\proiecte_active\\D_Cortex\\dcortex_repo",
+    "target_sync": "D_Cortex-main has no git; semantic source files and RB2/RB3 verdict artifacts were synchronized and verified there before this branch checkpoint.",
+    "include_policy": "Commit source, tests, docs, steps, project memory, and forced JSON verdict artifacts needed for verification; exclude .pt/.bin and other large ignored binaries.",
+    "claim_guard": "Checkpoint records both RB2 success and RB3 failure; memory integration remains blocked pending RB4 independent corpus gate.",
+    "precommit_verification": {
+      "timestamp": "2026-06-15T21:02:36+03:00",
+      "pytest": "PASS: 68/68",
+      "compileall": "PASS",
+      "integration": "PASS: 22 WIRED, 0 NOT_WIRED, 0 DUPLICATE",
+      "json_validation": "PASS",
+      "staged_files": 106,
+      "large_or_binary_staged": "none over 20MB; no .pt/.bin",
+      "forced_run_json_artifacts": 17,
+      "rb2_verdict_sha256": "e370695d2bce6c6843e8b4514a31e3e37c3e14a78e8eabe7879d9250a1b54705",
+      "rb3_verdict_sha256": "a6551156e655b714ceb7360c9792c55a69ffde4de20944c0757011dba8cd22c4"
+    },
+    "commit_message": "milestone: seal RB2 seen-syntax and RB3 holdout verdicts",
+    "post_commit_note": "Branch checkpoint commit created; final amended hash is reported from git rev-parse after this memory update."
   }
 }

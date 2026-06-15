@@ -164,34 +164,41 @@ def test_double_save_guard() -> None:
 
 # ======================== TEST 4: EPISODE_SSM TRACKING ======================
 
-def test_episode_ssm_grouping(model: nn.Module) -> None:
+def verify_episode_ssm_grouping(model: nn.Module) -> None:
     groups = {
-        'embeddings': [], 'standard_blocks': [], 'fusion_blocks': [],
-        'query_engine': [], 'readers': [], 'read_fusion': [],
-        'writer': [], 'episode_ssm': [], 'lm_head': [],
+        'shared_embeddings': [], 'shared_addressing': [], 'auxiliary': [],
+        'encoder_backbone': [], 'writer': [], 'episode_ssm': [],
+        'decoder_embeddings': [], 'standard_blocks': [], 'fusion_blocks': [],
+        'readers': [], 'read_fusion': [], 'lm_head': [],
     }
     for name, p in model.named_parameters():
         if not p.requires_grad:
             continue
-        if name.startswith('embeddings'):
-            groups['embeddings'].append((name, p))
-        elif name.startswith('standard_blocks'):
-            groups['standard_blocks'].append((name, p))
-        elif name.startswith('fusion_blocks'):
-            groups['fusion_blocks'].append((name, p))
-        elif name.startswith('query_engine'):
-            groups['query_engine'].append((name, p))
-        elif any(name.startswith(r) for r in
-                 ('state_reader', 'episode_reader', 'conflict_reader',
-                  'archive_reader', 'working_reader')):
-            groups['readers'].append((name, p))
-        elif name.startswith('read_fusion'):
-            groups['read_fusion'].append((name, p))
-        elif name.startswith('writer'):
+        if name.startswith(('shared_token_emb', 'shared_pos_emb')):
+            groups['shared_embeddings'].append((name, p))
+        elif name.startswith(('shared_query_engine', 'shared_address_encoder')):
+            groups['shared_addressing'].append((name, p))
+        elif name.startswith(('aux_answer_head', 'value_to_key_proj')):
+            groups['auxiliary'].append((name, p))
+        elif name.startswith(('encoder.emb_norm', 'encoder.blocks', 'encoder.final_norm')):
+            groups['encoder_backbone'].append((name, p))
+        elif name.startswith('encoder.writer'):
             groups['writer'].append((name, p))
-        elif name.startswith('episode_ssm'):
+        elif name.startswith('encoder.episode_ssm'):
             groups['episode_ssm'].append((name, p))
-        elif name.startswith('lm_head') or name.startswith('final_norm'):
+        elif name.startswith('dec_emb_norm'):
+            groups['decoder_embeddings'].append((name, p))
+        elif name.startswith('dec_standard_blocks'):
+            groups['standard_blocks'].append((name, p))
+        elif name.startswith('dec_fusion_blocks'):
+            groups['fusion_blocks'].append((name, p))
+        elif any(name.startswith(r) for r in
+                 ('dec_state_reader', 'dec_episode_reader', 'dec_conflict_reader',
+                  'dec_archive_reader', 'dec_working_reader')):
+            groups['readers'].append((name, p))
+        elif name.startswith('dec_read_fusion'):
+            groups['read_fusion'].append((name, p))
+        elif name.startswith(('dec_lm_head', 'dec_final_norm')):
             groups['lm_head'].append((name, p))
 
     assigned = sum(len(v) for v in groups.values())
@@ -214,7 +221,7 @@ def test_episode_ssm_grouping(model: nn.Module) -> None:
 
 # ======================== TEST 5: CONFLICT DIFF-VECTOR =====================
 
-def test_conflict_diff_vector(model: nn.Module, cfg: DCortexConfig) -> None:
+def verify_conflict_diff_vector(model: nn.Module, cfg: DCortexConfig) -> None:
     """FIX-5: verify that is_conflict=True stores (v_new - v_existing)."""
     D = cfg.hidden_dim
     d_ent, d_rel, d_typ = cfg.d_ent, cfg.d_rel, cfg.d_typ
@@ -234,10 +241,11 @@ def test_conflict_diff_vector(model: nn.Module, cfg: DCortexConfig) -> None:
 
     # Fresh test bank with v1
     test_bank = model.state_mem.__class__(8, D, d_ent, d_rel, d_typ).to(device)
-    model.updater.update(test_bank, v1, k_ent_1, k_rel, k_typ, step=1)
+    updater = model.encoder.updater
+    updater.update(test_bank, v1, k_ent_1, k_rel, k_typ, step=1)
     assert test_bank.n_occupied() == 1
 
-    is_conflict = model.updater.detect_conflict(
+    is_conflict = updater.detect_conflict(
         test_bank, v2, k_ent_2, k_rel, k_typ,
     )
 
@@ -248,7 +256,7 @@ def test_conflict_diff_vector(model: nn.Module, cfg: DCortexConfig) -> None:
     assert is_conflict, "high key_sim + low value_sim must trigger conflict"
 
     v1_before = test_bank.values[0].clone()
-    model.updater.update(
+    updater.update(
         test_bank, v2, k_ent_2, k_rel, k_typ,
         step=2, is_conflict=True,
     )
@@ -263,14 +271,14 @@ def test_conflict_diff_vector(model: nn.Module, cfg: DCortexConfig) -> None:
 
     # EMA path
     test_bank.reset()
-    model.updater.update(test_bank, v1, k_ent_1, k_rel, k_typ, step=3)
+    updater.update(test_bank, v1, k_ent_1, k_rel, k_typ, step=3)
     v1_stored = test_bank.values[0].clone()
-    model.updater.update(
+    updater.update(
         test_bank, v2, k_ent_2, k_rel, k_typ,
         step=4, is_conflict=False,
     )
     ema_val = test_bank.values[0]
-    alpha = model.updater.ema_alpha
+    alpha = updater.ema_alpha
     expected_ema = (1.0 - alpha) * v1_stored + alpha * v2
     ema_cos = F.cosine_similarity(
         ema_val.unsqueeze(0), expected_ema.unsqueeze(0),
@@ -278,6 +286,17 @@ def test_conflict_diff_vector(model: nn.Module, cfg: DCortexConfig) -> None:
     print(f"  EMA cosine vs expected   : {ema_cos:.4f}  (threshold >0.99)")
     assert ema_cos > 0.99, f"EMA not applied correctly: cos={ema_cos}"
     print("  ✓ EMA update correct")
+
+
+def test_episode_ssm_grouping() -> None:
+    """Validate current dual-agent parameter grouping under pytest."""
+    verify_episode_ssm_grouping(DCortexV2Model(DCortexConfig().small_test()))
+
+
+def test_conflict_diff_vector() -> None:
+    """Validate conflict-memory updates under pytest."""
+    cfg = DCortexConfig().small_test()
+    verify_conflict_diff_vector(DCortexV2Model(cfg), cfg)
 
 
 # ======================== TEST 6: CURRICULUM BATCH PACKING ==================
@@ -339,8 +358,8 @@ def main() -> None:
     cfg = DCortexConfig().small_test()
     model = DCortexV2Model(cfg)
 
-    test_episode_ssm_grouping(model)
-    test_conflict_diff_vector(model, cfg)
+    verify_episode_ssm_grouping(model)
+    verify_conflict_diff_vector(model, cfg)
 
     print("\n" + SEP)
     print("[INFO] ALL OFFLINE TESTS PASSED")

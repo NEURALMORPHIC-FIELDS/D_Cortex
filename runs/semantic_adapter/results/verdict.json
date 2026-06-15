@@ -1,0 +1,103 @@
+{
+  "verdict": [
+    {
+      "criterion_id": "G0_SEALED_UNTOUCHED",
+      "passed": true,
+      "evidence": "Pas 7a SHA-256 actual=25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3, frozen=25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3.",
+      "distribution": {
+        "actual": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3",
+        "frozen": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3"
+      }
+    },
+    {
+      "criterion_id": "G1_NO_DIRECT_COMMIT",
+      "passed": true,
+      "evidence": "Rejected 20/20 direct-commit requests.",
+      "distribution": {
+        "rejected": 20,
+        "total": 20
+      }
+    },
+    {
+      "criterion_id": "G2_PROVENANCE_REQUIRED",
+      "passed": true,
+      "evidence": "Rejected 20/20 missing-provenance hypotheses.",
+      "distribution": {
+        "rejected": 20,
+        "total": 20
+      }
+    },
+    {
+      "criterion_id": "G3_QUERY_READ_ONLY",
+      "passed": true,
+      "evidence": "Rejected 20/20 query-write attempts.",
+      "distribution": {
+        "rejected": 20,
+        "total": 20
+      }
+    },
+    {
+      "criterion_id": "G4_ANTI_INFLATION",
+      "passed": true,
+      "evidence": "Twenty same-episode submissions produced 1 distinct confirmation.",
+      "distribution": {
+        "submissions": 20,
+        "confirmation_count": 1
+      }
+    },
+    {
+      "criterion_id": "G5_LONGITUDINAL_CONFIRMATION",
+      "passed": true,
+      "evidence": "Two distinct episodes produced 2 confirmations.",
+      "distribution": {
+        "episodes": [
+          11,
+          12
+        ],
+        "confirmation_count": 2
+      }
+    },
+    {
+      "criterion_id": "G6_CONFLICT_PRESERVATION",
+      "passed": true,
+      "evidence": "Conflicting values preserved separately: ['blue', 'red'].",
+      "distribution": {
+        "values": [
+          "blue",
+          "red"
+        ]
+      }
+    },
+    {
+      "criterion_id": "G7_DETERMINISTIC_AUDIT",
+      "passed": true,
+      "evidence": "Repeated audit JSON byte-identical; bytes=816.",
+      "distribution": {
+        "byte_identical": true,
+        "bytes": 816
+      }
+    },
+    {
+      "criterion_id": "G8_ROUNDTRIP",
+      "passed": true,
+      "evidence": "SemanticHypothesis JSON roundtrip reconstructed exactly.",
+      "distribution": {
+        "exact": true
+      }
+    },
+    {
+      "criterion_id": "G9_INVALID_RANGE_REJECTED",
+      "passed": true,
+      "evidence": "Rejected 4/4 invalid-range hypotheses.",
+      "distribution": {
+        "rejected": 4,
+        "total": 4
+      }
+    }
+  ],
+  "reference": {
+    "scope": "Pas 7b explicit adapter contract only; no semantic producer and no Pas 7a modification.",
+    "claim_status": "MEASURED in current local session. Contract validation, not semantic-quality proof.",
+    "all_pass": true
+  }
+}

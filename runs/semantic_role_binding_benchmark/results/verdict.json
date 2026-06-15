@@ -1,0 +1,595 @@
+{
+  "verdict": [
+    {
+      "criterion_id": "RB0_DETERMINISTIC",
+      "passed": true,
+      "evidence": "Repeated sample construction exact=True; hash=7e1d681c84ceb728fa92cf04e7c463605fd1e9a2af720e01875de45d843a956a.",
+      "distribution": {
+        "hash_a": "7e1d681c84ceb728fa92cf04e7c463605fd1e9a2af720e01875de45d843a956a",
+        "hash_b": "7e1d681c84ceb728fa92cf04e7c463605fd1e9a2af720e01875de45d843a956a"
+      }
+    },
+    {
+      "criterion_id": "RB1_STRUCTURE",
+      "passed": true,
+      "evidence": "Known one-to-one structure=True; lexical inventory present=True.",
+      "distribution": {
+        "known_structure": true,
+        "ambiguous_structure": true,
+        "ontology_only": true,
+        "lexical_inventory_present": true
+      }
+    },
+    {
+      "criterion_id": "RB2_AMBIGUITY",
+      "passed": true,
+      "evidence": "Every ambiguous record has no committed truth mapping=True.",
+      "distribution": {
+        "known_structure": true,
+        "ambiguous_structure": true,
+        "ontology_only": true,
+        "lexical_inventory_present": true
+      }
+    },
+    {
+      "criterion_id": "RB3_NO_DUPLICATE_TEXT",
+      "passed": true,
+      "evidence": "Duplicate record texts=0.",
+      "distribution": {
+        "duplicates": 0,
+        "total": 2000
+      }
+    },
+    {
+      "criterion_id": "RB4_LEXICAL_NON_TRIVIAL",
+      "passed": true,
+      "evidence": "Best non-abstaining lexical baseline exact-known=37.1%.",
+      "distribution": {
+        "ordered_first_occurrence": {
+          "known_n": 1600,
+          "known_exact": 400,
+          "known_exact_rate": 0.25,
+          "known_coverage": 1600,
+          "known_coverage_rate": 1.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 400,
+          "ambiguous_overcommit_rate": 1.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 400,
+              "nonempty": 400,
+              "exact_rate": 1.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            }
+          }
+        },
+        "minimum_distance": {
+          "known_n": 1600,
+          "known_exact": 593,
+          "known_exact_rate": 0.370625,
+          "known_coverage": 1600,
+          "known_coverage_rate": 1.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 400,
+          "ambiguous_overcommit_rate": 1.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 400,
+              "nonempty": 400,
+              "exact_rate": 1.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 193,
+              "nonempty": 400,
+              "exact_rate": 0.4825
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            }
+          }
+        },
+        "lexical_cartesian": {
+          "known_n": 1600,
+          "known_exact": 0,
+          "known_exact_rate": 0.0,
+          "known_coverage": 1600,
+          "known_coverage_rate": 1.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 400,
+          "ambiguous_overcommit_rate": 1.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "criterion_id": "RB5_NO_TRIVIAL_SAFE_WIN",
+      "passed": true,
+      "evidence": "No baseline combines >=50% known exact with <=2% ambiguity overcommit=True.",
+      "distribution": {
+        "ordered_first_occurrence": {
+          "known_n": 1600,
+          "known_exact": 400,
+          "known_exact_rate": 0.25,
+          "known_coverage": 1600,
+          "known_coverage_rate": 1.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 400,
+          "ambiguous_overcommit_rate": 1.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 400,
+              "nonempty": 400,
+              "exact_rate": 1.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            }
+          }
+        },
+        "minimum_distance": {
+          "known_n": 1600,
+          "known_exact": 593,
+          "known_exact_rate": 0.370625,
+          "known_coverage": 1600,
+          "known_coverage_rate": 1.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 400,
+          "ambiguous_overcommit_rate": 1.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 400,
+              "nonempty": 400,
+              "exact_rate": 1.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 193,
+              "nonempty": 400,
+              "exact_rate": 0.4825
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            }
+          }
+        },
+        "lexical_cartesian": {
+          "known_n": 1600,
+          "known_exact": 0,
+          "known_exact_rate": 0.0,
+          "known_coverage": 1600,
+          "known_coverage_rate": 1.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 400,
+          "ambiguous_overcommit_rate": 1.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 400,
+              "exact_rate": 0.0
+            }
+          }
+        },
+        "safe_abstain": {
+          "known_n": 1600,
+          "known_exact": 0,
+          "known_exact_rate": 0.0,
+          "known_coverage": 0,
+          "known_coverage_rate": 0.0,
+          "ambiguous_n": 400,
+          "ambiguous_overcommit": 0,
+          "ambiguous_overcommit_rate": 0.0,
+          "per_family": {
+            "RB1": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 0,
+              "exact_rate": 0.0
+            },
+            "RB2": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 0,
+              "exact_rate": 0.0
+            },
+            "RB3": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 0,
+              "exact_rate": 0.0
+            },
+            "RB4": {
+              "n": 400,
+              "exact": 0,
+              "nonempty": 0,
+              "exact_rate": 0.0
+            },
+            "RB5": {
+              "n": 400,
+              "exact": 400,
+              "nonempty": 0,
+              "exact_rate": 1.0
+            }
+          }
+        }
+      }
+    },
+    {
+      "criterion_id": "RB6_SAFE_ABSTAIN_COST",
+      "passed": true,
+      "evidence": "Safe abstain ambiguity overcommit=0.0%; known coverage=0.0%.",
+      "distribution": {
+        "known_n": 1600,
+        "known_exact": 0,
+        "known_exact_rate": 0.0,
+        "known_coverage": 0,
+        "known_coverage_rate": 0.0,
+        "ambiguous_n": 400,
+        "ambiguous_overcommit": 0,
+        "ambiguous_overcommit_rate": 0.0,
+        "per_family": {
+          "RB1": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB2": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB3": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB4": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB5": {
+            "n": 400,
+            "exact": 400,
+            "nonempty": 0,
+            "exact_rate": 1.0
+          }
+        }
+      }
+    },
+    {
+      "criterion_id": "RB7_SEALED_SOURCE",
+      "passed": true,
+      "evidence": "Pas 7a sealed source unchanged=True; ontology-only sourcing=True.",
+      "distribution": {
+        "expected_hash": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3",
+        "actual_hash": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3",
+        "ontology_only": true
+      }
+    }
+  ],
+  "reference": {
+    "run_timestamp": "2026-06-15T19:49:55+03:00",
+    "sample_seed": 20261520,
+    "records_per_family": 400,
+    "sample_hash": "7e1d681c84ceb728fa92cf04e7c463605fd1e9a2af720e01875de45d843a956a",
+    "sample_path": "E:\\proiecte_active\\D_Cortex\\dcortex_repo\\runs\\semantic_role_binding_benchmark\\results\\sample.json",
+    "scores": {
+      "ordered_first_occurrence": {
+        "known_n": 1600,
+        "known_exact": 400,
+        "known_exact_rate": 0.25,
+        "known_coverage": 1600,
+        "known_coverage_rate": 1.0,
+        "ambiguous_n": 400,
+        "ambiguous_overcommit": 400,
+        "ambiguous_overcommit_rate": 1.0,
+        "per_family": {
+          "RB1": {
+            "n": 400,
+            "exact": 400,
+            "nonempty": 400,
+            "exact_rate": 1.0
+          },
+          "RB2": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB3": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB4": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB5": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          }
+        }
+      },
+      "minimum_distance": {
+        "known_n": 1600,
+        "known_exact": 593,
+        "known_exact_rate": 0.370625,
+        "known_coverage": 1600,
+        "known_coverage_rate": 1.0,
+        "ambiguous_n": 400,
+        "ambiguous_overcommit": 400,
+        "ambiguous_overcommit_rate": 1.0,
+        "per_family": {
+          "RB1": {
+            "n": 400,
+            "exact": 400,
+            "nonempty": 400,
+            "exact_rate": 1.0
+          },
+          "RB2": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB3": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB4": {
+            "n": 400,
+            "exact": 193,
+            "nonempty": 400,
+            "exact_rate": 0.4825
+          },
+          "RB5": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          }
+        }
+      },
+      "lexical_cartesian": {
+        "known_n": 1600,
+        "known_exact": 0,
+        "known_exact_rate": 0.0,
+        "known_coverage": 1600,
+        "known_coverage_rate": 1.0,
+        "ambiguous_n": 400,
+        "ambiguous_overcommit": 400,
+        "ambiguous_overcommit_rate": 1.0,
+        "per_family": {
+          "RB1": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB2": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB3": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB4": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          },
+          "RB5": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 400,
+            "exact_rate": 0.0
+          }
+        }
+      },
+      "safe_abstain": {
+        "known_n": 1600,
+        "known_exact": 0,
+        "known_exact_rate": 0.0,
+        "known_coverage": 0,
+        "known_coverage_rate": 0.0,
+        "ambiguous_n": 400,
+        "ambiguous_overcommit": 0,
+        "ambiguous_overcommit_rate": 0.0,
+        "per_family": {
+          "RB1": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB2": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB3": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB4": {
+            "n": 400,
+            "exact": 0,
+            "nonempty": 0,
+            "exact_rate": 0.0
+          },
+          "RB5": {
+            "n": 400,
+            "exact": 400,
+            "nonempty": 0,
+            "exact_rate": 1.0
+          }
+        }
+      }
+    },
+    "structure": {
+      "known_structure": true,
+      "ambiguous_structure": true,
+      "ontology_only": true,
+      "lexical_inventory_present": true
+    },
+    "scope": "Benchmark and lexical baselines only. Passing establishes controlled role-binding non-triviality, not a semantic fact internalizer or memory improvement.",
+    "claim_status": "MEASURED in one local environment; not PROVEN.",
+    "all_pass": true
+  }
+}

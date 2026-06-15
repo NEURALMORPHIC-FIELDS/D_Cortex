@@ -135,3 +135,245 @@ Două direcții deschise (nu se începe niciuna fără adapter explicit):
 - **8 (integrare cu fragmergent-memory-engine)**: D_Cortex 7a ca backend latent longitudinal la end_episode al organismului explicit. Cere adapter exact definit (interfața consolidator + audit log + provenance) înainte de orice atingere a codului.
 
 Regula firmă: niciuna dintre direcții nu se începe fără un adapter scris explicit. Pas 7a stă sigilat ca atare.
+
+---
+
+## [14] v15.7b-Q — Contextual Semantic Query Internalizer
+
+- **Folder**: [`steps/14_v15_7b_semantic_adapter/`](../steps/14_v15_7b_semantic_adapter/)
+- **Data**: 2026-06-15, verdict `2026-06-15T18:57:17+03:00`
+- **Scop**: adapter explicit și internalizator semantic query-side conservator,
+  fără acces la mutația memoriei Pas 7a.
+- **Evoluție măsurată**:
+  1. token-mean producer: honest, dar `0/20` emissions pe novel forms
+  2. likelihood single-view: `19/32`, ambiguity `15/16`
+  3. likelihood multi-view F5: `317/500`, wrong `3.6%`
+  4. trained standard-only: F5 `87.6%`, dar F1/F3 `47.2%/50.6%`
+  5. pooled leave-one-form-out: F3 `87.7%`, F5 `94.2%`, F1 `69.9%`
+  6. contextual leave-one-form-out: toate cele 11 gates PASS
+- **Metrici finale query-side**:
+  - F1 contextual out-of-fold: `451/528 = 85.4%`
+  - F3 contextual out-of-fold: `474/528 = 89.8%`
+  - F5 contextual final: `463/500 = 92.6%`
+  - wrong emitted: `0.0% / 0.0% / 0.2%`
+  - ambiguous abstention: `200/200`
+- **Invariante**:
+  - toate emissions trec prin adapter și sunt `QUERY_ONLY`
+  - zero memory read/write în contextual feature path
+  - substrate byte-identical, zero trainable substrate parameters
+  - Pas 7a SHA-256 neschimbat
+- **Verdict**: **QUERY-SIDE SUBMILESTONE SEALED**
+- **Limită explicită**: nu este fact-side internalization și nu este evaluare
+  end-to-end F1/F3/F5 asupra commit-ului în memorie.
+- **Seal**: [`steps/14_v15_7b_semantic_adapter/SEAL.md`](../steps/14_v15_7b_semantic_adapter/SEAL.md)
+- **Succesor permis**: bridge read-only explicit către query routing, urmat de
+  evaluare end-to-end înghețată; nicio scriere directă în committed memory.
+
+---
+
+## [15] v15.7b-R — Read-Only Semantic Query Bridge
+
+- **Folder**: [`steps/15_v15_7b_read_only_bridge/`](../steps/15_v15_7b_read_only_bridge/)
+- **Data**: 2026-06-15, verdict `2026-06-15T19:12:02+03:00`
+- **Scop**: conectarea interpretării semantice query-side la o rută canonică
+  de citire, fără nicio capabilitate de mutație.
+- **Contract bridge**: PASS — accepted-query-only, fallback exact,
+  determinism, zero mutation API, stări memory byte-identical.
+- **Calitate semantic route**:
+  - F1 `88.5%`, wrong `0.0%`
+  - F3 `93.5%`, wrong `0.0%`
+  - F5 `94.5%`, wrong `0.0%`
+- **Verdict end-to-end neural-memory**: **FAIL**
+  - F1 recall `13.0% -> 13.5%`
+  - F3 recall `36.0% -> 36.0%`
+  - F5 recall `36.5% -> 36.5%`
+  - S5/S6 honesty `0.0% / 0.0%`, overcommit `100% / 100%`
+- **Interpretare**: query semantics există, dar nu repară scrierea/value
+  emission și nu poate adăuga onestitate unui reader care emite obligatoriu.
+- **Scope guard**: nu este integrare Pas 7a și nu este avantaj semantic-memory.
+- **Verdict**:
+  [`steps/15_v15_7b_read_only_bridge/VERDICT.md`](../steps/15_v15_7b_read_only_bridge/VERDICT.md)
+- **Succesor justificat**: fact-side semantic hypotheses strict
+  `PROVISIONAL_ONLY`; nu încă o iterație de query routing.
+
+---
+
+## [16] v15.7b-F — Fact-Side Provisional Semantic Producer
+
+- **Folder**: [`steps/16_v15_7b_fact_provisional/`](../steps/16_v15_7b_fact_provisional/)
+- **Data**: 2026-06-15, verdict `2026-06-15T19:22:25+03:00`
+- **Scop**: interpretare contextuală `(entity, attribute, value)` pentru fapte
+  F1, exclusiv prin adapter `PROVISIONAL_ONLY`.
+- **Verdict**: **HONEST PARTIAL**
+  - out-of-fold accuracy `1199/2000 = 60.0%` — FAIL
+  - wrong provisional `22/2000 = 1.1%` — PASS
+  - ambiguity abstention `2400/2400 = 100%` — PASS
+  - emissions adapter provisional-only `1221/1221` — PASS
+- **Limită măsurată**: head-ul global `attribute:value` produce predominant
+  mismatch/abstention după ce atributul fusese deja clasificat separat.
+- **Scope guard**: zero ingestion/promote în Pas 7a, zero committed write.
+- **Verdict**:
+  [`steps/16_v15_7b_fact_provisional/VERDICT.md`](../steps/16_v15_7b_fact_provisional/VERDICT.md)
+- **Succesor justificat**: attribute-conditioned value decoding, cu
+  `UNKNOWN_VALUE` și marginile neschimbate, pe eșantion nou înghețat.
+
+---
+
+## [17] v15.7b-F2 — Attribute-Conditioned Fact Decoder
+
+- **Folder**: [`steps/17_v15_7b_conditioned_fact/`](../steps/17_v15_7b_conditioned_fact/)
+- **Data**: 2026-06-15, verdict `2026-06-15T19:28:26+03:00`
+- **Scop**: testarea ipotezei că mismatch-ul global `attribute:value` era
+  cauza principală a acoperirii fact-side reduse.
+- **Verdict**: **NEGATIVE; BRANCH STOPPED**
+  - conditioned accuracy `1211/2000 = 60.6%` — FAIL
+  - wrong provisional `76/2000 = 3.8%` — FAIL
+  - uplift față de același predecessor `+0.2pp` — FAIL
+  - ambiguity abstention `2400/2400 = 100%` — PASS
+- **Interpretare**: filtrarea post-hoc nu creează evidență de role binding;
+  amplifică uneori o valoare slabă din atributul acceptat și produce emisii
+  greșite.
+- **Scope guard**: zero Pas 7a ingestion/commit; substrate și seal-uri
+  neschimbate.
+- **Verdict**:
+  [`steps/17_v15_7b_conditioned_fact/VERDICT.md`](../steps/17_v15_7b_conditioned_fact/VERDICT.md)
+- **Decizie**: fără alte filtre post-hoc și fără relaxarea pragurilor.
+
+---
+
+## [18] v15.7b-O — Direct Semantic Object Read
+
+- **Folder**: [`steps/18_v15_7b_semantic_object_read/`](../steps/18_v15_7b_semantic_object_read/)
+- **Data**: 2026-06-15, verdict `2026-06-15T19:39:32+03:00`
+- **Scop**: citire directă a unui snapshot obiectual epistemic din coordonata
+  semantică aprobată, fără reconversie în text și fără parser.
+- **Verdict**: **HONEST PARTIAL**
+  - F1/F3/F5 direct correct `84.5% / 91.0% / 93.5%`
+  - wrong committed read `0.0% / 0.0% / 0.0%`
+  - S5 honesty `100%`, overcommit `0%`
+  - S6 honesty `93.5%`, overcommit `6.5%`
+- **Interpretare**: memoria obiectuală răspunde sigur unei coordonate corecte,
+  dar internalizatorul poate aproba un referent arbitrar pentru query-uri
+  pronume-only.
+- **Limită explicită**: nu este integrare runtime Pas 7a; snapshot-urile
+  known-family sunt prepopulate, deci fact-side rămâne nemăsurat.
+- **Verdict**:
+  [`steps/18_v15_7b_semantic_object_read/VERDICT.md`](../steps/18_v15_7b_semantic_object_read/VERDICT.md)
+- **Succesor justificat**: guard conservator de referent explicit; F1 coverage
+  rămâne deschis.
+
+---
+
+## [19] v15.7b-G — Explicit Referent Grounding
+
+- **Folder**: [`steps/19_v15_7b_referent_grounding/`](../steps/19_v15_7b_referent_grounding/)
+- **Data**: 2026-06-15, verdict `2026-06-15T19:44:57+03:00`
+- **Scop**: blocarea coordonatelor semantic-query fără dovadă explicită a
+  referentului în source text.
+- **Rezultat absolut**:
+  - S6 overcommit `3.5% -> 0.0%`
+  - S6 honesty `96.5% -> 100%`
+  - F1/F3/F5 și S5 fără regresie
+- **Verdict frozen**: **8 PASS, 1 FAIL**
+  - H3 uplift a cerut `+5pp`; măsurat `+3.5pp`
+- **Decizie**: pragul nu este relaxat și seed-ul nu este rerulat. Guardul
+  rămâne safety improvement verificat, dar milestone-ul all-gates nu este
+  sigilat.
+- **Verdict**:
+  [`steps/19_v15_7b_referent_grounding/VERDICT.md`](../steps/19_v15_7b_referent_grounding/VERDICT.md)
+- **Succesor justificat**: benchmark fact-side de role binding ne-rezolvabil
+  prin token overlap, înainte de alt model.
+
+---
+
+## [20] v15.7b-RB0 — Non-Trivial Role-Binding Benchmark
+
+- **Folder**: [`steps/20_v15_7b_role_binding_benchmark/`](../steps/20_v15_7b_role_binding_benchmark/)
+- **Data**: 2026-06-15, verdict `2026-06-15T19:49:55+03:00`
+- **Verdict**: **8/8 PASS; BENCHMARK SEALED**
+- **Rezultat**:
+  - best lexical/position baseline `37.1%` exact-known
+  - ordered baseline `25.0%`
+  - lexical Cartesian `0.0%`
+  - safe abstain `0%` coverage
+  - toate baseline-urile non-abstaining: `100%` overcommit pe ambiguu
+- **Interpretare**: inventarul lexical este disponibil, dar nu determină
+  legarea entitate-valoare. Shortcut-ul lexical măsurat inițial este eliminat
+  în acest benchmark controlat.
+- **Verdict**:
+  [`steps/20_v15_7b_role_binding_benchmark/VERDICT.md`](../steps/20_v15_7b_role_binding_benchmark/VERDICT.md)
+- **Succesor justificat**: un singur experiment de learned role binder,
+  strict provisional-only.
+
+---
+
+## [21] v15.7b-RB1 — Conservative Learned Role Binder
+
+- **Folder**: [`steps/21_v15_7b_role_binder/`](../steps/21_v15_7b_role_binder/)
+- **Data**: 2026-06-15, verdict `2026-06-15T20:03:22+03:00`
+- **Verdict frozen după corecția strictă J10**: **8 PASS, 3 FAIL**
+- **Rezultat**:
+  - validation loss drop `46.2%`
+  - known test exact binding `124/256 = 48.4%`
+  - wrong emitted mapping `132/256 = 51.6%`
+  - ambiguity abstention `57/57 = 100%`
+  - uplift peste best same-test lexical `+11.7pp`
+- **Interpretare**: head-ul pooled învață clasa unresolved, dar nu distinge
+  relațional identity de swapped; toate familiile cunoscute rămân la
+  aproximativ `41–52%`.
+- **Corecție harness**: J10 inițial fals-negativ dintr-un literal SHA-256 cu un
+  caracter omis; numai metadatele J10 au fost corectate, fără reantrenare,
+  recalibrare sau rerulare de test.
+- **Verdict**:
+  [`steps/21_v15_7b_role_binder/VERDICT.md`](../steps/21_v15_7b_role_binder/VERDICT.md)
+- **Decizie**: ramura candidate-view pooling este oprită.
+- **Succesor justificat**: token-level role-conditioned sequence scorer, fără
+  relation lexicon și strict provisional-only.
+
+---
+
+## [22] v15.7b-RB2 — Token-Level Role-Conditioned Binder
+
+- **Folder**:
+  [`steps/22_v15_7b_role_conditioned_binding/`](../steps/22_v15_7b_role_conditioned_binding/)
+- **Data**: 2026-06-15, verdict `2026-06-15T20:14:04+03:00`
+- **Verdict**: **13/13 PASS; CONTROLLED SUBMILESTONE SEALED**
+- **Rezultat**:
+  - complete role masks `2000/2000`
+  - validation loss drop `99.1%`
+  - known test exact binding `256/256 = 100%`
+  - wrong emitted mapping `0/256 = 0%`
+  - ambiguity abstention `57/57 = 100%`
+  - uplift față de RB1 `+51.6pp`
+  - uplift față de best same-test lexical `+63.3pp`
+- **Interpretare**: candidate-role masks peste stările contextuale token-level
+  elimină simetria identity/swapped observată în RB1.
+- **Scope guard**: toate familiile sintactice cunoscute apar în training; nu
+  este încă dovadă unseen-syntax sau integrare de memorie.
+- **Verdict**:
+  [`steps/22_v15_7b_role_conditioned_binding/VERDICT.md`](../steps/22_v15_7b_role_conditioned_binding/VERDICT.md)
+- **Succesor justificat**: leave-one-syntax-family-out cu arhitectura și
+  pragurile RB2 neschimbate, înainte de orice ingestion.
+
+---
+
+## [23] v15.7b-RB3 — Leave-One-Syntax-Family-Out
+
+- **Folder**:
+  [`steps/23_v15_7b_syntax_holdout/`](../steps/23_v15_7b_syntax_holdout/)
+- **Data**: 2026-06-15, verdict `2026-06-15T20:20:25+03:00`
+- **Verdict**: **9 PASS, 3 FAIL; MEMORY INTEGRATION BLOCKED**
+- **Rezultat**:
+  - aggregate unseen-syntax exact `911/1600 = 56.9%`
+  - aggregate wrong mapping `503/1600 = 31.4%`
+  - minimum family exact `39.2%`
+  - ambiguity abstention `100%` în fiecare fold
+  - uplift față de best aggregate lexical `+19.9pp`
+- **Per familie**: RB1 `62.8%`, RB2 `39.2%`, RB3 `79.3%`, RB4 `46.5%`.
+- **Interpretare**: RB2 rezolvă seen-syntax, dar nu generalizează suficient de
+  sigur la construcții nevăzute. Optimizerul și măștile nu sunt bottleneck-ul.
+- **Verdict**:
+  [`steps/23_v15_7b_syntax_holdout/VERDICT.md`](../steps/23_v15_7b_syntax_holdout/VERDICT.md)
+- **Decizie**: fără ingestion și fără alt tuning pe aceleași patru familii.
+- **Succesor justificat**: poartă data-only pentru un corpus independent,
+  auditat și separat pe familii de construcție.

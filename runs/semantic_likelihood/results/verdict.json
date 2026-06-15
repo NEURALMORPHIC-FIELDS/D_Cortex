@@ -1,0 +1,2263 @@
+{
+  "verdict": [
+    {
+      "criterion_id": "Q0_ADAPTER_REQUIRED",
+      "passed": true,
+      "evidence": "Adapter accepted 19/19 emitted interpretations.",
+      "distribution": {
+        "emitted": 19,
+        "accepted": 19
+      }
+    },
+    {
+      "criterion_id": "Q1_NO_DIRECT_COMMIT",
+      "passed": true,
+      "evidence": "Query-only destinations 19/19 emitted interpretations.",
+      "distribution": {
+        "emitted": 19,
+        "query_only": 19
+      }
+    },
+    {
+      "criterion_id": "Q2_CALIBRATION_SEPARATION",
+      "passed": true,
+      "evidence": "Exact calibration/evaluation text overlap count=0.",
+      "distribution": {
+        "overlap": [],
+        "calibration_hash": "1c263f0e7c1f84358d18cf0fcb42370f43f48eda599274d82ec999b799409355",
+        "evaluation_hash": "b96fbc334949263252ec632783bc0ff8c35e1547df46866af640e9c18e9bd6bd"
+      }
+    },
+    {
+      "criterion_id": "Q3_DETERMINISTIC",
+      "passed": true,
+      "evidence": "Repeated result exact=True.",
+      "distribution": {
+        "exact": true
+      }
+    },
+    {
+      "criterion_id": "Q4_NO_SYNONYM_MAP",
+      "passed": true,
+      "evidence": "Forbidden lexical-map identifiers present=[].",
+      "distribution": {
+        "present": []
+      }
+    },
+    {
+      "criterion_id": "Q5_NOVEL_QUERY_ACCURACY",
+      "passed": false,
+      "evidence": "Held-out entity+attribute accuracy=59.4% (19/32), emitted=19.",
+      "distribution": {
+        "correct": 19,
+        "total": 32,
+        "accuracy": 0.59375,
+        "emitted": 19
+      }
+    },
+    {
+      "criterion_id": "Q6_AMBIGUOUS_HONESTY",
+      "passed": true,
+      "evidence": "Held-out ambiguous abstention=93.8% (15/16).",
+      "distribution": {
+        "abstained": 15,
+        "total": 16,
+        "abstain_rate": 0.9375
+      }
+    },
+    {
+      "criterion_id": "Q7_NON_TRIVIAL_LABEL_OVERLAP",
+      "passed": false,
+      "evidence": "Exact-label baseline=0.0%; producer=59.4%.",
+      "distribution": {
+        "lexical_correct": 0,
+        "lexical_accuracy": 0.0,
+        "producer_accuracy": 0.59375
+      }
+    },
+    {
+      "criterion_id": "Q8_BASELINE_UPLIFT",
+      "passed": true,
+      "evidence": "Causal-likelihood accuracy=59.4%; frozen token-mean accuracy=0.0%; uplift=+59.4%.",
+      "distribution": {
+        "causal_likelihood_accuracy": 0.59375,
+        "token_mean_accuracy": 0.0,
+        "token_mean_emitted": 0,
+        "uplift": 0.59375
+      }
+    },
+    {
+      "criterion_id": "Q9_READ_ONLY_MODEL_STATE",
+      "passed": true,
+      "evidence": "All model buffers byte-identical=True.",
+      "distribution": {
+        "before": "212d1e7a3ecf22967ae7ab8bc5173f69404620868bcfb4936ba840ccf5b22372",
+        "after": "212d1e7a3ecf22967ae7ab8bc5173f69404620868bcfb4936ba840ccf5b22372"
+      }
+    },
+    {
+      "criterion_id": "Q10_SEALED_UNTOUCHED",
+      "passed": true,
+      "evidence": "Pas 7a SHA-256 actual=25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3, frozen=25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3.",
+      "distribution": {
+        "actual": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3",
+        "frozen": "25b4906ecc05a6b51b10902e54332a0ec2b26c4c622aa4e6ee74bd4961369aa3"
+      }
+    }
+  ],
+  "reference": {
+    "run_timestamp": "2026-06-15T18:19:02+03:00",
+    "checkpoint": "E:\\proiecte_active\\D_Cortex\\D_Cortex-main\\runs\\warmstart\\warmstarted_init.pt",
+    "checkpoint_mtime": "2026-06-15T10:41:45+03:00",
+    "device": "cuda",
+    "backend": "dcortex_decoder_causal_likelihood",
+    "backend_version": "warmstarted_init.pt",
+    "entity_prompt": "Question: {source_text}\nAnswer entity:",
+    "attribute_prompt": "Question: {source_text}\nAnswer type:",
+    "calibration": {
+      "threshold": 0.33783599999999997,
+      "target_abstention": 0.8,
+      "achieved_calibration_abstention": 0.8,
+      "ambiguous_margins": [
+        0.077775,
+        0.257964,
+        0.089399,
+        0.09666,
+        0.337835,
+        0.336679,
+        0.191675,
+        0.367873,
+        0.423839,
+        0.257964
+      ]
+    },
+    "evaluation_records": [
+      {
+        "text": "Which tint would best characterize the robot?",
+        "expected_entity": "robot",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "robot",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.613678,
+            "second_probability": 0.244966,
+            "margin": 0.368712,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001953,
+              "mermaid": 0.244966,
+              "phoenix": 0.139403,
+              "robot": 0.613678
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.952366,
+            "second_probability": 0.028759,
+            "margin": 0.923607,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.952366,
+              "location": 0.001432,
+              "size": 0.028759,
+              "state": 0.017443
+            }
+          }
+        ]
+      },
+      {
+        "text": "Describe the mermaid's visible hue.",
+        "expected_entity": "mermaid",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "mermaid",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.952303,
+            "second_probability": 0.044581,
+            "margin": 0.907721,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.002745,
+              "mermaid": 0.952303,
+              "phoenix": 0.044581,
+              "robot": 0.000371
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.969083,
+            "second_probability": 0.017749,
+            "margin": 0.951334,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.969083,
+              "location": 0.002402,
+              "size": 0.017749,
+              "state": 0.010766
+            }
+          }
+        ]
+      },
+      {
+        "text": "What chromatic quality does the phoenix display?",
+        "expected_entity": "phoenix",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "phoenix",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.983068,
+            "second_probability": 0.016031,
+            "margin": 0.967037,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000847,
+              "mermaid": 0.016031,
+              "phoenix": 0.983068,
+              "robot": 5.4e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.900211,
+            "second_probability": 0.073894,
+            "margin": 0.826318,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.900211,
+              "location": 0.004724,
+              "size": 0.073894,
+              "state": 0.021171
+            }
+          }
+        ]
+      },
+      {
+        "text": "The dragon appears in what shade?",
+        "expected_entity": "dragon",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "dragon",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.579266,
+            "second_probability": 0.301095,
+            "margin": 0.278171,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.579266,
+              "mermaid": 0.301095,
+              "phoenix": 0.119228,
+              "robot": 0.000411
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.98673,
+            "second_probability": 0.008537,
+            "margin": 0.978193,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.98673,
+              "location": 0.000701,
+              "size": 0.008537,
+              "state": 0.004033
+            }
+          }
+        ]
+      },
+      {
+        "text": "How is the robot pigmented?",
+        "expected_entity": "robot",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "robot",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.751465,
+            "second_probability": 0.163792,
+            "margin": 0.587673,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.00113,
+              "mermaid": 0.163792,
+              "phoenix": 0.083613,
+              "robot": 0.751465
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.929619,
+            "second_probability": 0.036045,
+            "margin": 0.893574,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.929619,
+              "location": 0.006264,
+              "size": 0.036045,
+              "state": 0.028072
+            }
+          }
+        ]
+      },
+      {
+        "text": "Which tone is associated with the mermaid's appearance?",
+        "expected_entity": "mermaid",
+        "expected_attribute": "color",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.933056,
+            "second_probability": 0.064474,
+            "margin": 0.868581,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.002176,
+              "mermaid": 0.933056,
+              "phoenix": 0.064474,
+              "robot": 0.000294
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.548607,
+            "second_probability": 0.259143,
+            "margin": 0.289463,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.548607,
+              "location": 0.035071,
+              "size": 0.259143,
+              "state": 0.157178
+            }
+          }
+        ]
+      },
+      {
+        "text": "Name the phoenix's visible coloration.",
+        "expected_entity": "phoenix",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "phoenix",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.987634,
+            "second_probability": 0.011068,
+            "margin": 0.976565,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001237,
+              "mermaid": 0.011068,
+              "phoenix": 0.987634,
+              "robot": 6.2e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.935427,
+            "second_probability": 0.03627,
+            "margin": 0.899157,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.935427,
+              "location": 0.006303,
+              "size": 0.03627,
+              "state": 0.021999
+            }
+          }
+        ]
+      },
+      {
+        "text": "What palette describes the dragon?",
+        "expected_entity": "dragon",
+        "expected_attribute": "color",
+        "prediction": {
+          "entity": "dragon",
+          "attribute": "color"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.877839,
+            "second_probability": 0.061262,
+            "margin": 0.816577,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.877839,
+              "mermaid": 0.060761,
+              "phoenix": 0.061262,
+              "robot": 0.000139
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.951693,
+            "second_probability": 0.036901,
+            "margin": 0.914791,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.951693,
+              "location": 0.004994,
+              "size": 0.036901,
+              "state": 0.006412
+            }
+          }
+        ]
+      },
+      {
+        "text": "Whereabouts should one seek the robot?",
+        "expected_entity": "robot",
+        "expected_attribute": "location",
+        "prediction": {
+          "entity": "robot",
+          "attribute": "location"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.89771,
+            "second_probability": 0.057443,
+            "margin": 0.840268,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000301,
+              "mermaid": 0.057443,
+              "phoenix": 0.044546,
+              "robot": 0.89771
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.756027,
+            "second_probability": 0.168692,
+            "margin": 0.587334,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.03764,
+              "location": 0.756027,
+              "size": 0.03764,
+              "state": 0.168692
+            }
+          }
+        ]
+      },
+      {
+        "text": "In what place would the dragon be encountered?",
+        "expected_entity": "dragon",
+        "expected_attribute": "location",
+        "prediction": {
+          "entity": "dragon",
+          "attribute": "location"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.94504,
+            "second_probability": 0.029551,
+            "margin": 0.915488,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.94504,
+              "mermaid": 0.029551,
+              "phoenix": 0.025338,
+              "robot": 7.1e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.694179,
+            "second_probability": 0.154892,
+            "margin": 0.539287,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.154892,
+              "location": 0.694179,
+              "size": 0.093947,
+              "state": 0.056982
+            }
+          }
+        ]
+      },
+      {
+        "text": "Where is the mermaid typically found?",
+        "expected_entity": "mermaid",
+        "expected_attribute": "location",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.940169,
+            "second_probability": 0.056347,
+            "margin": 0.883822,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.003382,
+              "mermaid": 0.940169,
+              "phoenix": 0.056347,
+              "robot": 0.000102
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.426933,
+            "second_probability": 0.258948,
+            "margin": 0.167985,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.258948,
+              "location": 0.426933,
+              "size": 0.15706,
+              "state": 0.15706
+            }
+          }
+        ]
+      },
+      {
+        "text": "Which setting contains the phoenix?",
+        "expected_entity": "phoenix",
+        "expected_attribute": "location",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.984867,
+            "second_probability": 0.013994,
+            "margin": 0.970873,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.00107,
+              "mermaid": 0.013994,
+              "phoenix": 0.984867,
+              "robot": 6.8e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.381818,
+            "second_probability": 0.29736,
+            "margin": 0.084458,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.180358,
+              "location": 0.381818,
+              "size": 0.140463,
+              "state": 0.29736
+            }
+          }
+        ]
+      },
+      {
+        "text": "Name the robot's usual whereabouts.",
+        "expected_entity": "robot",
+        "expected_attribute": "location",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.834866,
+            "second_probability": 0.085065,
+            "margin": 0.749801,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000462,
+              "mermaid": 0.085065,
+              "phoenix": 0.079607,
+              "robot": 0.834866
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.277275,
+            "second_probability": 0.277275,
+            "margin": 0.0,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.277275,
+              "location": 0.277275,
+              "size": 0.168176,
+              "state": 0.277275
+            }
+          }
+        ]
+      },
+      {
+        "text": "At what site does the dragon reside?",
+        "expected_entity": "dragon",
+        "expected_attribute": "location",
+        "prediction": {
+          "entity": "dragon",
+          "attribute": "location"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.956713,
+            "second_probability": 0.023287,
+            "margin": 0.933426,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.956713,
+              "mermaid": 0.023287,
+              "phoenix": 0.019973,
+              "robot": 2.6e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.846268,
+            "second_probability": 0.069466,
+            "margin": 0.776802,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.042133,
+              "location": 0.846268,
+              "size": 0.042133,
+              "state": 0.069466
+            }
+          }
+        ]
+      },
+      {
+        "text": "Where could one find the mermaid?",
+        "expected_entity": "mermaid",
+        "expected_attribute": "location",
+        "prediction": {
+          "entity": "mermaid",
+          "attribute": "location"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.901102,
+            "second_probability": 0.095391,
+            "margin": 0.80571,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.003089,
+              "mermaid": 0.901102,
+              "phoenix": 0.095391,
+              "robot": 0.000418
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.789137,
+            "second_probability": 0.106798,
+            "margin": 0.682339,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.106798,
+              "location": 0.789137,
+              "size": 0.039289,
+              "state": 0.064776
+            }
+          }
+        ]
+      },
+      {
+        "text": "Identify the surroundings occupied by the phoenix.",
+        "expected_entity": "phoenix",
+        "expected_attribute": "location",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.990642,
+            "second_probability": 0.007157,
+            "margin": 0.983484,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.002161,
+              "mermaid": 0.007157,
+              "phoenix": 0.990642,
+              "robot": 4e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "location",
+            "top_probability": 0.555279,
+            "second_probability": 0.262295,
+            "margin": 0.292984,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.262295,
+              "location": 0.555279,
+              "size": 0.058526,
+              "state": 0.1239
+            }
+          }
+        ]
+      },
+      {
+        "text": "How enormous is the dragon?",
+        "expected_entity": "dragon",
+        "expected_attribute": "size",
+        "prediction": {
+          "entity": "dragon",
+          "attribute": "size"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.78083,
+            "second_probability": 0.139052,
+            "margin": 0.641777,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.78083,
+              "mermaid": 0.079959,
+              "phoenix": 0.139052,
+              "robot": 0.000159
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.920641,
+            "second_probability": 0.035697,
+            "margin": 0.884944,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.035697,
+              "location": 0.007965,
+              "size": 0.920641,
+              "state": 0.035697
+            }
+          }
+        ]
+      },
+      {
+        "text": "What dimensions does the robot have?",
+        "expected_entity": "robot",
+        "expected_attribute": "size",
+        "prediction": {
+          "entity": "robot",
+          "attribute": "size"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.88076,
+            "second_probability": 0.06742,
+            "margin": 0.81334,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000803,
+              "mermaid": 0.06742,
+              "phoenix": 0.051016,
+              "robot": 0.88076
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.853045,
+            "second_probability": 0.115447,
+            "margin": 0.737598,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.115447,
+              "location": 0.005748,
+              "size": 0.853045,
+              "state": 0.02576
+            }
+          }
+        ]
+      },
+      {
+        "text": "Describe the phoenix's physical scale.",
+        "expected_entity": "phoenix",
+        "expected_attribute": "size",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.990894,
+            "second_probability": 0.00764,
+            "margin": 0.983254,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001396,
+              "mermaid": 0.00764,
+              "phoenix": 0.990894,
+              "robot": 6.9e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.473991,
+            "second_probability": 0.28749,
+            "margin": 0.186501,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.28749,
+              "location": 0.064148,
+              "size": 0.473991,
+              "state": 0.174372
+            }
+          }
+        ]
+      },
+      {
+        "text": "How big would the mermaid be?",
+        "expected_entity": "mermaid",
+        "expected_attribute": "size",
+        "prediction": {
+          "entity": "mermaid",
+          "attribute": "size"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.917658,
+            "second_probability": 0.079187,
+            "margin": 0.838471,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.00258,
+              "mermaid": 0.917658,
+              "phoenix": 0.079187,
+              "robot": 0.000576
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.943733,
+            "second_probability": 0.028498,
+            "margin": 0.915234,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.028498,
+              "location": 0.010484,
+              "size": 0.943733,
+              "state": 0.017285
+            }
+          }
+        ]
+      },
+      {
+        "text": "What is the dragon's magnitude?",
+        "expected_entity": "dragon",
+        "expected_attribute": "size",
+        "prediction": {
+          "entity": "dragon",
+          "attribute": "size"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.872904,
+            "second_probability": 0.065673,
+            "margin": 0.807231,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.872904,
+              "mermaid": 0.061315,
+              "phoenix": 0.065673,
+              "robot": 0.000108
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.830953,
+            "second_probability": 0.112457,
+            "margin": 0.718495,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.112457,
+              "location": 0.015219,
+              "size": 0.830953,
+              "state": 0.041371
+            }
+          }
+        ]
+      },
+      {
+        "text": "Report the robot's proportions.",
+        "expected_entity": "robot",
+        "expected_attribute": "size",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.943052,
+            "second_probability": 0.035467,
+            "margin": 0.907585,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000522,
+              "mermaid": 0.035467,
+              "phoenix": 0.020959,
+              "robot": 0.943052
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.539613,
+            "second_probability": 0.327292,
+            "margin": 0.212321,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.327292,
+              "location": 0.01269,
+              "size": 0.539613,
+              "state": 0.120404
+            }
+          }
+        ]
+      },
+      {
+        "text": "How much space does the phoenix occupy?",
+        "expected_entity": "phoenix",
+        "expected_attribute": "size",
+        "prediction": {
+          "entity": "phoenix",
+          "attribute": "size"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.990782,
+            "second_probability": 0.008829,
+            "margin": 0.981953,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000342,
+              "mermaid": 0.008829,
+              "phoenix": 0.990782,
+              "robot": 4.6e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.846268,
+            "second_probability": 0.069466,
+            "margin": 0.776802,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.042133,
+              "location": 0.042133,
+              "size": 0.846268,
+              "state": 0.069466
+            }
+          }
+        ]
+      },
+      {
+        "text": "Characterize the mermaid's dimensions.",
+        "expected_entity": "mermaid",
+        "expected_attribute": "size",
+        "prediction": {
+          "entity": "mermaid",
+          "attribute": "size"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.962031,
+            "second_probability": 0.035721,
+            "margin": 0.926309,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001838,
+              "mermaid": 0.962031,
+              "phoenix": 0.035721,
+              "robot": 0.00041
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "size",
+            "top_probability": 0.680003,
+            "second_probability": 0.250159,
+            "margin": 0.429844,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.250159,
+              "location": 0.026367,
+              "size": 0.680003,
+              "state": 0.043471
+            }
+          }
+        ]
+      },
+      {
+        "text": "What condition currently describes the robot?",
+        "expected_entity": "robot",
+        "expected_attribute": "state",
+        "prediction": {
+          "entity": "robot",
+          "attribute": "state"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.866001,
+            "second_probability": 0.092173,
+            "margin": 0.773828,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000615,
+              "mermaid": 0.092173,
+              "phoenix": 0.04121,
+              "robot": 0.866001
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.686893,
+            "second_probability": 0.196798,
+            "margin": 0.490094,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.196798,
+              "location": 0.043912,
+              "size": 0.072398,
+              "state": 0.686893
+            }
+          }
+        ]
+      },
+      {
+        "text": "How is the dragon doing at present?",
+        "expected_entity": "dragon",
+        "expected_attribute": "state",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.91849,
+            "second_probability": 0.041957,
+            "margin": 0.876533,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.91849,
+              "mermaid": 0.041957,
+              "phoenix": 0.039313,
+              "robot": 0.00024
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.363212,
+            "second_probability": 0.28287,
+            "margin": 0.080342,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.220299,
+              "location": 0.28287,
+              "size": 0.133618,
+              "state": 0.363212
+            }
+          }
+        ]
+      },
+      {
+        "text": "Report the phoenix's current status.",
+        "expected_entity": "phoenix",
+        "expected_attribute": "state",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.985408,
+            "second_probability": 0.014001,
+            "margin": 0.971407,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000483,
+              "mermaid": 0.014001,
+              "phoenix": 0.985408,
+              "robot": 0.000108
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.451624,
+            "second_probability": 0.273924,
+            "margin": 0.1777,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.273924,
+              "location": 0.213332,
+              "size": 0.061121,
+              "state": 0.451624
+            }
+          }
+        ]
+      },
+      {
+        "text": "What is the mermaid's present situation?",
+        "expected_entity": "mermaid",
+        "expected_attribute": "state",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.969589,
+            "second_probability": 0.029054,
+            "margin": 0.940535,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001109,
+              "mermaid": 0.969589,
+              "phoenix": 0.029054,
+              "robot": 0.000247
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.296923,
+            "second_probability": 0.296923,
+            "margin": 0.0,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.296923,
+              "location": 0.296923,
+              "size": 0.109232,
+              "state": 0.296923
+            }
+          }
+        ]
+      },
+      {
+        "text": "Is the robot operational or otherwise?",
+        "expected_entity": "robot",
+        "expected_attribute": "state",
+        "prediction": {
+          "entity": "robot",
+          "attribute": "state"
+        },
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.815565,
+            "second_probability": 0.114918,
+            "margin": 0.700648,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000166,
+              "mermaid": 0.114918,
+              "phoenix": 0.069351,
+              "robot": 0.815565
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.551225,
+            "second_probability": 0.202785,
+            "margin": 0.348441,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.202785,
+              "location": 0.122995,
+              "size": 0.122995,
+              "state": 0.551225
+            }
+          }
+        ]
+      },
+      {
+        "text": "Describe the dragon's current circumstances.",
+        "expected_entity": "dragon",
+        "expected_attribute": "state",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.878427,
+            "second_probability": 0.075922,
+            "margin": 0.802505,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.878427,
+              "mermaid": 0.045543,
+              "phoenix": 0.075922,
+              "robot": 0.000108
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.365529,
+            "second_probability": 0.365529,
+            "margin": 0.0,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.365529,
+              "location": 0.134471,
+              "size": 0.134471,
+              "state": 0.365529
+            }
+          }
+        ]
+      },
+      {
+        "text": "How is the phoenix faring now?",
+        "expected_entity": "phoenix",
+        "expected_attribute": "state",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.984293,
+            "second_probability": 0.014554,
+            "margin": 0.969739,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001016,
+              "mermaid": 0.014554,
+              "phoenix": 0.984293,
+              "robot": 0.000138
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.307582,
+            "second_probability": 0.307582,
+            "margin": 0.0,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.307582,
+              "location": 0.239545,
+              "size": 0.145291,
+              "state": 0.307582
+            }
+          }
+        ]
+      },
+      {
+        "text": "What condition is the mermaid presently in?",
+        "expected_entity": "mermaid",
+        "expected_attribute": "state",
+        "prediction": null,
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.979209,
+            "second_probability": 0.018788,
+            "margin": 0.960421,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.00185,
+              "mermaid": 0.979209,
+              "phoenix": 0.018788,
+              "robot": 0.000152
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.459621,
+            "second_probability": 0.357953,
+            "margin": 0.101668,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.357953,
+              "location": 0.07987,
+              "size": 0.102555,
+              "state": 0.459621
+            }
+          }
+        ]
+      }
+    ],
+    "ambiguous_records": [
+      {
+        "text": "Tell me everything relevant about the robot.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.871977,
+            "second_probability": 0.070669,
+            "margin": 0.801309,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001021,
+              "mermaid": 0.070669,
+              "phoenix": 0.056333,
+              "robot": 0.871977
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.452873,
+            "second_probability": 0.213922,
+            "margin": 0.238951,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.213922,
+              "location": 0.166603,
+              "size": 0.166603,
+              "state": 0.452873
+            }
+          }
+        ]
+      },
+      {
+        "text": "Offer a brief description of the dragon.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.84281,
+            "second_probability": 0.085397,
+            "margin": 0.757412,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.84281,
+              "mermaid": 0.085397,
+              "phoenix": 0.07151,
+              "robot": 0.000283
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.517425,
+            "second_probability": 0.244414,
+            "margin": 0.273011,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.517425,
+              "location": 0.148245,
+              "size": 0.089915,
+              "state": 0.244414
+            }
+          }
+        ]
+      },
+      {
+        "text": "What should I know about the mermaid?",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.919649,
+            "second_probability": 0.076257,
+            "margin": 0.843392,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.003347,
+              "mermaid": 0.919649,
+              "phoenix": 0.076257,
+              "robot": 0.000747
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.488908,
+            "second_probability": 0.230944,
+            "margin": 0.257964,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.488908,
+              "location": 0.140074,
+              "size": 0.140074,
+              "state": 0.230944
+            }
+          }
+        ]
+      },
+      {
+        "text": "Share a fact concerning the phoenix.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.983531,
+            "second_probability": 0.015128,
+            "margin": 0.968403,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001277,
+              "mermaid": 0.015128,
+              "phoenix": 0.983531,
+              "robot": 6.4e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.534968,
+            "second_probability": 0.252701,
+            "margin": 0.282267,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.252701,
+              "location": 0.092964,
+              "size": 0.119368,
+              "state": 0.534968
+            }
+          }
+        ]
+      },
+      {
+        "text": "Give an overview of the robot.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.875243,
+            "second_probability": 0.080419,
+            "margin": 0.794823,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001025,
+              "mermaid": 0.080419,
+              "phoenix": 0.043313,
+              "robot": 0.875243
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.398464,
+            "second_probability": 0.398464,
+            "margin": 0.0,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.398464,
+              "location": 0.088909,
+              "size": 0.114162,
+              "state": 0.398464
+            }
+          }
+        ]
+      },
+      {
+        "text": "Describe one notable thing about the dragon.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.842287,
+            "second_probability": 0.086896,
+            "margin": 0.755391,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.842287,
+              "mermaid": 0.070597,
+              "phoenix": 0.086896,
+              "robot": 0.00022
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.455054,
+            "second_probability": 0.276004,
+            "margin": 0.17905,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.455054,
+              "location": 0.101536,
+              "size": 0.167405,
+              "state": 0.276004
+            }
+          }
+        ]
+      },
+      {
+        "text": "Summarize what is known about the mermaid.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.924104,
+            "second_probability": 0.073444,
+            "margin": 0.85066,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.002266,
+              "mermaid": 0.924104,
+              "phoenix": 0.073444,
+              "robot": 0.000186
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.443917,
+            "second_probability": 0.26925,
+            "margin": 0.174668,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.26925,
+              "location": 0.077141,
+              "size": 0.209692,
+              "state": 0.443917
+            }
+          }
+        ]
+      },
+      {
+        "text": "Provide general information on the phoenix.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.996424,
+            "second_probability": 0.003337,
+            "margin": 0.993087,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.00021,
+              "mermaid": 0.003337,
+              "phoenix": 0.996424,
+              "robot": 2.8e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.404155,
+            "second_probability": 0.314756,
+            "margin": 0.089399,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.314756,
+              "location": 0.190909,
+              "size": 0.090179,
+              "state": 0.404155
+            }
+          }
+        ]
+      },
+      {
+        "text": "What can you say about the robot?",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.838714,
+            "second_probability": 0.09207,
+            "margin": 0.746644,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000765,
+              "mermaid": 0.09207,
+              "phoenix": 0.068451,
+              "robot": 0.838714
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.532619,
+            "second_probability": 0.19594,
+            "margin": 0.336679,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.19594,
+              "location": 0.118843,
+              "size": 0.152598,
+              "state": 0.532619
+            }
+          }
+        ]
+      },
+      {
+        "text": "Discuss the dragon.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.87066,
+            "second_probability": 0.072335,
+            "margin": 0.798324,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.87066,
+              "mermaid": 0.056387,
+              "phoenix": 0.072335,
+              "robot": 0.000618
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.455054,
+            "second_probability": 0.276004,
+            "margin": 0.17905,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.276004,
+              "location": 0.167405,
+              "size": 0.101536,
+              "state": 0.455054
+            }
+          }
+        ]
+      },
+      {
+        "text": "Tell me something regarding the mermaid.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.957041,
+            "second_probability": 0.039967,
+            "margin": 0.917075,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.002187,
+              "mermaid": 0.957041,
+              "phoenix": 0.039967,
+              "robot": 0.000805
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.394062,
+            "second_probability": 0.306896,
+            "margin": 0.087166,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.306896,
+              "location": 0.186142,
+              "size": 0.112901,
+              "state": 0.394062
+            }
+          }
+        ]
+      },
+      {
+        "text": "Present an overview of the phoenix.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.994154,
+            "second_probability": 0.005518,
+            "margin": 0.988635,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000268,
+              "mermaid": 0.005518,
+              "phoenix": 0.994154,
+              "robot": 6e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.446612,
+            "second_probability": 0.347822,
+            "margin": 0.09879,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.347822,
+              "location": 0.07761,
+              "size": 0.127957,
+              "state": 0.446612
+            }
+          }
+        ]
+      },
+      {
+        "text": "Which detail matters about the robot?",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "robot",
+            "top_probability": 0.828078,
+            "second_probability": 0.10624,
+            "margin": 0.721838,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.001245,
+              "mermaid": 0.10624,
+              "phoenix": 0.064438,
+              "robot": 0.828078
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.317795,
+            "second_probability": 0.317795,
+            "margin": 0.0,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.317795,
+              "location": 0.317795,
+              "size": 0.247499,
+              "state": 0.11691
+            }
+          }
+        ]
+      },
+      {
+        "text": "Recall anything about the dragon.",
+        "emitted": true,
+        "reasons": [
+          "EMITTED"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "dragon",
+            "top_probability": 0.802846,
+            "second_probability": 0.107588,
+            "margin": 0.695258,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.802846,
+              "mermaid": 0.088627,
+              "phoenix": 0.107588,
+              "robot": 0.00094
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.638701,
+            "second_probability": 0.182991,
+            "margin": 0.45571,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "color": 0.638701,
+              "location": 0.11099,
+              "size": 0.067319,
+              "state": 0.182991
+            }
+          }
+        ]
+      },
+      {
+        "text": "What information concerns the mermaid?",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "mermaid",
+            "top_probability": 0.930264,
+            "second_probability": 0.068691,
+            "margin": 0.861573,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000855,
+              "mermaid": 0.930264,
+              "phoenix": 0.068691,
+              "robot": 0.000191
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "color",
+            "top_probability": 0.43698,
+            "second_probability": 0.34032,
+            "margin": 0.09666,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.43698,
+              "location": 0.34032,
+              "size": 0.125197,
+              "state": 0.097503
+            }
+          }
+        ]
+      },
+      {
+        "text": "Mention the phoenix.",
+        "emitted": false,
+        "reasons": [
+          "MARGIN_TOO_SMALL:attribute"
+        ],
+        "scores": [
+          {
+            "axis": "entity",
+            "selected_id": "phoenix",
+            "top_probability": 0.992381,
+            "second_probability": 0.006856,
+            "margin": 0.985525,
+            "margin_threshold": 0.0,
+            "minimum_probability": 0.0,
+            "passed": true,
+            "candidate_probabilities": {
+              "dragon": 0.000672,
+              "mermaid": 0.006856,
+              "phoenix": 0.992381,
+              "robot": 9.1e-05
+            }
+          },
+          {
+            "axis": "attribute",
+            "selected_id": "state",
+            "top_probability": 0.425204,
+            "second_probability": 0.331149,
+            "margin": 0.094055,
+            "margin_threshold": 0.33783599999999997,
+            "minimum_probability": 0.0,
+            "passed": false,
+            "candidate_probabilities": {
+              "color": 0.331149,
+              "location": 0.121823,
+              "size": 0.121823,
+              "state": 0.425204
+            }
+          }
+        ]
+      }
+    ],
+    "scope": "Frozen query-intent producer probe. It does not evaluate fact internalization, official F1/F3/F5, or semantic-memory advantage.",
+    "claim_status": "MEASURED in one local environment; not PROVEN.",
+    "all_pass": false
+  }
+}
