@@ -1,0 +1,45 @@
+{
+  "run_timestamp": "2026-06-15T23:30:39+03:00",
+  "selected_source": {
+    "name": "samayo_country_json_pinned",
+    "url": "https://raw.githubusercontent.com/samayo/country-json/41d4084bc1ccf9614dab45255a41ba3a5473be74/src/country-by-capital-city.json",
+    "source_commit": "41d4084bc1ccf9614dab45255a41ba3a5473be74",
+    "http_status": 200,
+    "response_bytes": 17907,
+    "response_sha256": "448e7c9be3b58ee5b85bea786e3688c13cb82298f072dcfc1e7bf5d83724ce52",
+    "normalized_records": 245
+  },
+  "source_file": "data\\rb4\\source\\country_capitals_samayo_country_json_pinned_807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026.json",
+  "source_file_sha256": "807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026",
+  "source_license": {
+    "name": "MIT",
+    "url": "https://raw.githubusercontent.com/samayo/country-json/41d4084bc1ccf9614dab45255a41ba3a5473be74/LICENSE",
+    "redistribution_permitted": true
+  },
+  "validation": {
+    "http_status_200": true,
+    "body_over_5_kib": true,
+    "json_list_at_least_180": true,
+    "all_country_and_capital_non_empty": true,
+    "top_level_error_absent": true
+  },
+  "failed_sources": [
+    {
+      "name": "restcountries_all_fields",
+      "url": "https://restcountries.com/v3.1/all?fields=name,capital",
+      "status": 200,
+      "bytes": 255,
+      "reason": "body size 255 <= 5120",
+      "first_200_bytes": "{\n    \"success\": false,\n    \"data\": null,\n    \"errors\": [\n        {\n            \"message\": \"This API version has been deprecated. Please visit the https://restcountries.com/docs/legacy-api-deprecation"
+    },
+    {
+      "name": "restcountries_independent_fields",
+      "url": "https://restcountries.com/v3.1/independent?status=true&fields=name,capital",
+      "status": 200,
+      "bytes": 255,
+      "reason": "body size 255 <= 5120",
+      "first_200_bytes": "{\n    \"success\": false,\n    \"data\": null,\n    \"errors\": [\n        {\n            \"message\": \"This API version has been deprecated. Please visit the https://restcountries.com/docs/legacy-api-deprecation"
+    }
+  ],
+  "claim_status": "PINNED FACT SOURCE ONLY. This file is not an RB4 role-binding corpus, contains no independently sourced construction families or ambiguity labels, and does not support a model-generalization claim."
+}

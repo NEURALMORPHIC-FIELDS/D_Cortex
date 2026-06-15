@@ -648,6 +648,48 @@
       ],
       "status": "success",
       "notes": "Initial RB4 commit hash before memory amend: 8729de3. Commit message: feat: add RB4 independent corpus audit gate. Verification source timestamp: 2026-06-15 21:12:59 +03:00."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "23:11",
+      "requested": "Unblock and run the RB4 independent-corpus generalization gate to completion with validated/pinned corpus acquisition and no model or gate-logic changes.",
+      "executed": "Recorded the autonomous RB4 corpus-acquisition plan before implementation. Next actions: implement acquisition only, validate/pin the first passing source, generate the corpus file, run the existing audit, verify seals/tests/integration, and commit on feature/rb4-independent-corpus-gate.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "No RB4 pass or model-generalization claim has been made at this point."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "23:32",
+      "requested": "Unblock and run the existing RB4 independent-corpus generalization gate using validated and pinned acquisition only, without changing the model, Pas 7a substrate, or RB4 gate logic.",
+      "executed": "Implemented validated source acquisition, rejected both 255-byte RestCountries error payloads, pinned the first passing fixed-commit MIT fallback as 245 normalized country-capital facts, ran the unchanged RB4 audit from the pinned file, copied the complete verdict, verified tests and Pas 7a seals, and documented the failed gate honestly.",
+      "files_touched": [
+        "scripts/acquire_rb4_independent_corpus.py",
+        "data/rb4/source/country_capitals_samayo_country_json_pinned_807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026.json",
+        "data/rb4/source/pinned_source_manifest.json",
+        "steps/24_v15_7b_independent_role_corpus/verdict.json",
+        "steps/24_v15_7b_independent_role_corpus/RB4_RUN_REPORT.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Current-session evidence: pinned source SHA-256 807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026; audit exit 1 with 0 parsed records and 245 schema errors; N1/N2/N3/N6 failed; lexical baseline 0.0% is non-informative because known_n=0; exact-match and wrong-mapping per family unavailable; pytest 5/5 passed; Pas 7a seals 5/5 byte-identical. RB4 generalization NOT SUPPORTED. Commit is created after this pre-commit memory entry; final hash must be read from git."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "23:34",
+      "requested": "Complete final verification before committing the RB4 acquisition and failed-gate evidence.",
+      "executed": "Ran the full test suite, compileall, integration verification, JSON validation, diff check, protected-file diff check, and final Pas 7a seal hashes.",
+      "files_touched": [
+        "steps/24_v15_7b_independent_role_corpus/RB4_RUN_REPORT.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Current-session output: 73 tests passed in 4.00s; compileall exit 0; integration 22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; JSON validation passed; protected diff empty; Pas 7a seals 5/5 byte-identical. These software checks do not change the RB4 gate failure or generalization claim status."
     }
   ]
 }

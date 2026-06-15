@@ -861,5 +861,92 @@
       "json_memory": "project_concept/project_structure/project_log valid JSON"
     },
     "final_hash_note": "Final commit hash must be read from git after amend; do not infer it from this memory entry."
+  },
+  "step_24_rb4_corpus_acquisition_run_2026_06_15": {
+    "status": "planned_before_implementation",
+    "created_at": "2026-06-15T23:11:38+03:00",
+    "scope": "Fix only RB4 corpus acquisition, pin the first validated source, run existing independent_role_corpus_audit.py, and keep Pas 7a/model/gate logic untouched.",
+    "branch": "feature/rb4-independent-corpus-gate",
+    "files_planned": [
+      "scripts/acquire_rb4_independent_corpus.py",
+      "data/rb4/source/<pinned normalized source>.json",
+      "data/rb4/independent_role_corpus.jsonl",
+      "data/rb4/source/pinned_source_manifest.json"
+    ],
+    "source_order": [
+      "https://restcountries.com/v3.1/all?fields=name,capital",
+      "https://restcountries.com/v3.1/independent?status=true&fields=name,capital",
+      "static content-addressable fallback pinned by raw URL and commit SHA"
+    ],
+    "guardrails": [
+      "no model code changes",
+      "no Pas 7a changes",
+      "no RB4 audit gate logic changes",
+      "no saving failed provider body as corpus",
+      "hard stop only if all sources fail payload validation"
+    ]
+  },
+  "step_24_rb4_corpus_acquisition_result_2026_06_15": {
+    "status": "source_pinned_rb4_gate_failed_generalization_not_supported",
+    "completed_at": "2026-06-15T23:32:37+03:00",
+    "branch": "feature/rb4-independent-corpus-gate",
+    "scope": "Validated and pinned the first passing country-capital source, then ran the unchanged RB4 data audit from the local pinned file.",
+    "files": [
+      "scripts/acquire_rb4_independent_corpus.py",
+      "data/rb4/source/country_capitals_samayo_country_json_pinned_807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026.json",
+      "data/rb4/source/pinned_source_manifest.json",
+      "steps/24_v15_7b_independent_role_corpus/verdict.json",
+      "steps/24_v15_7b_independent_role_corpus/RB4_RUN_REPORT.md"
+    ],
+    "pinned_source": {
+      "url": "https://raw.githubusercontent.com/samayo/country-json/41d4084bc1ccf9614dab45255a41ba3a5473be74/src/country-by-capital-city.json",
+      "source_commit": "41d4084bc1ccf9614dab45255a41ba3a5473be74",
+      "license": "MIT",
+      "normalized_records": 245,
+      "sha256": "807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026"
+    },
+    "audit_result": {
+      "timestamp": "2026-06-15T23:30:57+03:00",
+      "exit_code": 1,
+      "parsed_records": 0,
+      "parse_errors": 245,
+      "passed_criteria": [
+        "N0_PREDECESSORS_PRESERVED",
+        "N4_NO_DUPLICATE_LEAKAGE",
+        "N5_NON_TRIVIAL_BASELINES",
+        "N7_DATA_ONLY",
+        "N8_SEALS_UNTOUCHED"
+      ],
+      "failed_criteria": [
+        "N1_PROVENANCE",
+        "N2_CONSTRUCTION_SEPARATION",
+        "N3_LABEL_STRUCTURE",
+        "N6_AMBIGUITY_AUDIT"
+      ],
+      "lexical_baseline": "0.0% with known_n=0; non-informative and not valid generalization evidence",
+      "exact_match_and_wrong_mapping_per_family": "unavailable because no RB4 role-binding records parsed and the committed RB4 scaffold has no model-generalization executable",
+      "claim_status": "RB4 generalization NOT SUPPORTED"
+    },
+    "verification": {
+      "pytest": "5 passed in 0.02s",
+      "acquisition_py_compile": "passed",
+      "pas_7a_seals": "5/5 byte-identical",
+      "model_and_gate_logic_diff": "none"
+    },
+    "guardrail_result": "No fabricated role-binding corpus was created. The previously planned data/rb4/independent_role_corpus.jsonl file was intentionally not created because deriving it from local templates would violate corpus independence and the no-fabrication rule."
+  },
+  "step_24_rb4_final_verification_2026_06_15": {
+    "status": "verified_gate_failure_preserved",
+    "completed_at": "2026-06-15T23:34:00+03:00",
+    "verification": {
+      "rb4_gate": "exit 1; N1/N2/N3/N6 failed; generalization not supported",
+      "rb4_unit_tests": "5 passed in 0.02s",
+      "full_pytest": "73 passed in 4.00s",
+      "compileall": "exit code 0",
+      "verify_integration": "22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; exit code 0",
+      "pas_7a_seals": "5/5 byte-identical",
+      "protected_file_diff": "empty"
+    },
+    "claim_guard": "Successful software verification does not change the failed RB4 data gate or support a generalization claim."
   }
 }
