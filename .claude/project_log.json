@@ -609,6 +609,45 @@
       ],
       "status": "success",
       "notes": "Commit message: milestone: seal RB2 seen-syntax and RB3 holdout verdicts. Final commit hash is reported from git after amend, not inferred here."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "21:05",
+      "requested": "Proceed autonomously with RB4 as an independent role-binding corpus gate, with lexical/trivial baseline, frozen thresholds, and wrong-mapping emphasis.",
+      "executed": "Planned a data-only RB4 audit harness before code implementation. The harness will validate independent corpus schema, split/family separation, duplicate leakage, trivial baselines, ambiguity consistency, predecessor hashes, and seal hashes without training a model.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "No RB4 pass will be claimed without a real independent corpus verdict artifact generated from user-supplied or independently acquired records."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "21:12",
+      "requested": "Implement the RB4 gate so the next step measures a genuinely independent corpus with lexical baseline and wrong-mapping discipline.",
+      "executed": "Implemented the RB4 independent corpus audit harness, added unit tests, documented schema and frozen thresholds, and verified it without claiming RB4 pass. Full current-session checks: pytest 73/73 pass, compileall pass, verify_integration reports 22 WIRED / 0 NOT_WIRED / 0 DUPLICATE, data-only scan hits none, default CLI fails explicitly because the independent corpus is absent.",
+      "files_touched": [
+        "scripts/independent_role_corpus_audit.py",
+        "tests/test_independent_role_corpus_audit.py",
+        "steps/24_v15_7b_independent_role_corpus/README.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "No model training, no threshold calibration, no memory integration, and no RB4 success claim. Source timestamps for verification: 2026-06-15 21:11:22 +03:00 and 2026-06-15 21:11:40 +03:00 command outputs."
+    },
+    {
+      "date": "2026-06-15",
+      "time": "21:13",
+      "requested": "Keep RB2/RB3 checkpoint separate and continue RB4 safely.",
+      "executed": "Created feature/rb4-independent-corpus-gate from the verified milestone branch and committed the RB4 independent corpus audit harness. This memory entry is being amended into the same commit; final hash must be read from git after amend.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Initial RB4 commit hash before memory amend: 8729de3. Commit message: feat: add RB4 independent corpus audit gate. Verification source timestamp: 2026-06-15 21:12:59 +03:00."
     }
   ]
 }

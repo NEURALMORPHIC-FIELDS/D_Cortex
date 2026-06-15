@@ -784,5 +784,82 @@
     },
     "commit_message": "milestone: seal RB2 seen-syntax and RB3 holdout verdicts",
     "post_commit_note": "Branch checkpoint commit created; final amended hash is reported from git rev-parse after this memory update."
+  },
+  "step_24_rb4_independent_corpus_audit_harness_2026_06_15": {
+    "status": "planned_for_implementation",
+    "created_at": "2026-06-15T21:05:42+03:00",
+    "scope": "RB4 data-only independent corpus audit harness; no model training, no threshold calibration, no memory integration.",
+    "planned_files": [
+      "scripts/independent_role_corpus_audit.py",
+      "tests/test_independent_role_corpus_audit.py",
+      "steps/24_v15_7b_independent_role_corpus/README.md"
+    ],
+    "frozen_gate_requirements": [
+      "N0_PREDECESSORS_PRESERVED",
+      "N1_PROVENANCE",
+      "N2_CONSTRUCTION_SEPARATION",
+      "N3_LABEL_STRUCTURE",
+      "N4_NO_DUPLICATE_LEAKAGE",
+      "N5_NON_TRIVIAL_BASELINES",
+      "N6_AMBIGUITY_AUDIT",
+      "N7_DATA_ONLY",
+      "N8_SEALS_UNTOUCHED"
+    ],
+    "claim_guard": "This harness can audit a supplied independent corpus only; it cannot certify RB4 until real corpus records are provided and the CLI verdict is run."
+  },
+  "step_24_rb4_independent_corpus_audit_harness_implemented_2026_06_15": {
+    "status": "implemented_verified_no_corpus_pass_claimed",
+    "created_at": "2026-06-15T21:12:08+03:00",
+    "files": [
+      "scripts/independent_role_corpus_audit.py",
+      "tests/test_independent_role_corpus_audit.py",
+      "steps/24_v15_7b_independent_role_corpus/README.md"
+    ],
+    "public_cli": "python scripts/independent_role_corpus_audit.py --corpus data/rb4/independent_role_corpus.jsonl",
+    "functionality": [
+      "loads JSON/JSONL independent role-binding corpus",
+      "validates provenance, construction-family separation, one-to-one labels, duplicate leakage, baseline nontriviality, ambiguity consistency, predecessor hashes, seal hashes, and data-only source constraints",
+      "writes runs/independent_role_corpus_audit/results/verdict.json only when a corpus is supplied"
+    ],
+    "frozen_thresholds": {
+      "min_total_records": 120,
+      "min_records_per_split": 20,
+      "min_evaluation_known_records": 40,
+      "min_evaluation_ambiguous_records": 10,
+      "max_position_baseline_exact_rate": "< 0.50",
+      "max_safe_ambiguity_overcommit_rate": "<= 0.02"
+    },
+    "verification_current_session": {
+      "timestamp": "2026-06-15T21:11:40+03:00",
+      "pytest": "73 passed in 3.58s",
+      "compileall": "passed for dcortex scripts tests",
+      "verify_integration": "22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; all critical modules wired",
+      "data_only_report": "hits=[], all_ok=True",
+      "default_cli_without_corpus": "2026-06-15T21:11:22+03:00 exit code 2 with explicit missing-corpus error; no RB4 pass claimed"
+    },
+    "claim_guard": "RB4 corpus has not passed because no independent corpus file exists at the default path in this session. The harness is verified; the corpus gate remains unrun/unpassed."
+  },
+  "branch_checkpoint_2026_06_15_rb4_independent_corpus_gate": {
+    "status": "committed_on_feature_branch",
+    "created_at": "2026-06-15T21:13:36+03:00",
+    "branch": "feature/rb4-independent-corpus-gate",
+    "base_milestone_branch": "milestone/rb2-rb3-verified",
+    "commit_message": "feat: add RB4 independent corpus audit gate",
+    "initial_commit_hash_before_memory_amend": "8729de3",
+    "files": [
+      "scripts/independent_role_corpus_audit.py",
+      "tests/test_independent_role_corpus_audit.py",
+      "steps/24_v15_7b_independent_role_corpus/README.md",
+      ".claude/project_structure.json",
+      ".claude/project_log.json"
+    ],
+    "verification_before_commit": {
+      "timestamp": "2026-06-15T21:12:59+03:00",
+      "pytest": "73 passed in 3.63s",
+      "compileall": "passed for dcortex scripts tests",
+      "verify_integration": "22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; all critical modules wired",
+      "json_memory": "project_concept/project_structure/project_log valid JSON"
+    },
+    "final_hash_note": "Final commit hash must be read from git after amend; do not infer it from this memory entry."
   }
 }

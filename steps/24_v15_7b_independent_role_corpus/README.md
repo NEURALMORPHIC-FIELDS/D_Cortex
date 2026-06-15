@@ -45,3 +45,63 @@ role-binding corpus.
 
 Do not integrate RB2 into memory and do not tune RB3 on the same four syntax
 families. The next executable work is corpus acquisition and audit only.
+
+## Executable audit harness
+
+Script:
+
+```text
+scripts/independent_role_corpus_audit.py
+```
+
+Default command:
+
+```text
+python scripts/independent_role_corpus_audit.py --corpus data/rb4/independent_role_corpus.jsonl
+```
+
+The default corpus path is intentionally not auto-created. A missing corpus is
+a hard failure with instructions; it is not replaced with placeholder or
+synthetic data.
+
+## Frozen input schema
+
+Each JSON/JSONL record must contain:
+
+```json
+{
+  "record_id": "source-stable-id",
+  "split": "train|validation|evaluation",
+  "construction_family": "independent-family-name",
+  "source_text": "source sentence or excerpt",
+  "attribute": "attribute name",
+  "entities": ["entity A", "entity B"],
+  "values": ["value A", "value B"],
+  "expected": [
+    ["entity A", "attribute name", "value A"],
+    ["entity B", "attribute name", "value B"]
+  ],
+  "ambiguous": false,
+  "provenance": {
+    "source_id": "document-id",
+    "citation": "verifiable source reference"
+  }
+}
+```
+
+For ambiguous records, `expected` must be empty and `ambiguous` must be true.
+
+## Frozen thresholds
+
+- minimum total records: 120
+- minimum records per split: 20
+- minimum evaluation known records: 40
+- minimum evaluation ambiguous records: 10
+- maximum exact rate for lexical/position baselines: `< 50%`
+- maximum overcommit rate for "safe ambiguity" baseline eligibility: `<= 2%`
+
+## Claim guard
+
+Passing this audit means only that the supplied corpus meets the RB4 data gate.
+It does not mean RB2/RB3 generalizes, does not permit automatic memory
+integration, and does not prove end-to-end D_Cortex improvement.
