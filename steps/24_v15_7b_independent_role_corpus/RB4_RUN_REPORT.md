@@ -113,3 +113,33 @@ bab8ec1268d5000d5a9da5ae5946d29946822efa9a6b0b3ce53be59052631b57  scripts/semant
 ```
 
 All five hashes are byte-identical to the frozen RB4 seal expectations.
+
+
+## Rerun 2026-06-16: corpus acquisition completed, RB4 audit unblocked
+
+The original RB4 run (2026-06-15) FAILED because the acquired source was raw
+country/capital pairs, not the two-entity two-value role-binding schema the
+frozen audit consumes (0 parsed, 245 schema errors). The fix completes the
+corpus acquisition with `scripts/build_rb4_role_corpus.py`: it reads the
+validated, pinned, MIT-licensed country/capital facts and constructs role-binding
+records in the audit's exact schema. The RB4 gate logic, the role-binding model,
+and the Pas 7a seals are NOT modified.
+
+- Pinned upstream source: `samayo/country-json @ 41d4084` (MIT), 245 facts,
+  SHA-256 `807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026`.
+  `restcountries /v3.1/all` and `/independent` were tried first and rejected
+  (HTTP 200 but 255-byte deprecation bodies).
+- Constructed corpus: `data/rb4/independent_role_corpus.jsonl`, 201 records
+  (153 known + 48 ambiguous), 67 per split, SHA-256
+  `fe27bbc64e8a850dc38e8ce15b9390d268d9447df3d7a271d56ecfc4e779b59a`.
+- Audit: ALL 9 gates PASS (N0-N8). Lexical/position baseline exact = 0.0% on
+  every trivial baseline (ordered_first_occurrence, minimum_distance,
+  lexical_cartesian); wrong-mapping = 100%; safe_abstain emits nothing. The
+  corpus is non-trivial: lexical matching does not solve it.
+- Pas 7a and the five sealed semantic sources: byte-identical (N8 PASS).
+- Full suite: 73 passed. Integration: 22 WIRED / 0 NOT_WIRED / 0 DUPLICATE.
+
+Claim status: this is a DATA AUDIT PASS. It certifies that an independent,
+non-trivial, split-separated role-binding corpus now exists and is reproducible.
+It does NOT measure model generalization: the existing RB4 scaffold is data-only
+and runs no model. Generalization is NOT proven and NOT measured.

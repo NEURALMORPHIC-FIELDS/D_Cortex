@@ -42,40 +42,55 @@
     },
     {
       "criterion_id": "N1_PROVENANCE",
-      "passed": false,
-      "evidence": "Every parsed record has non-trivial auditable provenance=False (0 bad).",
+      "passed": true,
+      "evidence": "Every parsed record has non-trivial auditable provenance=True (0 bad).",
       "distribution": {
-        "records": 0,
+        "records": 201,
         "bad_provenance_count": 0,
         "bad_provenance_examples": [],
-        "all_ok": false
+        "all_ok": true
       }
     },
     {
       "criterion_id": "N2_CONSTRUCTION_SEPARATION",
-      "passed": false,
-      "evidence": "Split sizes, reserved-family exclusion, and pairwise construction-family separation pass=False.",
+      "passed": true,
+      "evidence": "Split sizes, reserved-family exclusion, and pairwise construction-family separation pass=True.",
       "distribution": {
         "per_split": {
           "train": {
-            "records": 0,
-            "known": 0,
-            "ambiguous": 0,
-            "families": [],
+            "records": 67,
+            "known": 51,
+            "ambiguous": 16,
+            "families": [
+              "gazetteer_index",
+              "gazetteer_proximity",
+              "gazetteer_recorded",
+              "gazetteer_redacted"
+            ],
             "reserved_development_families": []
           },
           "validation": {
-            "records": 0,
-            "known": 0,
-            "ambiguous": 0,
-            "families": [],
+            "records": 67,
+            "known": 51,
+            "ambiguous": 16,
+            "families": [
+              "atlas_concession",
+              "atlas_directive",
+              "atlas_omitted",
+              "atlas_seat"
+            ],
             "reserved_development_families": []
           },
           "evaluation": {
-            "records": 0,
-            "known": 0,
-            "ambiguous": 0,
-            "families": [],
+            "records": 67,
+            "known": 51,
+            "ambiguous": 16,
+            "families": [
+              "dossier_consequence",
+              "dossier_elimination",
+              "dossier_former",
+              "dossier_unspecified"
+            ],
             "reserved_development_families": []
           }
         },
@@ -84,106 +99,25 @@
           "train_evaluation": [],
           "validation_evaluation": []
         },
-        "split_counts_ok": false,
+        "split_counts_ok": true,
         "pairwise_family_disjoint": true,
         "reserved_development_families_absent": true,
-        "all_ok": false
+        "all_ok": true
       }
     },
     {
       "criterion_id": "N3_LABEL_STRUCTURE",
-      "passed": false,
-      "evidence": "Known records have one exact one-to-one mapping and ambiguous records have none=False (0 bad, 245 parse errors).",
+      "passed": true,
+      "evidence": "Known records have one exact one-to-one mapping and ambiguous records have none=True (0 bad, 0 parse errors).",
       "distribution": {
-        "records": 0,
-        "parse_errors": [
-          {
-            "index": 0,
-            "error": "'split'"
-          },
-          {
-            "index": 1,
-            "error": "'split'"
-          },
-          {
-            "index": 2,
-            "error": "'split'"
-          },
-          {
-            "index": 3,
-            "error": "'split'"
-          },
-          {
-            "index": 4,
-            "error": "'split'"
-          },
-          {
-            "index": 5,
-            "error": "'split'"
-          },
-          {
-            "index": 6,
-            "error": "'split'"
-          },
-          {
-            "index": 7,
-            "error": "'split'"
-          },
-          {
-            "index": 8,
-            "error": "'split'"
-          },
-          {
-            "index": 9,
-            "error": "'split'"
-          },
-          {
-            "index": 10,
-            "error": "'split'"
-          },
-          {
-            "index": 11,
-            "error": "'split'"
-          },
-          {
-            "index": 12,
-            "error": "'split'"
-          },
-          {
-            "index": 13,
-            "error": "'split'"
-          },
-          {
-            "index": 14,
-            "error": "'split'"
-          },
-          {
-            "index": 15,
-            "error": "'split'"
-          },
-          {
-            "index": 16,
-            "error": "'split'"
-          },
-          {
-            "index": 17,
-            "error": "'split'"
-          },
-          {
-            "index": 18,
-            "error": "'split'"
-          },
-          {
-            "index": 19,
-            "error": "'split'"
-          }
-        ],
-        "parse_error_count": 245,
-        "known_records": 0,
-        "ambiguous_records": 0,
+        "records": 201,
+        "parse_errors": [],
+        "parse_error_count": 0,
+        "known_records": 153,
+        "ambiguous_records": 48,
         "bad_record_count": 0,
         "bad_records": [],
-        "all_ok": false
+        "all_ok": true
       }
     },
     {
@@ -214,102 +148,102 @@
         "scores": {
           "all_records": {
             "ordered_first_occurrence": {
-              "known_n": 0,
+              "known_n": 153,
               "known_exact": 0,
               "known_exact_rate": 0.0,
-              "known_emitted": 0,
-              "known_emitted_rate": 0.0,
-              "known_wrong": 0,
-              "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
-              "ambiguous_overcommit": 0,
+              "known_emitted": 153,
+              "known_emitted_rate": 1.0,
+              "known_wrong": 153,
+              "known_wrong_rate": 1.0,
+              "ambiguous_n": 48,
+              "ambiguous_overcommit": 48,
               "ambiguous_overcommit_rate": 1.0
             },
             "minimum_distance": {
-              "known_n": 0,
+              "known_n": 153,
               "known_exact": 0,
               "known_exact_rate": 0.0,
-              "known_emitted": 0,
-              "known_emitted_rate": 0.0,
-              "known_wrong": 0,
-              "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
-              "ambiguous_overcommit": 0,
+              "known_emitted": 153,
+              "known_emitted_rate": 1.0,
+              "known_wrong": 153,
+              "known_wrong_rate": 1.0,
+              "ambiguous_n": 48,
+              "ambiguous_overcommit": 48,
               "ambiguous_overcommit_rate": 1.0
             },
             "lexical_cartesian": {
-              "known_n": 0,
+              "known_n": 153,
               "known_exact": 0,
               "known_exact_rate": 0.0,
-              "known_emitted": 0,
-              "known_emitted_rate": 0.0,
-              "known_wrong": 0,
-              "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
-              "ambiguous_overcommit": 0,
+              "known_emitted": 153,
+              "known_emitted_rate": 1.0,
+              "known_wrong": 153,
+              "known_wrong_rate": 1.0,
+              "ambiguous_n": 48,
+              "ambiguous_overcommit": 48,
               "ambiguous_overcommit_rate": 1.0
             },
             "safe_abstain": {
-              "known_n": 0,
+              "known_n": 153,
               "known_exact": 0,
               "known_exact_rate": 0.0,
               "known_emitted": 0,
               "known_emitted_rate": 0.0,
               "known_wrong": 0,
               "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
+              "ambiguous_n": 48,
               "ambiguous_overcommit": 0,
-              "ambiguous_overcommit_rate": 1.0
+              "ambiguous_overcommit_rate": 0.0
             }
           },
           "evaluation": {
             "ordered_first_occurrence": {
-              "known_n": 0,
+              "known_n": 51,
               "known_exact": 0,
               "known_exact_rate": 0.0,
-              "known_emitted": 0,
-              "known_emitted_rate": 0.0,
-              "known_wrong": 0,
-              "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
-              "ambiguous_overcommit": 0,
+              "known_emitted": 51,
+              "known_emitted_rate": 1.0,
+              "known_wrong": 51,
+              "known_wrong_rate": 1.0,
+              "ambiguous_n": 16,
+              "ambiguous_overcommit": 16,
               "ambiguous_overcommit_rate": 1.0
             },
             "minimum_distance": {
-              "known_n": 0,
+              "known_n": 51,
               "known_exact": 0,
               "known_exact_rate": 0.0,
-              "known_emitted": 0,
-              "known_emitted_rate": 0.0,
-              "known_wrong": 0,
-              "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
-              "ambiguous_overcommit": 0,
+              "known_emitted": 51,
+              "known_emitted_rate": 1.0,
+              "known_wrong": 51,
+              "known_wrong_rate": 1.0,
+              "ambiguous_n": 16,
+              "ambiguous_overcommit": 16,
               "ambiguous_overcommit_rate": 1.0
             },
             "lexical_cartesian": {
-              "known_n": 0,
+              "known_n": 51,
               "known_exact": 0,
               "known_exact_rate": 0.0,
-              "known_emitted": 0,
-              "known_emitted_rate": 0.0,
-              "known_wrong": 0,
-              "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
-              "ambiguous_overcommit": 0,
+              "known_emitted": 51,
+              "known_emitted_rate": 1.0,
+              "known_wrong": 51,
+              "known_wrong_rate": 1.0,
+              "ambiguous_n": 16,
+              "ambiguous_overcommit": 16,
               "ambiguous_overcommit_rate": 1.0
             },
             "safe_abstain": {
-              "known_n": 0,
+              "known_n": 51,
               "known_exact": 0,
               "known_exact_rate": 0.0,
               "known_emitted": 0,
               "known_emitted_rate": 0.0,
               "known_wrong": 0,
               "known_wrong_rate": 0.0,
-              "ambiguous_n": 0,
+              "ambiguous_n": 16,
               "ambiguous_overcommit": 0,
-              "ambiguous_overcommit_rate": 1.0
+              "ambiguous_overcommit_rate": 0.0
             }
           }
         }
@@ -317,27 +251,27 @@
     },
     {
       "criterion_id": "N6_AMBIGUITY_AUDIT",
-      "passed": false,
-      "evidence": "Ambiguous records are internally consistent and present in every split=False.",
+      "passed": true,
+      "evidence": "Ambiguous records are internally consistent and present in every split=True.",
       "distribution": {
         "per_split": {
           "train": {
-            "known": 0,
-            "ambiguous": 0
+            "known": 51,
+            "ambiguous": 16
           },
           "validation": {
-            "known": 0,
-            "ambiguous": 0
+            "known": 51,
+            "ambiguous": 16
           },
           "evaluation": {
-            "known": 0,
-            "ambiguous": 0
+            "known": 51,
+            "ambiguous": 16
           }
         },
         "bad_ambiguous_count": 0,
         "bad_ambiguous_examples": [],
-        "distribution_ok": false,
-        "all_ok": false
+        "distribution_ok": true,
+        "all_ok": true
       }
     },
     {
@@ -401,12 +335,12 @@
     }
   ],
   "reference": {
-    "run_timestamp": "2026-06-15T23:30:57+03:00",
-    "corpus_path": "data\\rb4\\source\\country_capitals_samayo_country_json_pinned_807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026.json",
-    "corpus_mtime": "2026-06-15T23:30:39+03:00",
-    "corpus_sha256": "807c7db9907bffd7f1e469d166224ad330a52b773ab44f905a9435b5e0dbf026",
-    "parsed_corpus_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "records": 0,
+    "run_timestamp": "2026-06-16T00:10:00+03:00",
+    "corpus_path": "data\\rb4\\independent_role_corpus.jsonl",
+    "corpus_mtime": "2026-06-16T00:09:59+03:00",
+    "corpus_sha256": "fe27bbc64e8a850dc38e8ce15b9390d268d9447df3d7a271d56ecfc4e779b59a",
+    "parsed_corpus_hash": "9f2ae1fd4e86a76d545bab00d25f091580dfbda097c8c9ac23a96d4de91e87be",
+    "records": 201,
     "thresholds": {
       "min_total_records": 120,
       "min_records_per_split": 20,
@@ -417,6 +351,6 @@
     },
     "scope": "RB4 data-only independent role-binding corpus audit. This verdict does not train a model, does not integrate RB2/RB3 into memory, and does not prove role-binding generalization.",
     "claim_status": "DATA AUDIT ONLY; not a model-performance claim.",
-    "all_pass": false
+    "all_pass": true
   }
 }

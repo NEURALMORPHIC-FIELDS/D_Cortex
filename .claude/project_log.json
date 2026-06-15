@@ -690,6 +690,21 @@
       ],
       "status": "success",
       "notes": "Current-session output: 73 tests passed in 4.00s; compileall exit 0; integration 22 WIRED, 0 NOT_WIRED, 0 DUPLICATE; JSON validation passed; protected diff empty; Pas 7a seals 5/5 byte-identical. These software checks do not change the RB4 gate failure or generalization claim status."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "00:20",
+      "requested": "Unblock and run the RB4 independent-corpus generalization gate to completion (branch feature/rb4-independent-corpus-gate, eval only).",
+      "executed": "Confirmed acquisition fetch+validate+pin (restcountries v3.1 rejected as 255-byte deprecation bodies; samayo/country-json@41d4084 MIT validated, 245 facts, SHA 807c7db9). Built scripts/build_rb4_role_corpus.py to complete acquisition: independent country/capital facts -> two-entity two-value role-binding records in the audit schema, per-split families, known+ambiguous, surface order crossed and filtered with the audit's own position baselines. Ran the EXISTING RB4 audit (gate logic, model, seals untouched).",
+      "files_touched": [
+        "scripts/build_rb4_role_corpus.py",
+        "data/rb4/independent_role_corpus.jsonl",
+        "steps/24_v15_7b_independent_role_corpus/verdict.json",
+        "steps/24_v15_7b_independent_role_corpus/RB4_RUN_REPORT.md",
+        "runs/independent_role_corpus_audit/results/verdict.json"
+      ],
+      "status": "success",
+      "notes": "RB4 corpus audit ALL 9 GATES PASS (was FAIL: country/capital wrong schema). Corpus fe27bbc6...e779b59a, 201 records (153 known/48 ambiguous, 67/split). N5 lexical/position baseline exact=0.0% (ordered/min-distance/lexical all 0% exact, 100% wrong) -> non-trivial. N8 seals byte-identical. pytest 73 passed, integration 22 WIRED. CLAIM STATUS: DATA AUDIT PASS only; the existing scaffold runs NO model, so model generalization is NOT measured and NOT proven. Pinned source committable (MIT)."
     }
   ]
 }
