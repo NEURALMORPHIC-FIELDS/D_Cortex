@@ -705,6 +705,21 @@
       ],
       "status": "success",
       "notes": "RB4 corpus audit ALL 9 GATES PASS (was FAIL: country/capital wrong schema). Corpus fe27bbc6...e779b59a, 201 records (153 known/48 ambiguous, 67/split). N5 lexical/position baseline exact=0.0% (ordered/min-distance/lexical all 0% exact, 100% wrong) -> non-trivial. N8 seals byte-identical. pytest 73 passed, integration 22 WIRED. CLAIM STATUS: DATA AUDIT PASS only; the existing scaffold runs NO model, so model generalization is NOT measured and NOT proven. Pinned source committable (MIT)."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "01:30",
+      "requested": "Role-binding evolution: refactor binding layer (content-addressed, relation-typed, abstain) above frozen substrate, rebuild non-trivial multi-family holdout corpus, retrain, benchmark systematic generalization on held-out families.",
+      "executed": "Built scripts/build_role_evolution_corpus.py (family+entity holdout, distinct cue constructions per split: copular/possessive/relative-passive-concessive, all non-trivial; RB4 audit 9/9). Refactored binding into ContentAddressedRoleBinder (position-blind span-pooled relation-keyed matcher + learned abstain + confident-wrong penalty) in scripts/train_role_evolution.py. Trained over frozen substrate (warmstarted_init.pt, read-only) across 10 seeds, early-stop on held-out-family metric.",
+      "files_touched": [
+        "scripts/build_role_evolution_corpus.py",
+        "scripts/train_role_evolution.py",
+        "data/role_evolution/role_evolution_corpus.jsonl",
+        "data/role_evolution/verdict.json",
+        "docs/ROLE_EVOLUTION_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "Held-out-construction benchmark, 10 seeds. G_GEN PASS exact median 74.5% [56.9%/87.2%] vs RB3 56.9% (floor 70%, lexical baseline 0%). G_SAFE PASS wrong median 13.7% vs RB3 31.4% (ceiling 15%). G_CALIB PASS ambiguous abstain 98.1%. G_SEALS PASS substrate byte-identical. HONEST: PARTIAL/borderline - relative-clause construction near RB3 (eval_relative 30.9% wrong), variance wide, median clears floor narrowly. MEASURED single-env 10 seeds, NOT PROVEN. Corpus SHA 0d58ed20b5fb57ad."
     }
   ]
 }

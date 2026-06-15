@@ -1,0 +1,143 @@
+{
+  "verdict": [
+    {
+      "criterion_id": "G_GEN",
+      "passed": true,
+      "evidence": "held-out-family median exact-match 74.5% [56.9%/87.2%/std 0.080] over 10 seeds; floor 70%; lexical baseline 0.0%; uplift +74.5% (need >= 30%)."
+    },
+    {
+      "criterion_id": "G_SAFE",
+      "passed": true,
+      "evidence": "held-out-family median wrong-mapping 13.7% [1.0%/28.4%]; ceiling 15% (RB3 was 31.4%); abstain median 8.8%."
+    },
+    {
+      "criterion_id": "G_CALIB",
+      "passed": true,
+      "evidence": "ambiguous-item abstain rate median 98.1% [26.9%/100.0%]; floor 70% (prefers abstain over confident wrong-bind on uncertain items)."
+    },
+    {
+      "criterion_id": "G_SEALS",
+      "passed": true,
+      "evidence": "sealed substrate/semantic sources byte-identical=True; warmstart SHA 8eb5362ed39fd6b9... (read-only, never trained)."
+    }
+  ],
+  "reference": {
+    "corpus_sha256": "0d58ed20b5fb57ad8df5c04d0e7365c058287c46e0fd3034eedb24d1282b2390",
+    "substrate_sha256": "8eb5362ed39fd6b9eaf2a4e268951f916459d026cbc201c97678d4ccbe0cdf45",
+    "seeds": 10,
+    "lexical_baseline_exact": 0.0,
+    "heldout_eval_families": [
+      "eval_concessive",
+      "eval_passive",
+      "eval_relative"
+    ],
+    "aggregate": {
+      "exact": {
+        "median": 0.7451,
+        "min": 0.5686,
+        "max": 0.8725,
+        "std": 0.0796,
+        "n": 10
+      },
+      "wrong": {
+        "median": 0.1373,
+        "min": 0.0098,
+        "max": 0.2843,
+        "std": 0.0763,
+        "n": 10
+      },
+      "abstain": {
+        "median": 0.0882,
+        "min": 0.0,
+        "max": 0.2843,
+        "std": 0.1021,
+        "n": 10
+      },
+      "ambiguous_abstain": {
+        "median": 0.9808,
+        "min": 0.2692,
+        "max": 1.0,
+        "std": 0.2215,
+        "n": 10
+      }
+    },
+    "per_family": {
+      "eval_concessive": {
+        "exact": {
+          "median": 0.8088,
+          "min": 0.6176,
+          "max": 0.9412,
+          "std": 0.0976,
+          "n": 10
+        },
+        "wrong": {
+          "median": 0.0882,
+          "min": 0.0294,
+          "max": 0.2647,
+          "std": 0.0648,
+          "n": 10
+        },
+        "abstain": {
+          "median": 0.0735,
+          "min": 0.0,
+          "max": 0.2647,
+          "std": 0.0937,
+          "n": 10
+        }
+      },
+      "eval_passive": {
+        "exact": {
+          "median": 0.7794,
+          "min": 0.5588,
+          "max": 0.9412,
+          "std": 0.1258,
+          "n": 10
+        },
+        "wrong": {
+          "median": 0.0441,
+          "min": 0.0,
+          "max": 0.2353,
+          "std": 0.0689,
+          "n": 10
+        },
+        "abstain": {
+          "median": 0.1324,
+          "min": 0.0,
+          "max": 0.4412,
+          "std": 0.1469,
+          "n": 10
+        }
+      },
+      "eval_relative": {
+        "exact": {
+          "median": 0.6324,
+          "min": 0.4706,
+          "max": 0.8529,
+          "std": 0.1108,
+          "n": 10
+        },
+        "wrong": {
+          "median": 0.3088,
+          "min": 0.0,
+          "max": 0.3824,
+          "std": 0.126,
+          "n": 10
+        },
+        "abstain": {
+          "median": 0.0588,
+          "min": 0.0,
+          "max": 0.2647,
+          "std": 0.0819,
+          "n": 10
+        }
+      }
+    },
+    "gates_predeclared": {
+      "G_GEN_EXACT_FLOOR": 0.7,
+      "G_GEN_BASELINE_UPLIFT": 0.3,
+      "G_SAFE_WRONG_CEIL": 0.15,
+      "G_CALIB_ABSTAIN_FLOOR": 0.7
+    },
+    "claim_status": "MEASURED systematic generalization on held-out families + entities, single environment, 10 seeds. Not PROVEN."
+  }
+}
