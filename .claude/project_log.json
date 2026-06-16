@@ -754,6 +754,27 @@
       ],
       "status": "success",
       "notes": "ALL 11 GATES PASS. Held-out exact median 99.3% [97.0%/99.9%] std 0.008 (20 seeds). Structural: long_gap 100.0%, embedded 98.8% (verified distinct gap 47 vs 10, depth 8 vs 0). cue_predicate 98.2%; compositional 100.0%; held-out relation currency_code 99.8%. NO-MEMORY control 51.6% -> causal gap +47.7pp. CPU repro delta 0.1%. Pilot froze G_RELATIVE floor 94%, G_COMPOSITIONAL 70%. Corpus SHA 53a032aedc9bdcf2. HONEST: position-blind binder + robust substrate; structural axis = robustness not syntax; CPU-vs-CUDA same machine; MEASURED single-org, NOT PROVEN."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "05:30",
+      "requested": "Complete professional D_Cortex integration: mechanical control layer (constrained decoding + hard unbypassable verifier veto), deterministic baseline, neural binder path on target hidden states, attribution tracing, binder-vs-baseline benchmark, gates G1-G11, first pack D_Cortex_PatentAnalyst.",
+      "executed": "Built dcortex_professional package (pack, enforcement router/resolver/verifier, runtime constrained decoder, control organism + deterministic baseline, binder_path). Built D_Cortex_PatentAnalyst pack (10 committed/2 provisional/1 disputed/6 forbidden, repo-grounded provenance). certify_professional.py runs G1-G11. Caught and fixed a crippled-baseline artifact in G11 (entity-only lookup 33% inflated binder to +64.71pp; proper (entity,attribute) lookup is 100% and the binder does not beat it).",
+      "files_touched": [
+        "dcortex_professional/pack.py",
+        "dcortex_professional/enforcement.py",
+        "dcortex_professional/runtime.py",
+        "dcortex_professional/control.py",
+        "dcortex_professional/binder_path.py",
+        "scripts/build_patent_analyst_pack.py",
+        "scripts/certify_professional.py",
+        "data/professional/D_Cortex_PatentAnalyst/*",
+        "data/professional/verdict.json",
+        "data/professional/answer_log.jsonl",
+        "docs/PROFESSIONAL_INTEGRATION_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT D_CORTEX_PROFESSIONAL_CAMPAIGN_PASS. ALL 11 GATES PASS. Mechanical grounding demonstrated: all 13 committed answers overridden (raw undertrained substrate emits gibberish; constraint forces committed value). Hallucination rate 0% on unanswerable+ood; 0 leaks across 29 adversarial. G11 HONEST: binder 98.0% does NOT beat proper (entity,attribute) lookup 100% (gap -1.9pp); naive entity-only lookup 33% was a crippled-baseline artifact, caught and corrected. MEASURED single-env; target = undertrained D_Cortex substrate; binder model-specific; NOT production/multi-model claim."
     }
   ]
 }

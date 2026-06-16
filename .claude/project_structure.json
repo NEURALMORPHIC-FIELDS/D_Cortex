@@ -58,6 +58,30 @@
     "scripts/certify_role_struct.py": {
       "status": "active",
       "purpose": "vnext3 certification: calibration pilot + 20-seed + no-memory causal control + 2 envs + 11 frozen gates"
+    },
+    "dcortex_professional/pack.py": {
+      "status": "active",
+      "purpose": "professional pack loader (committed/provisional/disputed/forbidden/sources/rules/schemas)"
+    },
+    "dcortex_professional/enforcement.py": {
+      "status": "active",
+      "purpose": "domain router + memory-state resolver + hard verifier (mechanical veto)"
+    },
+    "dcortex_professional/runtime.py": {
+      "status": "active",
+      "purpose": "substrate LM runtime: constrained decoding via logit masking"
+    },
+    "dcortex_professional/control.py": {
+      "status": "active",
+      "purpose": "control organism (single choke point) + deterministic baseline + attribution"
+    },
+    "dcortex_professional/binder_path.py": {
+      "status": "active",
+      "purpose": "neural binder grounding path + head-to-head vs deterministic lookup"
+    },
+    "scripts/certify_professional.py": {
+      "status": "active",
+      "purpose": "professional integration certification G1-G11 + verdict"
     }
   },
   "run_artifacts": {
@@ -979,5 +1003,18 @@
     "cpu_repro_delta": 0.0007,
     "seals_byte_identical": true,
     "claim": "MEASURED systematic generalization to unseen, structurally distinct cue constructions (long filler-gap, clause embedding) incl relative, calibrated abstention, 47.7pp causal margin; position-blind binder + robust substrate (robustness not syntax); CPU-vs-CUDA same machine; single-org; NOT PROVEN (needs multi-hardware + independent replication)."
+  },
+  "step_26_professional_integration_2026_06_16": {
+    "branch": "feature/professional-integration",
+    "verdict": "D_CORTEX_PROFESSIONAL_CAMPAIGN_PASS",
+    "gates_all_pass": true,
+    "pack": "D_Cortex_PatentAnalyst",
+    "hallucination_rate": 0.0,
+    "unbypassability_leaks": 0,
+    "binder_exact": 0.9804713804713805,
+    "proper_lookup_exact": 1.0,
+    "binder_gap_pp": -1.95,
+    "binder_beats_proper_baseline": false,
+    "claim": "Mechanical grounding + unbypassable verifier veto demonstrated; zero hallucination on unanswerable/ood; binder does NOT beat exact structured lookup on committed facts; MEASURED single-env on undertrained substrate; NOT production/multi-model."
   }
 }

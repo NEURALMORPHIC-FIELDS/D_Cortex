@@ -1,0 +1,49 @@
+{
+  "verdict": "D_CORTEX_PROFESSIONAL_CAMPAIGN_PASS",
+  "gates": {
+    "G1": true,
+    "G2": true,
+    "G3": true,
+    "G4": true,
+    "G5": true,
+    "G6": true,
+    "G7": true,
+    "G8": true,
+    "G9": true,
+    "G10": true,
+    "G11": true
+  },
+  "measured": {
+    "committed_recall": 1.0,
+    "hallucination_rate_unanswerable_and_ood": 0.0,
+    "unbypassability_leaks": 0,
+    "leak_examples": [],
+    "answerable_miss": 0,
+    "answerable_n": 10,
+    "binder_vs_baseline": {
+      "available": true,
+      "reason": "",
+      "n_items": 1555,
+      "binder_exact": 0.9804713804713805,
+      "binder_wrong": 0.018855218855218854,
+      "baseline_exact": 1.0,
+      "baseline_wrong": 0.0,
+      "baseline_entity_only_exact": 0.3333333333333333,
+      "gap_pp": -1.95,
+      "binder_beats_baseline": false
+    }
+  },
+  "claim_separation": {
+    "deterministic_baseline_grounds": "all committed-fact recall (exact lookup, the ceiling)",
+    "neural_binder_grounds": "2-entity content-addressed binding on substrate hidden states; measured head-to-head vs lookup. Against the PROPER (entity,attribute) lookup (the exact ceiling on committed facts) the binder does NOT win; it only beats a naive entity-only lookup that conflates relations. The binder's value is grounding from representation when no structured table exists, not beating an exact table.",
+    "verifier_grounds": "all abstain / block / uncertain outcomes (the veto)",
+    "constrained_decode": "mechanical emission of committed value at the factual slot"
+  },
+  "frozen_thresholds": {
+    "G_HALLUCINATION_CEIL": 0.0,
+    "G_RECALL_FLOOR": 1.0,
+    "G_BYPASS_LEAK_CEIL": 0.0,
+    "G_BINDER_MARGIN": 0.02
+  },
+  "claim_status": "MEASURED, single environment (D_Cortex substrate as target model, CUDA same machine). Mechanical grounding + unbypassable verifier veto demonstrated on the D_Cortex_PatentAnalyst pack. NOT a multi-model or production claim."
+}

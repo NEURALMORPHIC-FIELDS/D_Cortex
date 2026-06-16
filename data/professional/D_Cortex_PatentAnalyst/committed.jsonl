@@ -1,0 +1,10 @@
+{"attribute": "patent_number", "entity": "D_Cortex", "provenance": {"document": "project_concept", "ref": "patent", "source": "project_concept"}, "value": "EP25216372.0"}
+{"attribute": "owner", "entity": "D_Cortex", "provenance": {"document": "project_concept", "ref": "owner", "source": "project_concept"}, "value": "Vasile Lucian Borbeleac / FRAGMERGENT TECHNOLOGY S.R.L."}
+{"attribute": "architecture", "entity": "D_Cortex", "provenance": {"document": "project_concept", "ref": "vision", "source": "project_concept"}, "value": "dual-agent memory-native transformer"}
+{"attribute": "substrate", "entity": "D_Cortex", "provenance": {"document": "big_config", "ref": "warmstarted_init.pt big config", "source": "big_config"}, "value": "GPT-2-medium warm-started decoder"}
+{"attribute": "hidden_dim", "entity": "DCortexConfig", "provenance": {"document": "big_config", "ref": "big_config().hidden_dim", "source": "big_config"}, "value": "1024"}
+{"attribute": "decoder_layers", "entity": "DCortexConfig", "provenance": {"document": "big_config", "ref": "big_config().n_dec_layers", "source": "big_config"}, "value": "16"}
+{"attribute": "encoder_layers", "entity": "DCortexConfig", "provenance": {"document": "big_config", "ref": "big_config().n_enc_layers", "source": "big_config"}, "value": "4"}
+{"attribute": "held_out_structural_exact_median", "entity": "ContentAddressedRoleBinder", "provenance": {"document": "struct_verdict", "ref": "reference.aggregate.exact.median", "source": "struct_verdict"}, "value": "99.3 percent"}
+{"attribute": "no_memory_control_exact", "entity": "ContentAddressedRoleBinder", "provenance": {"document": "struct_verdict", "ref": "reference.aggregate.no_memory_exact.median", "source": "struct_verdict"}, "value": "51.6 percent"}
+{"attribute": "claim_status", "entity": "ContentAddressedRoleBinder", "provenance": {"document": "struct_verdict", "ref": "reference.claim_status", "source": "struct_verdict"}, "value": "MEASURED not PROVEN"}

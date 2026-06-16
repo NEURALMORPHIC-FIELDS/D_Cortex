@@ -1,0 +1,35 @@
+{
+  "default_action": "abstain",
+  "rules": [
+    {
+      "action": "abstain",
+      "id": "R1_unknown_fact",
+      "message": "Not grounded in D_Cortex_PatentAnalyst committed memory.",
+      "when": "entity in schema but (entity,attribute) not committed"
+    },
+    {
+      "action": "out_of_domain",
+      "id": "R2_out_of_domain",
+      "message": "Query is outside the patent-analysis domain.",
+      "when": "no in-domain keyword and entity not in schema"
+    },
+    {
+      "action": "uncertain",
+      "id": "R3_disputed",
+      "message": "Conflicting sources; reported as uncertain.",
+      "when": "(entity,attribute) in disputed"
+    },
+    {
+      "action": "block",
+      "id": "R4_forbidden",
+      "message": "Claim is forbidden in this pack.",
+      "when": "answer matches a forbidden pattern"
+    },
+    {
+      "action": "provisional",
+      "id": "R5_provisional",
+      "message": "Provisional; not independently verified.",
+      "when": "(entity,attribute) in provisional"
+    }
+  ]
+}

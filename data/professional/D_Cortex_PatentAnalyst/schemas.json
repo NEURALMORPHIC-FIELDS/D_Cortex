@@ -1,0 +1,40 @@
+{
+  "attributes": {
+    "architecture": "string",
+    "claim_status": "string",
+    "decoder_layers": "integer",
+    "encoder_layers": "integer",
+    "held_out_structural_exact_median": "percent",
+    "hidden_dim": "integer",
+    "independent_replication": "status",
+    "multi_hardware_reproduction": "status",
+    "no_memory_control_exact": "percent",
+    "owner": "string",
+    "parameter_count": "string",
+    "patent_number": "string",
+    "substrate": "string"
+  },
+  "domain": "patent_analysis",
+  "entities": [
+    "D_Cortex",
+    "DCortexConfig",
+    "ContentAddressedRoleBinder"
+  ],
+  "in_domain_keywords": [
+    "patent",
+    "d_cortex",
+    "dcortex",
+    "binder",
+    "config",
+    "architecture",
+    "substrate",
+    "owner",
+    "layers",
+    "hidden",
+    "claim",
+    "parameter",
+    "role-binding",
+    "memory",
+    "transformer"
+  ]
+}

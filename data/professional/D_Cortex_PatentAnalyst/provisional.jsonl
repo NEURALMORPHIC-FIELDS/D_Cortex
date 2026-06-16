@@ -1,0 +1,2 @@
+{"attribute": "multi_hardware_reproduction", "entity": "D_Cortex", "provenance": {"document": "struct_verdict", "ref": "second environment is CPU vs CUDA on the same machine; distinct hardware not yet run", "source": "struct_verdict"}, "status": "provisional", "value": "pending"}
+{"attribute": "independent_replication", "entity": "D_Cortex", "provenance": {"document": "struct_verdict", "ref": "PROVEN requires independent replication; not yet performed", "source": "struct_verdict"}, "status": "provisional", "value": "pending"}

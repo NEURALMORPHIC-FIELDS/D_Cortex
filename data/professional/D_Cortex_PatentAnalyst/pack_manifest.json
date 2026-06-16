@@ -1,0 +1,18 @@
+{
+  "counts": {
+    "committed": 10,
+    "disputed": 1,
+    "forbidden": 6,
+    "provisional": 2
+  },
+  "files": {
+    "abstain_rules.json": "9e0c8f569d5cf5668bd5ee59875de73640475dc511b33f0ab0639d15b0364e29",
+    "committed.jsonl": "4b6eeb88947468b31aff9e83cf1b5a1e544990fc1000d913eb16fa2ffe590547",
+    "disputed.jsonl": "c187d9a2ebacf1ec726ce4fff326952b54e87bc18faae4c8cbf50e8a336f36c3",
+    "forbidden.jsonl": "3098be5be5793784abb2a51a48cfc94aea1ef763d0dfb61ebf0f28d23deeac84",
+    "provisional.jsonl": "1d9a526b5a8733e8d3b02b022c6d70d9d41422bac2d2fc145068b0a5f247c72a",
+    "schemas.json": "35e6b53902cf1cfa4d8f3403a90763e27867c710d5fc3a7c8993b48c887c3b29",
+    "sources.json": "05c2b260e3c52a509894920437743bb826e3b7b50beaea39aa32e71aa0057146"
+  },
+  "pack": "D_Cortex_PatentAnalyst"
+}

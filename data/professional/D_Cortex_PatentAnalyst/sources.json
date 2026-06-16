@@ -1,0 +1,20 @@
+{
+  "big_config": {
+    "note": "big_config() = the BIG DCortexConfig used across role-binding runs",
+    "ref": "scripts/train_role_evolution.py",
+    "sha256": "68c89652b3b228e47af69622a8225968a6c026291ad17994090cd312670d06a1",
+    "type": "repo_file"
+  },
+  "project_concept": {
+    "note": "D_Cortex project concept (source of truth for project facts)",
+    "ref": ".claude/project_concept.json",
+    "sha256": "98fab459c1d60b261ce9e467ed5117b47c0f9dc375380cff97f18536120001cb",
+    "type": "repo_file"
+  },
+  "struct_verdict": {
+    "note": "vnext3 structural certification verdict (measured numbers + claim status)",
+    "ref": "data/role_struct/verdict.json",
+    "sha256": "09abaa412e94968eb5a73546eced1048e00af273e6f664f542c210e53260ba88",
+    "type": "repo_file"
+  }
+}

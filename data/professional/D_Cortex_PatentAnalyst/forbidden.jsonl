@@ -1,0 +1,6 @@
+{"pattern": "is proven", "reason": "role-binding is MEASURED not PROVEN; asserting proof is forbidden", "severity": "high"}
+{"pattern": "fully proven", "reason": "role-binding is MEASURED not PROVEN", "severity": "high"}
+{"pattern": "100% generalization", "reason": "the 100% scale figure was a caught test artifact", "severity": "high"}
+{"pattern": "trades profitably", "reason": "no verified trading fills; profitability claim forbidden", "severity": "high"}
+{"pattern": "production ready", "reason": "system is a research substrate; not production-certified", "severity": "medium"}
+{"pattern": "patent granted", "reason": "application number on file; grant status not in pack", "severity": "high"}

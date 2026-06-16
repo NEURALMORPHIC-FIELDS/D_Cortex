@@ -1,0 +1,1 @@
+{"attribute": "parameter_count", "candidates": [{"ref": "computed from BIG config", "source": "big_config", "value": "344.70M"}, {"ref": "rounded figure in notes", "source": "project_concept", "value": "345M"}], "entity": "D_Cortex", "note": "exact vs rounded parameter count differ across sources; report as uncertain"}
