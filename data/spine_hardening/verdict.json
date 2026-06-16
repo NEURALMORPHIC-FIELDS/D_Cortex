@@ -1,0 +1,268 @@
+{
+  "verdict": "D_CORTEX_SPINE_HARDENING_PASS",
+  "n_facts": 51,
+  "splits": 12,
+  "models": {
+    "extractor_verbalizer": "Qwen/Qwen2.5-7B-Instruct",
+    "resolver": "all-MiniLM-L6-v2 (constrained attr)",
+    "organ": "sealed v15.x CommitArbiterPas7a (Pas7a N=2/M=2/Kage=2/Kstale=3)"
+  },
+  "G_DETERMINISM": true,
+  "G_THRESHOLD_HONEST": {
+    "pass": true,
+    "per_split": [
+      {
+        "split_seed": 1001,
+        "selected_threshold": 0.8,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.7143,
+          "F3": 0.9048,
+          "F5": 0.9524
+        },
+        "test_macro": 0.8929
+      },
+      {
+        "split_seed": 1002,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 0.9524,
+          "F1": 0.8571,
+          "F3": 0.8571,
+          "F5": 1.0
+        },
+        "test_macro": 0.9167
+      },
+      {
+        "split_seed": 1003,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.8095,
+          "F3": 0.9048,
+          "F5": 1.0
+        },
+        "test_macro": 0.9286
+      },
+      {
+        "split_seed": 1004,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 0.9524,
+          "F1": 0.7143,
+          "F3": 0.8095,
+          "F5": 0.9524
+        },
+        "test_macro": 0.8571
+      },
+      {
+        "split_seed": 1005,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.8571,
+          "F3": 0.7619,
+          "F5": 1.0
+        },
+        "test_macro": 0.9048
+      },
+      {
+        "split_seed": 1006,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.8571,
+          "F3": 0.7619,
+          "F5": 1.0
+        },
+        "test_macro": 0.9048
+      },
+      {
+        "split_seed": 1007,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 0.9524,
+          "F1": 0.8571,
+          "F3": 0.8095,
+          "F5": 0.9524
+        },
+        "test_macro": 0.8929
+      },
+      {
+        "split_seed": 1008,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.8571,
+          "F3": 0.6667,
+          "F5": 1.0
+        },
+        "test_macro": 0.881
+      },
+      {
+        "split_seed": 1009,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 0.9524,
+          "F1": 0.8571,
+          "F3": 0.8571,
+          "F5": 0.9524
+        },
+        "test_macro": 0.9048
+      },
+      {
+        "split_seed": 1010,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 0.9524,
+          "F1": 0.8571,
+          "F3": 0.7143,
+          "F5": 1.0
+        },
+        "test_macro": 0.881
+      },
+      {
+        "split_seed": 1011,
+        "selected_threshold": 0.8,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.7143,
+          "F3": 0.7619,
+          "F5": 1.0
+        },
+        "test_macro": 0.869
+      },
+      {
+        "split_seed": 1012,
+        "selected_threshold": 0.45,
+        "test": {
+          "F0": 1.0,
+          "F1": 0.9048,
+          "F3": 0.8095,
+          "F5": 0.9524
+        },
+        "test_macro": 0.9167
+      }
+    ],
+    "selected_threshold_distribution": {
+      "min": 0.45,
+      "median": 0.45,
+      "max": 0.8
+    }
+  },
+  "test_distributions": {
+    "F0": {
+      "min": 0.9524,
+      "median": 1.0,
+      "max": 1.0,
+      "std": 0.0235
+    },
+    "F1": {
+      "min": 0.7143,
+      "median": 0.8571,
+      "max": 0.9048,
+      "std": 0.0648
+    },
+    "F3": {
+      "min": 0.6667,
+      "median": 0.8095,
+      "max": 0.9048,
+      "std": 0.0696
+    },
+    "F5": {
+      "min": 0.9524,
+      "median": 1.0,
+      "max": 1.0,
+      "std": 0.0235
+    }
+  },
+  "threshold_sweep_curve": [
+    {
+      "threshold": 0.3,
+      "resolved_known": 0.9876,
+      "false_abstain_known": 0.0124
+    },
+    {
+      "threshold": 0.35,
+      "resolved_known": 0.9826,
+      "false_abstain_known": 0.0174
+    },
+    {
+      "threshold": 0.4,
+      "resolved_known": 0.9777,
+      "false_abstain_known": 0.0223
+    },
+    {
+      "threshold": 0.45,
+      "resolved_known": 0.9702,
+      "false_abstain_known": 0.0298
+    },
+    {
+      "threshold": 0.5,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    },
+    {
+      "threshold": 0.55,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    },
+    {
+      "threshold": 0.6,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    },
+    {
+      "threshold": 0.65,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    },
+    {
+      "threshold": 0.7,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    },
+    {
+      "threshold": 0.75,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    },
+    {
+      "threshold": 0.8,
+      "resolved_known": 0.9677,
+      "false_abstain_known": 0.0323
+    }
+  ],
+  "G_F1_IMPROVE": {
+    "median_test_F1": 0.8571,
+    "bar": 0.8,
+    "pass": true,
+    "margin": 0.0571
+  },
+  "G_F3_IMPROVE": {
+    "median_test_F3": 0.8095,
+    "bar": 0.8,
+    "pass": true,
+    "margin": 0.0095
+  },
+  "G_NO_REGRESS": {
+    "organ_wrong_commit_on_gold": 0.0,
+    "hallucinations": 0,
+    "nobypass_leaks": 0,
+    "F0_median": 1.0,
+    "F5_median": 1.0,
+    "pass": true
+  },
+  "G_NO_LEAK": {
+    "pass": true,
+    "n_f_aliases": 97,
+    "n_prompt_words": 34
+  },
+  "G_ERROR_BREAKDOWN": {
+    "out_of_vocab_attribute": 5,
+    "wrong_attribute_choice": 2,
+    "wrong_value": 0,
+    "entity_resolution_miss": 12
+  },
+  "claim_status": "MEASURED, symbolic organ + Qwen2.5-7B-4bit greedy (deterministic) + MiniLM, single machine. dcortex/ and steps/13 byte-identical (loaded read-only)."
+}

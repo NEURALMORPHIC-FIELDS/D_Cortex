@@ -100,6 +100,30 @@ class QwenBaseModel:
                                  overridden=uncon_text != forced_text)
 
     @torch.no_grad()
+    def classify(self, user_prompt: str, options: List[str], answer_prefix: str = ""):
+        """Constrained closed-set classification: score each option by its mean token
+        log-probability as the continuation of the (chat) prompt and return the argmax.
+        The model can only choose among `options` (logit-masking by construction)."""
+        base = self._chat_ids(user_prompt)
+        if answer_prefix:
+            base = base + self.tok.encode(answer_prefix, add_special_tokens=False)
+        sep = "" if (answer_prefix and answer_prefix.endswith(" ")) else " "
+        best, best_lp, scores = None, None, {}
+        for opt in options:
+            opt_ids = self.tok.encode(sep + opt, add_special_tokens=False)
+            ids = base + opt_ids
+            logits = self.model(torch.tensor([ids], device=self.model.device)).logits[0].float()
+            lp = 0.0
+            for j, tid in enumerate(opt_ids):
+                logp = torch.log_softmax(logits[len(base) + j - 1], dim=-1)
+                lp += float(logp[tid])
+            lp /= max(1, len(opt_ids))
+            scores[opt] = round(lp, 4)
+            if best_lp is None or lp > best_lp:
+                best, best_lp = opt, lp
+        return best, scores
+
+    @torch.no_grad()
     def span_features(self, text: str, phrases: List[str]) -> Optional[torch.Tensor]:
         """Mean-pooled LAYER -1 hidden state per phrase span (bf16 -> float)."""
         try:

@@ -1,5 +1,5 @@
 {
-  "last_modified": "2026-06-16",
+  "last_modified": "2026-06-17",
   "repo_root": "e:\\proiecte_active\\D_Cortex\\D_Cortex-main",
   "project_root_runs": "runs/dcortex (created under repo: checkpoints/, logs/, dataset_cache/bin/, results/, configs/)",
   "venv": ".venv (Python 3.11, torch cu128)",
@@ -138,6 +138,14 @@
     "scripts/certify_spine.py": {
       "status": "active",
       "purpose": "integration spine certification, 7 frozen gates"
+    },
+    "integration/constrained_extractor.py": {
+      "status": "active",
+      "purpose": "constrained closed-set attribute/value classification + leak-free prompts + assert_no_leak"
+    },
+    "scripts/certify_spine_hardening.py": {
+      "status": "active",
+      "purpose": "spine hardening cert: 12-split dev/test threshold + sweep + error breakdown + gates"
     }
   },
   "run_artifacts": {
@@ -1151,5 +1159,22 @@
     "hallucinations": 0,
     "nobypass_leaks": 0,
     "claim": "Qwen extractor+MiniLM replaces the rule-based parser feeding the sealed symbolic organ; beats the old parser on F1/F3/F5 (it failed at 0/0/0.148) though modest absolute on F1/F3; organ+wrapper clean (wrong_commit 0, no hallucination, no bypass, recall preserved); extractor is the bottleneck. dcortex/+steps/13 byte-identical. MEASURED single machine."
+  },
+  "step_31_spine_hardening_2026_06_17": {
+    "branch": "feature/integration-spine",
+    "verdict": "D_CORTEX_SPINE_HARDENING_PASS",
+    "f1_median": 0.8571,
+    "f1_min": 0.7143,
+    "f3_median": 0.8095,
+    "f3_min": 0.6667,
+    "f0_median": 1.0,
+    "f5_median": 1.0,
+    "error_breakdown": {
+      "out_of_vocab_attribute": 5,
+      "wrong_attribute_choice": 2,
+      "wrong_value": 0,
+      "entity_resolution_miss": 12
+    },
+    "claim": "Constrained closed-set attribute classification lifted F1/F3 medians 70->86% / 75->81% over 12 dev/test splits (median clears 80% bar; worst splits 71/67% still below). Bottleneck shifted to entity resolution; value extraction error-free. No regress. dcortex/+steps/13 byte-identical. MEASURED single machine."
   }
 }

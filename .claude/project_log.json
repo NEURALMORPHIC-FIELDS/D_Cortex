@@ -882,6 +882,21 @@
       ],
       "status": "success",
       "notes": "Honest improvement, all 7 gates still PASS, G_NOBYPASS still 0 leaks. G_EXTRACT: F0 85->95%, F1 50->70%, F3 40->75%, F5 95% (vs old parser 20/0/25%, sealed 0/0/14.8%). Full e2e recall 68.8->86%. Organ still clean (wrong_commit 0, organ-cause errors 0). HONEST: extractor improved but F1/F3 still ~70-75% (a quarter of hardest phrasings unrecovered); a measured gain not solved. dcortex/+steps/13 byte-identical (only integration/ edited)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "15:30",
+      "requested": "Spine hardening: constrained closed-set attribute extraction (logit-masked) + 12-split dev/test threshold rigor + sweep + error breakdown + leak ban + determinism.",
+      "executed": "Added QwenBaseModel.classify (option-logprob constrained classification). integration/constrained_extractor.py (attribute+value as closed-set classification, entity via MiniLM w/ threshold; leak-free generic prompts; assert_no_leak proves prompt vocab disjoint from F-generator aliases). scripts/certify_spine_hardening.py (determinism, 12 splits dev-selected threshold, sweep, error breakdown, no-regress, gates).",
+      "files_touched": [
+        "dcortex_professional/qwen_runtime.py",
+        "integration/constrained_extractor.py",
+        "scripts/certify_spine_hardening.py",
+        "data/spine_hardening/verdict.json",
+        "docs/SPINE_HARDENING_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT D_CORTEX_SPINE_HARDENING_PASS. Constrained attribute classification lifted F1 70->86% (min 71%), F3 75->81% (min 67%) over 12 splits; F0 100%, F5 100%. Gates on MEDIAN pass. HONEST: worst splits still below 80% (F1 71%, F3 67%). Bottleneck SHIFTED to entity_resolution_miss (12); attribute errors 5+2; wrong_value 0 (constrained value perfect). Threshold honest (dev-selected, median 0.45, sweep near-flat). No regress (wrong_commit 0, halluc 0, bypass 0). Determinism + leak-ban (prompt disjoint from 97 aliases). dcortex/+steps/13 byte-identical (only dcortex_professional/+integration/+scripts edited)."
     }
   ]
 }
