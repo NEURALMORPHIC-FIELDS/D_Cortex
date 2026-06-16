@@ -110,6 +110,14 @@
     "scripts/certify_professional_capable.py": {
       "status": "active",
       "purpose": "capable-model certification: two regions, G_VETO_REAL, 10 gates"
+    },
+    "scripts/build_region_b_data.py": {
+      "status": "active",
+      "purpose": "persist deterministic Region B probe-filtered facts + clues"
+    },
+    "scripts/validate_region_b.py": {
+      "status": "active",
+      "purpose": "Region B binder validation: held-out + 4 baselines + shuffled-hidden-state ablation"
     }
   },
   "run_artifacts": {
@@ -1076,5 +1084,18 @@
     "region_b_fuzzy_lookup": 0.46,
     "region_b_binder_beats_both": true,
     "claim": "Capable model: mechanical grounding cuts plausible-hallucination from 96.9% to 1.4% on facts it lacks (Region A), real fabricated title force-abstained (G_VETO_REAL); on a VALID hard regime (Region B) the fresh Qwen-geometry binder beats both exact and fuzzy lookup (median 70% vs 46%, +24pp, 5 seeds). Validates that the binder must be tested on a model that encodes the facts. MEASURED single-env Qwen 4-bit; NOT PROVEN."
+  },
+  "step_29_region_b_binder_validation_2026_06_16": {
+    "branch": "feature/region-b-validation",
+    "verdict": "REGION_B_BINDER_NEGATIVE",
+    "heldout_exact": 0.0,
+    "heldout_fuzzy": 0.6,
+    "heldout_minilm_embedding": 0.9,
+    "heldout_binder_median": 0.6333,
+    "ablation_median": 0.5667,
+    "in_sample_overfit": 1.0,
+    "adversarial_audit": "5 agents, high confidence, binder NOT crippled, MiniLM fair, verdict holds",
+    "corrects": "d4e0b80 Region B binder win RETRACTED",
+    "claim": "Region B binder win is an ARTIFACT: against a frozen MiniLM embedding baseline the binder loses decisively on held-out (63% vs 90%). Signal is causally real (ablation collapses) but weak. Prior win compared only vs crippled lookups. MEASURED single-env; clean audited NEGATIVE."
   }
 }

@@ -82,7 +82,13 @@ def make_clue(lm, country: str, capital: str) -> Optional[str]:
     clue = lm.generate_unconstrained(prompt, 40)
     clue = clue.replace("\n", " ").strip().strip('"')
     low = _norm(clue)
-    if not clue or _norm(capital) in low or _norm(country) in low or len(clue) < 12:
+    if not clue or len(clue) < 12:
+        return None
+    # reject substring AND token-overlap leakage of the country or capital name, so the
+    # clue cannot hand a country/capital token to a downstream embedding/lookup baseline.
+    if _norm(capital) in low or _norm(country) in low:
+        return None
+    if _tokens(clue) & (_tokens(country) | _tokens(capital)):
         return None
     return clue
 

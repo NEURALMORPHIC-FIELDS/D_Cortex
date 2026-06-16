@@ -1,5 +1,12 @@
 # Capable-model professional integration: two regions, real plausible-hallucination veto, valid binder test
 
+> CORRECTION (region-b-validation): the Region B binder 'win' below is RETRACTED. A held-out
+> evaluation with a frozen MiniLM embedding baseline + shuffled-hidden-state ablation shows the
+> binder LOSES to off-the-shelf embedding retrieval (binder ~63% vs MiniLM ~90% held-out). The
+> Region A enforcement results stand; only the Region B binder-differentiator claim is overturned.
+> See docs/REGION_B_VALIDATION_REPORT.md.
+
+
 Engineering register. Claim status governs every line. MEASURED, single environment.
 
 ## Base model (fixed, not chosen by the assistant)

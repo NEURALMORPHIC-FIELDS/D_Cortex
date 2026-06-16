@@ -1,0 +1,263 @@
+{
+  "seed": 7,
+  "probe_limit": 120,
+  "probe_kept": 91,
+  "usable": 51,
+  "facts": [
+    {
+      "country": "Iran",
+      "capital": "Tehran",
+      "clue": "Capital of Persian art and culture, located in the Alborz Mountains."
+    },
+    {
+      "country": "Saint Pierre and Miquelon",
+      "capital": "Saint-Pierre",
+      "clue": "The smallest capital city in North America, located on an island."
+    },
+    {
+      "country": "Malaysia",
+      "capital": "Kuala Lumpur",
+      "clue": "The city where Petronas Twin Towers stand."
+    },
+    {
+      "country": "Israel",
+      "capital": "Jerusalem",
+      "clue": "Ancient city revered by three major religions."
+    },
+    {
+      "country": "Russia",
+      "capital": "Moscow",
+      "clue": "The city where Red Square and St. Basil's Cathedral are located."
+    },
+    {
+      "country": "Latvia",
+      "capital": "Riga",
+      "clue": "The historic center features cobblestone streets and baroque architecture."
+    },
+    {
+      "country": "Angola",
+      "capital": "Luanda",
+      "clue": "Portuguese-speaking capital with a busy Atlantic harbor."
+    },
+    {
+      "country": "Antigua and Barbuda",
+      "capital": "Saint John's",
+      "clue": "Canada's oldest capital city located on Newfoundland Island."
+    },
+    {
+      "country": "Sweden",
+      "capital": "Stockholm",
+      "clue": "Archipelago of islands dotting the Baltic Sea coast."
+    },
+    {
+      "country": "Eswatini",
+      "capital": "Mbabane",
+      "clue": "The capital of Swaziland's southern region, known for its mountainous setting."
+    },
+    {
+      "country": "Libya",
+      "capital": "Tripoli",
+      "clue": "Ancient trading hub on the Mediterranean, capital of North Africa's coast."
+    },
+    {
+      "country": "South Africa",
+      "capital": "Pretoria",
+      "clue": "Capital of Gauteng province, known for its judicial functions."
+    },
+    {
+      "country": "South Sudan",
+      "capital": "Juba",
+      "clue": "Capital of a country facing the Nile River."
+    },
+    {
+      "country": "Japan",
+      "capital": "Tokyo",
+      "clue": "Capital of modern technology and traditional arts in the East."
+    },
+    {
+      "country": "Cayman Islands",
+      "capital": "George Town",
+      "clue": "Historic center of Malaysia's northern state, known for its well-preserved colonial architecture."
+    },
+    {
+      "country": "Spain",
+      "capital": "Madrid",
+      "clue": "Home to the Royal Palace and bullfighting tradition."
+    },
+    {
+      "country": "United States",
+      "capital": "Washington",
+      "clue": "National Mall hosts monuments honoring American leaders and heroes."
+    },
+    {
+      "country": "Nigeria",
+      "capital": "Abuja",
+      "clue": "Capital of a country with a growing population and modern architecture."
+    },
+    {
+      "country": "Iraq",
+      "capital": "Baghdad",
+      "clue": "Ancient library housed vast knowledge before destruction."
+    },
+    {
+      "country": "Egypt",
+      "capital": "Cairo",
+      "clue": "Ancient ruins stand near bustling markets in North Africa."
+    },
+    {
+      "country": "Senegal",
+      "capital": "Dakar",
+      "clue": "West African port city where Cheikh Anta Diop University stands."
+    },
+    {
+      "country": "Scotland",
+      "capital": "Edinburgh",
+      "clue": "Clocks in the Old Town run an hour behind."
+    },
+    {
+      "country": "Liechtenstein",
+      "capital": "Vaduz",
+      "clue": "The principality's capital, where the reigning prince resides in a centuries-old castle."
+    },
+    {
+      "country": "Eritrea",
+      "capital": "Asmara",
+      "clue": "Ethiopian border city with Italian colonial architecture."
+    },
+    {
+      "country": "Andorra",
+      "capital": "Andorra la Vella",
+      "clue": "Highest capital city in Europe located between Spanish and French borders."
+    },
+    {
+      "country": "Svalbard and Jan Mayen",
+      "capital": "Longyearbyen",
+      "clue": "The northernmost town with a permanent population."
+    },
+    {
+      "country": "Bolivia",
+      "capital": "La Paz",
+      "clue": "The highest capital city with an aerial tramway system."
+    },
+    {
+      "country": "North Korea",
+      "capital": "Pyongyang",
+      "clue": "Capital of a country with a single-party socialist system."
+    },
+    {
+      "country": "Tuvalu",
+      "capital": "Funafuti",
+      "clue": "Capital city located on the main island of Nui in the Pacific."
+    },
+    {
+      "country": "Jamaica",
+      "capital": "Kingston",
+      "clue": "River Thames inspiration for famous novel nearby."
+    },
+    {
+      "country": "Thailand",
+      "capital": "Bangkok",
+      "clue": "River flows through metropolis, home to floating markets."
+    },
+    {
+      "country": "Estonia",
+      "capital": "Tallinn",
+      "clue": "Northern European city where Hanseatic League had a trading post."
+    },
+    {
+      "country": "Central African Republic",
+      "capital": "Bangui",
+      "clue": "Capital city located at the confluence of the Ubangi and Mba rivers."
+    },
+    {
+      "country": "Comoros",
+      "capital": "Moroni",
+      "clue": "Capital city located on the largest island in the Indian Ocean chain."
+    },
+    {
+      "country": "Norfolk Island",
+      "capital": "Kingston",
+      "clue": "Jamaica's capital and largest city, known for its cruise ship port and Paul Street."
+    },
+    {
+      "country": "Lesotho",
+      "capital": "Maseru",
+      "clue": "Southernmost city in Africa not on the coast."
+    },
+    {
+      "country": "Reunion",
+      "capital": "Saint-Denis",
+      "clue": "Paris suburb known for its basilica and football club."
+    },
+    {
+      "country": "Saudi Arabia",
+      "capital": "Riyadh",
+      "clue": "Capital of Arabian trade and culture."
+    },
+    {
+      "country": "Guadeloupe",
+      "capital": "Basse-Terre",
+      "clue": "The capital city with a peak at 1,467 feet in the Soufrière Hills."
+    },
+    {
+      "country": "Philippines",
+      "capital": "Manila",
+      "clue": "The capital of Luzon island's main city."
+    },
+    {
+      "country": "United Kingdom",
+      "capital": "London",
+      "clue": "Home to the Tower Bridge and Big Ben."
+    },
+    {
+      "country": "Turkey",
+      "capital": "Ankara",
+      "clue": "Capital of a country with a rich historical museum."
+    },
+    {
+      "country": "Brazil",
+      "capital": "Brasília",
+      "clue": "Capital city located at the geometric center of South America."
+    },
+    {
+      "country": "Malawi",
+      "capital": "Lilongwe",
+      "clue": "Capital of the country where tobacco and sugar are major exports."
+    },
+    {
+      "country": "Cyprus",
+      "capital": "Nicosia",
+      "clue": "Divided city at the island's center."
+    },
+    {
+      "country": "Ivory Coast",
+      "capital": "Yamoussoukro",
+      "clue": "The city hosts the world's second-largest Catholic cathedral."
+    },
+    {
+      "country": "Denmark",
+      "capital": "Copenhagen",
+      "clue": "North Sea port known for windmills and canals."
+    },
+    {
+      "country": "Fiji Islands",
+      "capital": "Suva",
+      "clue": "Capital of a Pacific nation, located on the island of Viti Levu."
+    },
+    {
+      "country": "Virgin Islands, U.S.",
+      "capital": "Charlotte Amalie",
+      "clue": "Harbor-facing capital of St. Thomas with colorful colonial architecture."
+    },
+    {
+      "country": "United Arab Emirates",
+      "capital": "Abu Dhabi",
+      "clue": "Gulf city known for the Louvre and Sheikh Zayed Mosque."
+    },
+    {
+      "country": "Costa Rica",
+      "capital": "San José",
+      "clue": "Capital of the Valley of Guanacaste."
+    }
+  ]
+}

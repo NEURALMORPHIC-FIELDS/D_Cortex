@@ -821,6 +821,23 @@
       ],
       "status": "success",
       "notes": "VERDICT D_CORTEX_CAPABLE_PROFESSIONAL_PASS. ALL 10 GATES PASS. REGION A: RAW 96.9% (grounded 4%) -> CONTROLLED 1.5%, recall 98%; all 50 committed overridden. G_VETO_REAL captured a REAL fabricated Qwen IPC title ('General Methods or Articles Relating The') and force-abstained it. REGION B (VALID, fuzzy 46%<60%): fresh binder on Qwen layer-1 median 70% (5 seeds) vs exact 0% vs fuzzy 46% -> BEATS BOTH +24pp. This is the POSITIVE the corrected methodology (named capable model + model-known Region B) produces, inverse of the gpt2 negative. Validates [[model-choice-is-validity-critical]]. MEASURED single-env Qwen 4-bit; NOT PROVEN."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "10:00",
+      "requested": "Validate the Region B binder win: held-out-by-fact split, shuffled-hidden-state ablation, MiniLM embedding baseline, >=10 seeds. Decide REAL vs artifact.",
+      "executed": "scripts/build_region_b_data.py (persist deterministic probe+clues), scripts/validate_region_b.py (4 baselines on held-out + 12-seed binder + ablation). Ran 5-agent adversarial audit (Workflow) before finalizing. Fixed make_clue token-overlap leakage and re-ran on cleaned data.",
+      "files_touched": [
+        "scripts/build_region_b_data.py",
+        "scripts/validate_region_b.py",
+        "dcortex_professional/region_b.py",
+        "data/professional_capable/region_b_data.json",
+        "data/professional_capable/region_b_validation_verdict.json",
+        "docs/REGION_B_VALIDATION_REPORT.md",
+        "docs/PROFESSIONAL_CAPABLE_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT REGION_B_BINDER_NEGATIVE (robust on cleaned data). Held-out (12 seeds, disjoint by fact): exact 0%, fuzzy 60%, MiniLM embedding 90%, BINDER median 63.3% [53%/72%]. Ablation 57% (collapses -> signal causal but WEAK, ~7pp above ablation). In-sample 100% (overfit, never reported). 5-agent audit (high confidence): binder NOT crippled, MiniLM FAIR, skews conservative. PRIOR d4e0b80 Region B 'win' RETRACTED -- it compared only vs crippled 0%/46% lookups, no embedding baseline. make_clue token-leak fixed (8 clues dropped); residual hallucinated-clue noise disclosed. Validates [[binder-claims-need-embedding-baseline]]. MEASURED single-env Qwen 4-bit; clean audited NEGATIVE."
     }
   ]
 }
