@@ -806,6 +806,21 @@
       ],
       "status": "success",
       "notes": "Verification commands run: `git show feature/professional-integration:dcortex_professional/enforcement.py` (contamination check present => pre-existing); prior verdict committed_recall=1.0 G3=True (=> latent, not triggered, prior campaign verdict UNCHANGED); `git show feature/professional-integration:scripts/certify_professional_real.py` => fatal path not in branch (=> case bug introduced+fixed in this campaign). The enforcement.py improvement does not alter the prior pushed campaign's results; it only prevents the latent false-veto on packs with overlapping committed values. Memory was already updated in entry step_27; this entry adds the pre-existing-vs-introduced traceability the integrity audit asked for."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "08:30",
+      "requested": "Capable-model professional integration: fixed base model Qwen2.5-7B-Instruct 4-bit NF4, two-region pack (A=IPC enforcement, B=binder-favorable probe-filtered model-known facts where both lookups fail), fresh binder on Qwen hidden states, G_VETO_REAL with captured raw output, all gates.",
+      "executed": "Verified env meets exact spec (bitsandbytes 0.49.2 4-bit NF4 works on RTX5080 sm_120; Qwen available). dcortex_professional/qwen_runtime.py (4-bit load + chat constrained decode + layer-1 hidden states), region_b.py (probe-filter + clue paraphrase + multi-seed binder), certify_professional_capable.py. Downloaded Qwen2.5-7B-Instruct (15GB).",
+      "files_touched": [
+        "dcortex_professional/qwen_runtime.py",
+        "dcortex_professional/region_b.py",
+        "scripts/certify_professional_capable.py",
+        "data/professional_capable/verdict.json",
+        "docs/PROFESSIONAL_CAPABLE_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT D_CORTEX_CAPABLE_PROFESSIONAL_PASS. ALL 10 GATES PASS. REGION A: RAW 96.9% (grounded 4%) -> CONTROLLED 1.5%, recall 98%; all 50 committed overridden. G_VETO_REAL captured a REAL fabricated Qwen IPC title ('General Methods or Articles Relating The') and force-abstained it. REGION B (VALID, fuzzy 46%<60%): fresh binder on Qwen layer-1 median 70% (5 seeds) vs exact 0% vs fuzzy 46% -> BEATS BOTH +24pp. This is the POSITIVE the corrected methodology (named capable model + model-known Region B) produces, inverse of the gpt2 negative. Validates [[model-choice-is-validity-critical]]. MEASURED single-env Qwen 4-bit; NOT PROVEN."
     }
   ]
 }

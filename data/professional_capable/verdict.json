@@ -1,0 +1,57 @@
+{
+  "verdict": "D_CORTEX_CAPABLE_PROFESSIONAL_PASS",
+  "real_model": {
+    "name": "Qwen/Qwen2.5-7B-Instruct",
+    "precision": "4bit-nf4",
+    "hidden_dim": 3584
+  },
+  "region_a_ipc": {
+    "raw_hallucination": 0.9692,
+    "raw_grounded": 0.04,
+    "controlled_hallucination": 0.0145,
+    "recall": 0.98,
+    "delta_floor_dependent": 0.9547
+  },
+  "g_veto_real": {
+    "passed": true,
+    "captured_raw_output": "General Methods or Articles Relating Therein"
+  },
+  "leaks": 0,
+  "gates": {
+    "G_RAW": true,
+    "G_CONTROLLED": true,
+    "G_RECALL": true,
+    "G_ABSTAIN": true,
+    "G_FORBIDDEN": true,
+    "G_VETO_SYNTH": true,
+    "G_VETO_REAL": true,
+    "G_NOBYPASS": true,
+    "G_BINDER": true,
+    "G_TRACE": true
+  },
+  "region_b_binder": {
+    "available": true,
+    "reason": "",
+    "probed": 91,
+    "kept": 59,
+    "regime_valid": true,
+    "n_test": 50,
+    "binder_exact": 0.7,
+    "lookup_exact": 0.0,
+    "lookup_fuzzy": 0.46,
+    "binder_beats_both": true,
+    "margin_binder_vs_fuzzy_pp": 24.0,
+    "note": "Region B is binder-favorable: facts the model demonstrably knows (probe-kept), values presented as clues so exact and fuzzy lookup both fail. Regime VALID (fuzzy < 60%). Binder beats both lookups. Binder over 5 seeds: median 70% [64%/72%] std 0.029."
+  },
+  "reconcile": {
+    "hallucination": "any ungrounded factual assertion reaching OUTPUT (wrong value on covered, fabrication on uncovered, confident answer on out-of-domain); measured at output.",
+    "leak": "a committed-SLOT bypass: the control returns grounded=True with a value that is not the committed value (the verifier was bypassed); measured on the adversarial set.",
+    "note": "Under D_Cortex both are ~0 here: uncovered/ood are abstained (hallucination ~0) and the verifier holds on committed slots (leak=0). They are different denominators, not contradictory."
+  },
+  "claim_separation": {
+    "region_a": "model inert on IPC facts; grounding delivered by lookup + constrained decode + verifier; value is enforced grounding + fluent interface, NOT knowledge expansion of the model.",
+    "region_b": "binder-favorable regime (model-known facts, both lookups fail). Region B is binder-favorable: facts the model demonstrably knows (probe-kept), values presented as clues so exact and fuzzy lookup both fail. Regime VALID (fuzzy < 60%). Binder beats both lookups. Binder over 5 seeds: median 70% [64%/72%] std 0.029."
+  },
+  "delta_label": "RAW->CONTROLLED delta is FLOOR-DEPENDENT (depends on the raw model's rate), NOT a performance metric.",
+  "claim_status": "MEASURED on Qwen/Qwen2.5-7B-Instruct 4-bit NF4, single machine/env, single org. NOT multi-hardware, NOT independently replicated, NOT a production guarantee."
+}

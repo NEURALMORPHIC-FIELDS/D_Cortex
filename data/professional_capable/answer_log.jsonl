@@ -1,0 +1,135 @@
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "a01", "gen": "The official title of IPC patent classification class A01 is \"Agriculture; Forestry; Animal Husbandry; Hunting.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "a23", "gen": "The official title of IPC patent classification class A23 is \"Agriculture; Forestry; Animal Husbandry; Hunting.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "a42", "gen": "The official title of IPC patent classification class A42 is \"Hand-operated articles for sports or games.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "a45", "gen": "The official title of IPC patent classification class A45 is \"Hand-operated articles for domestic or household use; devices for cleaning purposes.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "a61", "gen": "The official title of IPC patent classification class A61 is \"Human medicine; Veterinary medicine.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "a99", "gen": "The official title of IPC patent classification class A99 is \"Non-classifiable: Subject matter not covered by other classes\"."}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b04", "gen": "The official title of IPC patent classification class B04 is \"Coating Apparatus or Arrangements for Apparatuses for Coating Articles with Liquid.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b07", "gen": "The official title of IPC patent classification class B07 is \"Separating or classifying apparatus for mixtures, e.g. chromatography columns and columns for similar purposes.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b21", "gen": "The official title of IPC patent classification class B21 is \"Machinery for working metals or other hard materials.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b24", "gen": "The official title of IPC patent classification class B24 is \"Machining; Metalworking.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b27", "gen": "The official title of IPC patent classification class B27 is \"Working of Hard or Brittle Materials; Powder Metallurgy.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b30", "gen": "The official title of IPC patent classification class B30 is \"Machinery for working wood or other lignified material; machines for working paper or cardboard.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b33", "gen": "The official title of IPC patent classification class B33 is \"Machine Tools; Metalworking Machines.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b43", "gen": "The official title of IPC patent classification class B43 is \"Writing, drawing, printing or marking apparatus or devices; Signalling or报警装置; Weapons; Blasting charges.\" However, this class"}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b61", "gen": "The official title of IPC patent classification class B61 is \"Railway; tramway; monorail apparatus.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b64", "gen": "The official title of IPC patent classification class B64 is \"Mechanical working of wood; products made by working wood.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b67", "gen": "The official title of IPC patent classification class B67 is \"Working or处理制备未另作规定的固体、粉状或粒状非黏性物质的机器; 特定的"}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "b82", "gen": "The official title of IPC patent classification class B82 is \"Manufacturing Processes; Details.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c02", "gen": "The official title of IPC patent classification class C02 is \"Fixed preparations of natural substances; Fuels; Carbon blacks; Chemical products of special industrial importance, not provided for in other classes (e"}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c05", "gen": "The official title of IPC patent classification class C05 is \"Binders; Adhesives; Fuels; Explosives.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c08", "gen": "The official title of IPC patent classification class C08 is \"Organic chemicals.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c11", "gen": "Class C11 in the IPC (International Patent Classification) system refers to \"Chemistry; Metallurgy.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c14", "gen": "The official title of IPC patent classification class C14 is \"Chemistry; Metallurgy.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c25", "gen": "The official title of IPC patent classification class C25 is \"Electric Discharge Melting or Cladding.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "c99", "gen": "The official title of IPC patent classification class C99 is \"Non-classifiable\"."}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "d03", "gen": "The official title of IPC patent classification class D03 is \"Textile Fibres; Yarns; Threads\"."}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "d06", "gen": "The official title of IPC patent classification class D06 is \"Textiles in web form; Web work (e.g., weaving, knitting, nonwoven production, etc.).\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "d99", "gen": "The official title of IPC patent classification class D99 is \"Miscellaneous.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "e03", "gen": "The official title of IPC patent classification class E03 is \"Hydrology; Art of Irrigation; Drainage.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "e06", "gen": "The official title of IPC patent classification class E06 is \"Construction.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "f01", "gen": "The official title of IPC patent classification class F01 is \" Engines; Motor vehicles; Vessels; Avionics.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "f04", "gen": "The official title of IPC patent classification class F04 is \"Engines; Motor vehicles; Vessels; Aviation; Electric installations for stationary electrical machines.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "f17", "gen": "The official title of IPC patent classification class F17 is \"Combustion apparatus or processes.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "f23", "gen": "The official title of IPC patent classification class F23 is \"Heating; Warm-air Heating Systems; Fireplaces.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "f26", "gen": "The official title of IPC patent classification class F26 is \"Fluids for technical purposes.\" However, it's important to note that class F26 has been subdivided into more specific classes in"}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "f41", "gen": "Class F41 is the official title for the IPC (International Patent Classification) patent classification class that covers arms and ammunition; explosives."}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g01", "gen": "The official title of IPC patent classification class G01 is \"Measurement.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g04", "gen": "The official title of IPC patent classification class G04 is \"Electric signaling systems for fire-alarm or similar purposes.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g04g", "gen": "The official title of IPC patent classification class G04G is \"Electric signaling devices for calling at, or attention of, a specified place or person.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g05g", "gen": "The official title of IPC patent classification class G05G is \"Control; regulation.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g06e", "gen": "The official title of IPC patent classification class G06E is \"Data processing apparatus for exchange or transmission of data.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g06k", "gen": "The official title of IPC patent classification class G06K is \"Data processing apparatus for video signals; television systems; processing of digital video information.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g06v", "gen": "The official title of IPC patent classification class G06V is \"Machine-readable digital data structures; Machine-readable information or data processing structures per se.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g07f", "gen": "The official title of IPC patent classification class G07F is \"Identification apparatus or systems for securities, e.g., credit cards, bank notes, driving licenses.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g09b", "gen": "The official title of IPC patent classification class G09B is \"Electric signs; Illuminating or signalling devices or arrangements, e.g. for advertising, not otherwise covered.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g09f", "gen": "The official title of IPC patent classification class G09F is \"Presentation of information.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g10h", "gen": "The official title of IPC patent classification class G10H is \"Electric musical instruments; Sound-producing or sound-processing apparatus for entertainment, teaching or testing.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g11c", "gen": "The official title of IPC patent classification class G11C is \"Semiconductor or other solid-state electric storage or memory devices.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g16c", "gen": "The official title of IPC patent classification class G16C is \"Computing: special purposes.\""}
+{"region": "A", "regime": "RAW", "bucket": "answerable", "q": "g16z", "gen": "The official title of IPC patent classification class G16Z is \"Computing systems based on quantum and other physics phenomena.\""}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A80", "gen": "The official title of IPC patent classification class A80 is \"General Subjects Not Elsewhere Classified\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A81", "gen": "Class A81 is titled \"Games and Play\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A82", "gen": "Class A61F. The correct classification for medical or veterinary applications, relating to the construction of devices for patient examination or treatment, is under A61F, not A82. Class"}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A83", "gen": "Class A63 - Sports and Entertainment Goods"}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A84", "gen": "Class A84 is the official title for the IPC (International Patent Classification) class that covers \"Plumbing; Sanitary Ware.\""}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A85", "gen": "The official title of IPC patent classification class A85 is \"Signalling\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A86", "gen": "The official title of IPC patent classification class A86 is \"Nuclear reactors and their construction\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A87", "gen": "The official title of IPC patent classification class A87 is \"VETERINARY MEDICINES.\""}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A88", "gen": "The official title of IPC patent classification class A88 is \"Games\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A89", "gen": "The official title of IPC patent classification class A89 is \"Amusement Devices; Sports Equipment.\""}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A90", "gen": "The official title of IPC patent classification class A90 is \"Non-nuclear emergency measures; Fire-fighting; Rescue equipment and devices.\""}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A91", "gen": "Class A91 is titled \"Amusement Devices.\""}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A92", "gen": "The official title of IPC patent classification class A92 is \"Games of chance or amusement; Amusement devices involving the movement of balls or the like\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A93", "gen": "The official title of IPC patent classification class A93 is \"Games\"."}
+{"region": "A", "regime": "RAW", "bucket": "unanswerable", "q": "A94", "gen": "The official title of IPC patent classification class A94 is \"Entertainment; Teaching; Presentation Devices.\""}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "a01", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "a23", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "a42", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "a45", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "a61", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "a99", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b04", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b07", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b21", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b24", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b27", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b30", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b33", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b43", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b61", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b64", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b67", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "b82", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c02", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c05", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c08", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c11", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c14", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c25", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "c99", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "d03", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "d06", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "d99", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "e03", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "e06", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "f01", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "f04", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "f17", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "f23", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "f26", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "f41", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g01", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g04", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g04g", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g05g", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g06e", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g06k", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g06v", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g07f", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g09b", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g09f", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g10h", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g11c", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g16c", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "answerable", "q": "g16z", "action": "answer", "source_path": "mixed", "overridden": true}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A80", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A81", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A82", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A83", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A84", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A85", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A86", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A87", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A88", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A89", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A90", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A91", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A92", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A93", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "unanswerable", "q": "A94", "action": "abstain"}
+{"region": "A", "regime": "CTRL", "bucket": "ood", "q": "What is the capital of France?", "action": "out_of_domain"}
+{"region": "A", "regime": "CTRL", "bucket": "ood", "q": "Who wrote Hamlet?", "action": "out_of_domain"}
+{"region": "A", "regime": "CTRL", "bucket": "ood", "q": "What is 2 plus 2?", "action": "out_of_domain"}
+{"region": "A", "regime": "CTRL", "bucket": "ood", "q": "Name a planet in the solar system.", "action": "out_of_domain"}
+{"region": "A", "regime": "VETO_REAL", "q": "A80", "raw_captured": "General Methods or Articles Relating Therein", "control_action": "abstain", "control_text": "[ABSTAIN] Not grounded in D_Cortex_PatentAnalyst committed memory."}

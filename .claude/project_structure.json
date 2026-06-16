@@ -98,6 +98,18 @@
     "scripts/certify_professional_real.py": {
       "status": "active",
       "purpose": "real-model certification: RAW vs CONTROLLED hallucination + 10 gates"
+    },
+    "dcortex_professional/qwen_runtime.py": {
+      "status": "active",
+      "purpose": "Qwen2.5-7B-Instruct 4-bit NF4 runtime: chat constrained decode + layer-1 hidden states"
+    },
+    "dcortex_professional/region_b.py": {
+      "status": "active",
+      "purpose": "Region B binder-favorable regime: probe-filter model-known facts + clue paraphrase + multi-seed binder"
+    },
+    "scripts/certify_professional_capable.py": {
+      "status": "active",
+      "purpose": "capable-model certification: two regions, G_VETO_REAL, 10 gates"
     }
   },
   "run_artifacts": {
@@ -1048,5 +1060,21 @@
     "fuzzy_lookup_unstructured": 0.9667,
     "binder_loses_to_fuzzy_pp": -31.67,
     "claim": "Mechanical grounding cuts real-model hallucination from 98.8% to 1.2% on a real WIPO IPC pack; grounding delivered by deterministic lookup + constrained decode + verifier; the neural binder is near-chance on gpt2-large IPC hidden states and adds no value (loses to a fair fuzzy lookup). MEASURED single-env; NOT PROVEN."
+  },
+  "step_28_professional_capable_model_2026_06_16": {
+    "branch": "feature/professional-capable-model",
+    "verdict": "D_CORTEX_CAPABLE_PROFESSIONAL_PASS",
+    "gates_all_pass": true,
+    "base_model": "Qwen/Qwen2.5-7B-Instruct",
+    "precision": "4bit-nf4",
+    "region_a_raw_hallucination": 0.9692,
+    "region_a_controlled": 0.0145,
+    "region_a_recall": 0.98,
+    "g_veto_real_captured": "General Methods or Articles Relating Therein",
+    "region_b_valid": true,
+    "region_b_binder_median": 0.7,
+    "region_b_fuzzy_lookup": 0.46,
+    "region_b_binder_beats_both": true,
+    "claim": "Capable model: mechanical grounding cuts plausible-hallucination from 96.9% to 1.4% on facts it lacks (Region A), real fabricated title force-abstained (G_VETO_REAL); on a VALID hard regime (Region B) the fresh Qwen-geometry binder beats both exact and fuzzy lookup (median 70% vs 46%, +24pp, 5 seeds). Validates that the binder must be tested on a model that encodes the facts. MEASURED single-env Qwen 4-bit; NOT PROVEN."
   }
 }
