@@ -897,6 +897,20 @@
       ],
       "status": "success",
       "notes": "VERDICT D_CORTEX_SPINE_HARDENING_PASS. Constrained attribute classification lifted F1 70->86% (min 71%), F3 75->81% (min 67%) over 12 splits; F0 100%, F5 100%. Gates on MEDIAN pass. HONEST: worst splits still below 80% (F1 71%, F3 67%). Bottleneck SHIFTED to entity_resolution_miss (12); attribute errors 5+2; wrong_value 0 (constrained value perfect). Threshold honest (dev-selected, median 0.45, sweep near-flat). No regress (wrong_commit 0, halluc 0, bypass 0). Determinism + leak-ban (prompt disjoint from 97 aliases). dcortex/+steps/13 byte-identical (only dcortex_professional/+integration/+scripts edited)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "17:00",
+      "requested": "Entity-resolution accuracy: Part 0 diagnostic + 5-way resolver head-to-head (R0 MiniLM, R1 bge, R2 mpnet, R3 Qwen constrained, R4 retrieve-rerank) + 12-split rigor + gates. Recover the entity_resolution_miss.",
+      "executed": "scripts/certify_entity_resolution.py (diagnostic, 5 resolvers on identical 12 splits, winner by median test entity acc, leak/determinism/no-regress). Diagnosed misses as Qwen naming the property word as entity (no_match abstains). Found the heavy resolvers do NOT win; R0 MiniLM-on-text wins (100%). Applied the validated input fix to integration/constrained_extractor.py (resolve entity from text via MiniLM, threshold 0.55); verified adversarial still abstains (0 leaks).",
+      "files_touched": [
+        "scripts/certify_entity_resolution.py",
+        "integration/constrained_extractor.py",
+        "data/entity_resolution/verdict.json",
+        "docs/ENTITY_RESOLUTION_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT D_CORTEX_ENTITY_RESOLUTION_PASS. HONEST: hypothesis REFUTED - no better resolver wins. On the source text all resolvers are STATISTICALLY TIED at ~99-100% entity acc (R0/R1/R4 100% median, R2/R3 99.4%, std 0.003-0.005); the 0.6pp entity and 5pp F1 gaps are ~1-item differences within noise, NOT significant - R3 is NO BETTER, not worse. Heavy Qwen classifier NOT adopted on parsimony (same accuracy, much higher cost). Real fix = INPUT (text vs Qwen-extracted property word); diagnostic showed misses are Qwen naming 'scale'/'pigmentation' as entity. Applied text-based MiniLM resolution to production: F1 86->100% (validated), adversarial 0 leaks preserved. F3 stays 86% for ALL resolvers -> F3 ceiling is ATTRIBUTE not entity. All gates PASS. dcortex/+steps/13 byte-identical (only integration/+scripts edited)."
     }
   ]
 }

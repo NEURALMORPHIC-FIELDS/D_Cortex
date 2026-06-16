@@ -58,12 +58,22 @@ class ConstrainedExtractor:
         canonical, cos = self.known_entities[idx], float(sims[idx].item())
         return (canonical, cos) if cos >= th else (raw.strip(), cos)
 
-    def _extract_entity(self, text: str) -> str:
-        prompt = ("Name the single thing (creature, person, or object) that the sentence is about. "
-                  "Answer with one lowercase word.\n" + f"Sentence: {text}")
-        raw = self.qwen.generate_unconstrained(prompt, 8)
-        word = re.findall(r"[A-Za-z]+", raw)
-        return word[0].lower() if word else raw.strip().lower()
+    # Entity resolution from the SOURCE TEXT via MiniLM (validated winner R0 of the
+    # 5-way head-to-head: certify_entity_resolution.py). The earlier word-based path
+    # let Qwen name the property word ("scale", "pigmentation") as the entity; resolving
+    # directly from the text (which contains the entity) fixes that. The heavier Qwen
+    # constrained entity classifier (R3) did NOT beat this baseline, so MiniLM is kept.
+    TEXT_RESOLVE_THRESHOLD = 0.55
+
+    def resolve_entity_from_text(self, text: str) -> Tuple[str, float]:
+        q = self._embedder.encode([text], convert_to_tensor=True, normalize_embeddings=True)[0]
+        sims = torch.matmul(self._ent_emb, q)
+        idx = int(torch.argmax(sims).item())
+        canonical, cos = self.known_entities[idx], float(sims[idx].item())
+        if cos < self.TEXT_RESOLVE_THRESHOLD:
+            self.log.append({"event": "entity_unresolved_text", "best": canonical, "cos": round(cos, 4)})
+            return f"__unknown__{canonical}", cos      # not a known surface -> organ NONE_OBJECT
+        return canonical, cos
 
     # ---- attribute: constrained closed-set classification ----
     def classify_attribute(self, text: str) -> str:
@@ -89,9 +99,8 @@ class ConstrainedExtractor:
         attribute = self.classify_attribute(question)
         if attribute == "none" or attribute not in self.attr_values:
             return ExtractError("out_of_vocab_attribute", question, {"attribute": attribute})
-        ent_raw = self._extract_entity(question)
-        entity, cos = self.resolve_entity(ent_raw)
-        return FactTriple(entity=entity, attribute=attribute, value="", raw_entity=ent_raw, resolution_cos=cos)
+        entity, cos = self.resolve_entity_from_text(question)
+        return FactTriple(entity=entity, attribute=attribute, value="", raw_entity=entity, resolution_cos=cos)
 
     def extract_fact(self, text: str, episode_id: int = 0):
         attribute = self.classify_attribute(text)
@@ -100,10 +109,9 @@ class ConstrainedExtractor:
         value = self.classify_value(text, attribute)
         if value not in self.attr_values[attribute]:
             return ExtractError("out_of_vocab_value", text, {"attribute": attribute, "value": value})
-        ent_raw = self._extract_entity(text)
-        entity, cos = self.resolve_entity(ent_raw)
+        entity, cos = self.resolve_entity_from_text(text)
         return FactTriple(entity=entity, attribute=attribute, value=value, episode_id=episode_id,
-                          raw_entity=ent_raw, resolution_cos=cos)
+                          raw_entity=entity, resolution_cos=cos)
 
 
 # ---- leak assertion: prompt vocabulary disjoint from the F-generator aliases ----

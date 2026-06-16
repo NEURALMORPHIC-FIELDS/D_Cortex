@@ -146,6 +146,10 @@
     "scripts/certify_spine_hardening.py": {
       "status": "active",
       "purpose": "spine hardening cert: 12-split dev/test threshold + sweep + error breakdown + gates"
+    },
+    "scripts/certify_entity_resolution.py": {
+      "status": "active",
+      "purpose": "5-way entity-resolver head-to-head + diagnostic + 12-split rigor"
     }
   },
   "run_artifacts": {
@@ -1176,5 +1180,15 @@
       "entity_resolution_miss": 12
     },
     "claim": "Constrained closed-set attribute classification lifted F1/F3 medians 70->86% / 75->81% over 12 dev/test splits (median clears 80% bar; worst splits 71/67% still below). Bottleneck shifted to entity resolution; value extraction error-free. No regress. dcortex/+steps/13 byte-identical. MEASURED single machine."
+  },
+  "step_32_entity_resolution_2026_06_17": {
+    "branch": "feature/integration-spine",
+    "verdict": "D_CORTEX_ENTITY_RESOLUTION_PASS",
+    "winner": "R0_minilm",
+    "winner_entity_acc": 1.0,
+    "r3_qwen_entity_acc": 0.994,
+    "f1_with_text_resolution": 1.0,
+    "f3_all_resolvers": 0.8571,
+    "claim": "Hypothesis refuted: all resolvers statistically tied ~99-100% on the source text (R0/R1/R4 100% median, R2/R3 99.4%, within noise); no resolver meaningfully wins. Heavy Qwen classifier gives no measurable gain and is NOT adopted (parsimony). Real fix was the input (text vs extracted property word): applied to production, F1 86->100%, adversarial 0 leaks. F3 ceiling (86%) is attribute, not entity. MEASURED single machine; dcortex/+steps/13 byte-identical."
   }
 }
