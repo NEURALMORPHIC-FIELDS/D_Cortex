@@ -720,6 +720,21 @@
       ],
       "status": "success",
       "notes": "Held-out-construction benchmark, 10 seeds. G_GEN PASS exact median 74.5% [56.9%/87.2%] vs RB3 56.9% (floor 70%, lexical baseline 0%). G_SAFE PASS wrong median 13.7% vs RB3 31.4% (ceiling 15%). G_CALIB PASS ambiguous abstain 98.1%. G_SEALS PASS substrate byte-identical. HONEST: PARTIAL/borderline - relative-clause construction near RB3 (eval_relative 30.9% wrong), variance wide, median clears floor narrowly. MEASURED single-env 10 seeds, NOT PROVEN. Corpus SHA 0d58ed20b5fb57ad."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "02:30",
+      "requested": "Scale & certify campaign: scale data (multi-relation, many constructions), retrain UNCHANGED ContentAddressedRoleBinder >=20 seeds, legal-grade benchmark in 2 environments with per-construction frozen gates.",
+      "executed": "Built scripts/build_role_scale_corpus.py (3 pinned samayo relations capital/abbreviation/currency_code @41d4084; held out ENTIRE predicate types concessive+relative for eval + currency_code relation + entities; 2070 records, RB4 audit 9/9). Caught and discarded a spurious 100% from a first corpus whose held-out variants were one-word near-duplicates. scripts/certify_role_scale.py: 20-seed GPU + 8-seed CPU repro, per-construction + per-relation, 7 frozen gates. Architecture UNCHANGED, substrate read-only.",
+      "files_touched": [
+        "scripts/build_role_scale_corpus.py",
+        "scripts/certify_role_scale.py",
+        "data/role_scale/role_scale_corpus.jsonl",
+        "data/role_scale/verdict.json",
+        "docs/ROLE_SCALE_CERTIFY_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "ALL 7 GATES PASS on corrected honest holdout. Held-out-predicate exact median 97.1% [95.1%/98.8%] std 0.011 (20 seeds); relative 99.6%/0.4% (was 63%/30.9%); concessive 93.1%; held-out relation currency_code 96.8%; wrong median 2.8% vs RB3 31.4%; CPU repro delta 0.1%. Data-starved hypothesis CONFIRMED. HONEST SCOPE: simple explicitly-cued bindings, cue-predicate axis (not arbitrary syntax), CPU-vs-CUDA same machine (not distinct hardware). MEASURED single-machine, NOT PROVEN. Corpus SHA 408d64a9b87baabb."
     }
   ]
 }

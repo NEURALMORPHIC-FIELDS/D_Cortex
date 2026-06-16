@@ -1,0 +1,181 @@
+{
+  "verdict": [
+    {
+      "criterion_id": "G_GEN",
+      "passed": true,
+      "evidence": "held-out median exact 97.1% (floor 75%); lexical 0.0%; uplift +97.1%."
+    },
+    {
+      "criterion_id": "G_PER_CONSTRUCTION",
+      "passed": true,
+      "evidence": "every held-out construction exact>=65% & wrong<=15%; failing=none; concessive:93%/7%; relative:100%/0%"
+    },
+    {
+      "criterion_id": "G_SAFE",
+      "passed": true,
+      "evidence": "aggregate median wrong-mapping 2.8% (ceiling 12%; RB3 31.4%)."
+    },
+    {
+      "criterion_id": "G_CALIB",
+      "passed": true,
+      "evidence": "ambiguous abstain median 100.0% (floor 70%); known abstain median 0.0%."
+    },
+    {
+      "criterion_id": "G_STABILITY",
+      "passed": true,
+      "evidence": "min exact 95.1% (floor 65%; RB3 56.9%) & std 0.011 (ceiling 0.07) over 20 seeds."
+    },
+    {
+      "criterion_id": "G_REPRO",
+      "passed": true,
+      "evidence": "second env (CPU, 8 seeds) median exact 97.1% vs ENV1 97.1%, delta 0.0% (tol 5%); same machine, CPU vs CUDA backend (NOT distinct hardware)."
+    },
+    {
+      "criterion_id": "G_SEALS",
+      "passed": true,
+      "evidence": "sealed sources byte-identical=True; substrate SHA 8eb5362ed39fd6b9 read-only."
+    }
+  ],
+  "reference": {
+    "corpus_sha256": "408d64a9b87baabb82c2bd8c3cdc63804cba1be3816dae607d4a16b7927e86bb",
+    "substrate_sha256": "8eb5362ed39fd6b9eaf2a4e268951f916459d026cbc201c97678d4ccbe0cdf45",
+    "seeds": 20,
+    "repro_seeds": 8,
+    "lexical_baseline_exact": 0.0,
+    "aggregate": {
+      "exact": {
+        "median": 0.9706,
+        "min": 0.9511,
+        "max": 0.9878,
+        "std": 0.0109,
+        "n": 20
+      },
+      "wrong": {
+        "median": 0.0278,
+        "min": 0.0122,
+        "max": 0.0489,
+        "std": 0.0112,
+        "n": 20
+      },
+      "abstain": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0122,
+        "std": 0.0029,
+        "n": 20
+      },
+      "ambiguous_abstain": {
+        "median": 1.0,
+        "min": 0.8286,
+        "max": 1.0,
+        "std": 0.0482,
+        "n": 20
+      }
+    },
+    "per_construction": {
+      "concessive": {
+        "exact": {
+          "median": 0.9306,
+          "min": 0.8972,
+          "max": 0.9694,
+          "std": 0.0236,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0653,
+          "min": 0.0306,
+          "max": 0.1028,
+          "std": 0.0235,
+          "n": 20
+        }
+      },
+      "relative": {
+        "exact": {
+          "median": 0.9963,
+          "min": 0.9796,
+          "max": 1.0,
+          "std": 0.0049,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0037,
+          "min": 0.0,
+          "max": 0.0204,
+          "std": 0.005,
+          "n": 20
+        }
+      }
+    },
+    "per_relation": {
+      "abbreviation": {
+        "exact": {
+          "median": 0.975,
+          "min": 0.9467,
+          "max": 0.9967,
+          "std": 0.0127,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0233,
+          "min": 0.0033,
+          "max": 0.0533,
+          "std": 0.0126,
+          "n": 20
+        }
+      },
+      "capital": {
+        "exact": {
+          "median": 0.9767,
+          "min": 0.9533,
+          "max": 0.9933,
+          "std": 0.0124,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.02,
+          "min": 0.0067,
+          "max": 0.0467,
+          "std": 0.0121,
+          "n": 20
+        }
+      },
+      "currency code": {
+        "exact": {
+          "median": 0.9683,
+          "min": 0.9267,
+          "max": 0.99,
+          "std": 0.0163,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0317,
+          "min": 0.01,
+          "max": 0.0733,
+          "std": 0.0163,
+          "n": 20
+        }
+      }
+    },
+    "second_environment": {
+      "device": "cpu",
+      "median_exact": {
+        "median": 0.9711,
+        "min": 0.9422,
+        "max": 0.9878,
+        "std": 0.0157,
+        "n": 8
+      },
+      "delta_vs_env1": 0.0005
+    },
+    "gates_predeclared": {
+      "G_GEN_EXACT_FLOOR": 0.75,
+      "G_PERCON_EXACT_FLOOR": 0.65,
+      "G_PERCON_WRONG_CEIL": 0.15,
+      "G_SAFE_WRONG_CEIL": 0.12,
+      "G_STABILITY_MIN_FLOOR": 0.65,
+      "G_STABILITY_STD_CEIL": 0.07,
+      "G_REPRO_TOL": 0.05
+    },
+    "claim_status": "Legal-grade attempt: >= 20 seeds + CPU/CUDA second backend (same machine). True multi-hardware repro still required for full legal-grade. Not PROVEN."
+  }
+}
