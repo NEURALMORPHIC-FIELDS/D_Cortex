@@ -60,3 +60,16 @@ MEASURED single machine; not multi-hardware, not independently replicated. The o
 clean (no corruption, no hallucination, no bypass, recall preserved); the LLM extractor genuinely
 recovers phrasings the rule-based parser failed, though its absolute accuracy on the hardest families
 is modest. dcortex/ and steps/13 byte-identical (loaded read-only).
+
+## Update: extractor hardening (honest improvement of the flagged bottleneck)
+The first run's bottleneck was the extractor (F1 50%, F3 40%). Diagnosis: the dominant failure was
+out_of_vocab_attribute - Qwen emitted the alias word (bearing/girth/magnitude/demeanor) instead of the
+canonical attribute. Fix (no test-alias leakage; the prompt example uses 'hue', not an F-family alias):
+a GENERIC instruction to map any synonym to one of color/size/location/state and output 'none' for
+genuinely out-of-domain attributes, plus a confidence THRESHOLD on MiniLM entity resolution so unknown
+entities (spaceship/democracy) are kept raw -> NONE_OBJECT -> abstain rather than force-fit onto a known
+slot. Result, all gates still PASS, G_NOBYPASS still 0 leaks:
+- F0 85% -> 95%; F1 50% -> 70%; F3 40% -> 75%; F5 95%.
+- full end-to-end recall 68.8% -> 86% (extraction loss roughly halved).
+The extractor is now a clearer improvement over the dead rule-based parser, though F1/F3 (70/75%) still
+leave ~a quarter of the hardest phrasings unrecovered: a measured gain, not a solved problem.

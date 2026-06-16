@@ -869,6 +869,19 @@
       ],
       "status": "success",
       "notes": "VERDICT D_CORTEX_SPINE_PASS. ALL 7 GATES PASS. G_EXTRACT Qwen vs old-parser(live): F1 50%/20%, F3 40%/0%, F5 95%/25% (sealed old 0/0/0.148); F0 control 85%/100%. G_NOCORRUPT organ wrong_commit on gold 0.000; G_RECALL standalone 100% recall-on-correct 100%; full-e2e 69% (bounded by extraction). G_HALLUC 0, G_NOBYPASS 0, G_TRACE all. G_ATTRIB extraction-cause 1 organ-cause 1. HONEST: Qwen beats old parser on every hard family but modest absolute on F1/F3 (50/40%); organ+wrapper clean. dcortex/+steps/13 byte-identical. Validates [[model-choice-is-validity-critical]] (2 forks flagged)."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "14:00",
+      "requested": "Continue: improve the flagged extractor bottleneck of the integration spine.",
+      "executed": "Diagnosed F1/F3 failures (dominant: out_of_vocab_attribute - Qwen emits the alias word, not the canonical attribute). Fixed integration/ingest_adapter.py: GENERIC synonym->canonical mapping instruction + 'none' for out-of-domain (NO test aliases in prompt; example uses 'hue'); confidence threshold (0.55) on MiniLM entity resolution so unknown entities stay raw -> NONE_OBJECT -> abstain. Re-ran certify.",
+      "files_touched": [
+        "integration/ingest_adapter.py",
+        "data/integration_spine/verdict.json",
+        "docs/INTEGRATION_SPINE_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "Honest improvement, all 7 gates still PASS, G_NOBYPASS still 0 leaks. G_EXTRACT: F0 85->95%, F1 50->70%, F3 40->75%, F5 95% (vs old parser 20/0/25%, sealed 0/0/14.8%). Full e2e recall 68.8->86%. Organ still clean (wrong_commit 0, organ-cause errors 0). HONEST: extractor improved but F1/F3 still ~70-75% (a quarter of hardest phrasings unrecovered); a measured gain not solved. dcortex/+steps/13 byte-identical (only integration/ edited)."
     }
   ]
 }

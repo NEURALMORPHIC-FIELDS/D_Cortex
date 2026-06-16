@@ -9,19 +9,19 @@
   "G_EXTRACT": {
     "per_family": {
       "F0": {
-        "qwen": 0.85,
+        "qwen": 0.95,
         "old_parser": 1.0,
         "sealed_old": null,
         "n": 20
       },
       "F1": {
-        "qwen": 0.5,
+        "qwen": 0.7,
         "old_parser": 0.2,
         "sealed_old": 0.0,
         "n": 20
       },
       "F3": {
-        "qwen": 0.4,
+        "qwen": 0.75,
         "old_parser": 0.0,
         "sealed_old": 0.0,
         "n": 20
@@ -45,14 +45,14 @@
   "G_RECALL": {
     "organ_standalone": 1.0,
     "recall_on_correct_extractions": 1.0,
-    "full_end_to_end": 0.6875,
+    "full_end_to_end": 0.8625,
     "pass": true,
     "note": "G_RECALL tests memory+verbalization preservation on CORRECTLY-extracted facts (must >= standalone). Full end-to-end is bounded by extraction; that loss is attributed in G_ATTRIB, not charged to the organ."
   },
   "G_HALLUC": {
     "hallucinations": 0,
     "pass": true,
-    "abstained_on_none_or_uncertain": 25
+    "abstained_on_none_or_uncertain": 11
   },
   "G_NOBYPASS": {
     "adversarial_n": 6,
@@ -63,10 +63,10 @@
     "all_answers_have_trace": true
   },
   "G_ATTRIB": {
-    "end_to_end_written": 70,
-    "extraction_errors": 10,
-    "wrong_answers_cause_extraction": 1,
-    "wrong_answers_cause_organ": 1,
+    "end_to_end_written": 76,
+    "extraction_errors": 4,
+    "wrong_answers_cause_extraction": 2,
+    "wrong_answers_cause_organ": 0,
     "note": "errors decomposed: extraction (Qwen+MiniLM) vs organ (RoMR+consolidator+read)."
   },
   "claim_status": "MEASURED on the organ's native synthetic vocabulary (color/size/location/state) with Qwen2.5-7B-4bit extractor/verbalizer + MiniLM resolver, single machine. Domain-vocabulary expansion out of scope. dcortex/ and steps/13 byte-identical (loaded read-only)."

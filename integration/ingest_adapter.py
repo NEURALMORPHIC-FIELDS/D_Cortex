@@ -59,7 +59,9 @@ class IngestAdapter:
         self._ent_emb = self._embedder.encode(self.known_entities, convert_to_tensor=True,
                                               normalize_embeddings=True)
 
-    # ---- MiniLM entity canonicalization ----
+    # ---- MiniLM entity canonicalization (with a confidence threshold) ----
+    RESOLVE_THRESHOLD = 0.55     # below this the raw entity is kept (treated as unknown -> NONE_OBJECT)
+
     def resolve_entity(self, raw: str) -> Tuple[str, float]:
         low = raw.strip().lower()
         for e in self.known_entities:
@@ -69,6 +71,11 @@ class IngestAdapter:
         sims = torch.matmul(self._ent_emb, q)
         idx = int(torch.argmax(sims).item())
         canonical, cos = self.known_entities[idx], float(sims[idx].item())
+        if cos < self.RESOLVE_THRESHOLD:
+            # not confidently a known entity: keep raw so the organ reports NONE_OBJECT (abstain),
+            # rather than force-fitting an unknown entity onto a known slot.
+            self.log.append({"event": "entity_unresolved", "raw": raw, "best": canonical, "cos": round(cos, 4)})
+            return raw.strip(), cos
         self.log.append({"event": "entity_resolve", "raw": raw, "canonical": canonical, "cos": round(cos, 4)})
         return canonical, cos
 
@@ -79,9 +86,11 @@ class IngestAdapter:
     def extract_fact(self, text: str, episode_id: int = 0):
         prompt = (
             "Extract the single stated fact as JSON with EXACTLY the keys entity, attribute, value.\n"
-            f"attribute MUST be one of: {', '.join(self.attributes)}.\n"
+            f"attribute MUST be EXACTLY one of: {', '.join(self.attributes)}. The sentence may use a synonym "
+            "or an indirect phrasing for the attribute; map it to the closest of these four. If the stated "
+            'property is genuinely none of the four, set attribute to "none".\n'
             f"value MUST be one of the allowed values for that attribute: {self._vocab_hint()}.\n"
-            'Example: for "The dog is big." output {"entity": "dog", "attribute": "size", "value": "big"}.\n'
+            'Example: for "The chest shows a vivid hue." output {"entity": "chest", "attribute": "color", "value": "red"}.\n'
             "Output ONLY the JSON object with those three keys, nothing else.\n"
             f"Sentence: {text}")
         raw = self.qwen.generate_unconstrained(prompt, 60)
@@ -91,6 +100,8 @@ class IngestAdapter:
             self.log.append({"event": "extract_fact_error", "text": text, "reason": err.reason})
             return err
         attribute = str(obj["attribute"]).strip().lower()
+        if attribute == "none":
+            return ExtractError("out_of_vocab_attribute", raw, obj)
         # robustness: some outputs place the value under the attribute-named key
         value_raw = obj.get("value", obj.get(attribute))
         if value_raw is None:
@@ -107,9 +118,12 @@ class IngestAdapter:
 
     def extract_query(self, question: str):
         prompt = (
-            "From the question, extract what is being asked as JSON with EXACTLY the keys entity, attribute.\n"
-            f"attribute MUST be one of: {', '.join(self.attributes)}.\n"
-            'Example: for "What size is the dog?" output {"entity": "dog", "attribute": "size"}.\n'
+            "From the question, identify which attribute of which entity is being asked, as JSON with EXACTLY "
+            "the keys entity, attribute.\n"
+            f"attribute MUST be EXACTLY one of: {', '.join(self.attributes)}. The question may use a synonym or "
+            "an indirect phrasing for the attribute; map it to the closest of these four. If the asked property "
+            'is genuinely none of the four, set attribute to "none".\n'
+            'Example: for "What hue does the chest show?" output {"entity": "chest", "attribute": "color"}.\n'
             "Output ONLY the JSON object with those two keys, nothing else.\n"
             f"Question: {question}")
         raw = self.qwen.generate_unconstrained(prompt, 40)
@@ -117,7 +131,7 @@ class IngestAdapter:
         if obj is None or "entity" not in obj or "attribute" not in obj:
             return ExtractError("malformed_json" if obj is None else "missing_field", raw, obj)
         attribute = str(obj["attribute"]).strip().lower()
-        if attribute not in self.attr_values:
+        if attribute == "none" or attribute not in self.attr_values:
             return ExtractError("out_of_vocab_attribute", raw, obj)
         entity, cos = self.resolve_entity(str(obj["entity"]))
         return FactTriple(entity=entity, attribute=attribute, value="", raw_entity=str(obj["entity"]),
