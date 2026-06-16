@@ -838,6 +838,37 @@
       ],
       "status": "success",
       "notes": "VERDICT REGION_B_BINDER_NEGATIVE (robust on cleaned data). Held-out (12 seeds, disjoint by fact): exact 0%, fuzzy 60%, MiniLM embedding 90%, BINDER median 63.3% [53%/72%]. Ablation 57% (collapses -> signal causal but WEAK, ~7pp above ablation). In-sample 100% (overfit, never reported). 5-agent audit (high confidence): binder NOT crippled, MiniLM FAIR, skews conservative. PRIOR d4e0b80 Region B 'win' RETRACTED -- it compared only vs crippled 0%/46% lookups, no embedding baseline. make_clue token-leak fixed (8 clues dropped); residual hallucinated-clue noise disclosed. Validates [[binder-claims-need-embedding-baseline]]. MEASURED single-env Qwen 4-bit; clean audited NEGATIVE."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "11:30",
+      "requested": "Integration spine: LLM extractor (Qwen) -> sealed organ -> vetoed verbalizer. Build integration/ (IngestAdapter, OrganClient, VerbalizerControl), NL corpus over organ vocabulary incl F1/F3/F5, gates G_EXTRACT/G_NOCORRUPT/G_HALLUC/G_RECALL/G_NOBYPASS/G_TRACE/G_ATTRIB. dcortex/ untouched.",
+      "executed": "Reconnaissance (4 parallel agents) + reproduced loads. RESOLVED two validity-critical forks: (1) named checkpoint ckpt_v11_step004000.pt does NOT exist; user confirmed organ; (2) the sheet conflates the NEURAL DCortexV2Model with the SYMBOLIC v15.x substrate -- agents proved color/state/size+F1/F3/F5+old-parser+RoMR+Pas7a are the SYMBOLIC substrate (steps/08-13), not the neural ckpt (open-vocab real-corpus); user chose 'Symbolic v15.x organ + Pas7a'. CLEARED the hard-stop: built integration/sealed_loader.py that AST-loads the SEALED steps/13/code.py (Colab bundle) WITHOUT editing it -- per-node tolerant multi-pass exec into a sys.modules-registered module (fix: dataclass forward-refs need a real module); 16 required symbols load incl CommitArbiterPas7a, parse_fact, RoleOfModifierResolver, DeterministicObjectBank, ProvisionalMemory, BankStabilityIndex, _v15_7a_run_consolidator_pipeline, gen_F1/F3/F5, V15_ATTR_VALUES.",
+      "files_touched": [
+        "integration/__init__.py",
+        "integration/sealed_loader.py"
+      ],
+      "status": "partial",
+      "notes": "FOUNDATION VERIFIED, spine build in progress. Organ = sealed DeterministicObjectBank + CommitArbiterPas7a (write_fact(fact_text, entity_emb_fn, class_emb_fn, value_emb_fn) re-parses with old parse_fact internally; end_episode runs Pas7a N_promote=2/M_retrograde=2/K_promote_age=2/K_prune_stale=3). DESIGN: Qwen extractor turns hard F1/F3/F5 phrasings -> clean (entity,attr,value) triple -> canonical 'The {entity} is {value}.' that the organ ingests; old parse_fact baseline on raw F1/F3/F5 = SEALED 1.0/1.0/0.66 parser_fail (paper/D_CORTEX_PAS7A_SEAL.md). dcortex/ + steps/13 NEVER edited (loader reads only; git blobs byte-identical; code.py seal shows pre-existing CRLF/LF working-tree quirk, 4 semantic seals pass). NEXT: OrganClient over CommitArbiterPas7a, IngestAdapter Qwen JSON extractor, VerbalizerControl LogitsProcessor, corpus, 7 gates, verdict. Validates [[model-choice-is-validity-critical]] (flagged 2 forks instead of substituting)."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "13:10",
+      "requested": "Build integration spine (Qwen extractor + MiniLM resolver -> sealed symbolic organ -> vetoed Qwen verbalizer); F1/F3/F5 corpus; 7 gates with the three precision corrections (closed-vocab extractor; G_EXTRACT=triple-vs-gold not parse-success; G_NOCORRUPT split organ-on-gold vs extraction attribution).",
+      "executed": "integration/ package: sealed_loader (AST-loads steps/13 without editing), organ_client (CommitArbiterPas7a wrapper), corpus (F1/F3/F5 sealed templates), ingest_adapter (Qwen JSON-only + MiniLM, closed-vocab), verbalizer_control (single-exit veto). scripts/certify_spine.py. Fixed: F0 missing_field (one-shot+fallback), corpus (entity,attr) collisions (globally-unique), dodged G_RECALL (now measures preservation on correct extractions), G_EXTRACT to commit_correct (fact AND query) reproducing the sealed baseline, G_ATTRIB attribution by extraction-correctness.",
+      "files_touched": [
+        "integration/__init__.py",
+        "integration/sealed_loader.py",
+        "integration/organ_client.py",
+        "integration/corpus.py",
+        "integration/ingest_adapter.py",
+        "integration/verbalizer_control.py",
+        "scripts/certify_spine.py",
+        "data/integration_spine/verdict.json",
+        "docs/INTEGRATION_SPINE_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT D_CORTEX_SPINE_PASS. ALL 7 GATES PASS. G_EXTRACT Qwen vs old-parser(live): F1 50%/20%, F3 40%/0%, F5 95%/25% (sealed old 0/0/0.148); F0 control 85%/100%. G_NOCORRUPT organ wrong_commit on gold 0.000; G_RECALL standalone 100% recall-on-correct 100%; full-e2e 69% (bounded by extraction). G_HALLUC 0, G_NOBYPASS 0, G_TRACE all. G_ATTRIB extraction-cause 1 organ-cause 1. HONEST: Qwen beats old parser on every hard family but modest absolute on F1/F3 (50/40%); organ+wrapper clean. dcortex/+steps/13 byte-identical. Validates [[model-choice-is-validity-critical]] (2 forks flagged)."
     }
   ]
 }

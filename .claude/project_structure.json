@@ -118,6 +118,26 @@
     "scripts/validate_region_b.py": {
       "status": "active",
       "purpose": "Region B binder validation: held-out + 4 baselines + shuffled-hidden-state ablation"
+    },
+    "integration/organ_client.py": {
+      "status": "active",
+      "purpose": "thin wrapper over sealed CommitArbiterPas7a (write/end_episode/query)"
+    },
+    "integration/corpus.py": {
+      "status": "active",
+      "purpose": "F1/F3/F5 NL corpus over the closed vocabulary, gold triples"
+    },
+    "integration/ingest_adapter.py": {
+      "status": "active",
+      "purpose": "Qwen JSON-only extractor + MiniLM resolver, closed-vocab"
+    },
+    "integration/verbalizer_control.py": {
+      "status": "active",
+      "purpose": "single-exit vetoed verbalizer (constrained to committed value or abstain)"
+    },
+    "scripts/certify_spine.py": {
+      "status": "active",
+      "purpose": "integration spine certification, 7 frozen gates"
     }
   },
   "run_artifacts": {
@@ -1097,5 +1117,39 @@
     "adversarial_audit": "5 agents, high confidence, binder NOT crippled, MiniLM fair, verdict holds",
     "corrects": "d4e0b80 Region B binder win RETRACTED",
     "claim": "Region B binder win is an ARTIFACT: against a frozen MiniLM embedding baseline the binder loses decisively on held-out (63% vs 90%). Signal is causally real (ablation collapses) but weak. Prior win compared only vs crippled lookups. MEASURED single-env; clean audited NEGATIVE."
+  },
+  "step_30_integration_spine_2026_06_16": {
+    "branch": "feature/integration-spine",
+    "verdict": "D_CORTEX_SPINE_PASS",
+    "gates_all_pass": true,
+    "g_extract_qwen_vs_old": {
+      "F0": [
+        0.85,
+        1.0,
+        null
+      ],
+      "F1": [
+        0.5,
+        0.2,
+        0.0
+      ],
+      "F3": [
+        0.4,
+        0.0,
+        0.0
+      ],
+      "F5": [
+        0.95,
+        0.25,
+        0.148
+      ]
+    },
+    "organ_wrong_commit_on_gold": 0.0,
+    "recall_standalone": 1.0,
+    "recall_on_correct": 1.0,
+    "full_e2e_recall": 0.6875,
+    "hallucinations": 0,
+    "nobypass_leaks": 0,
+    "claim": "Qwen extractor+MiniLM replaces the rule-based parser feeding the sealed symbolic organ; beats the old parser on F1/F3/F5 (it failed at 0/0/0.148) though modest absolute on F1/F3; organ+wrapper clean (wrong_commit 0, no hallucination, no bypass, recall preserved); extractor is the bottleneck. dcortex/+steps/13 byte-identical. MEASURED single machine."
   }
 }
