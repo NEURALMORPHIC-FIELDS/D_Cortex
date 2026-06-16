@@ -1,0 +1,420 @@
+{
+  "verdict": [
+    {
+      "criterion_id": "G_GEN",
+      "passed": true,
+      "evidence": "held-out median exact 99.3% [97.0%/99.9%] (floor 75%); lexical 0.0%; uplift +99.3%."
+    },
+    {
+      "criterion_id": "G_PER_CONSTRUCTION",
+      "passed": true,
+      "evidence": "every held-out construction exact>=65% & wrong<=15%; failing=none; appositive:100%/0%; concessive:99%/1%; copular:100%/0%; embedded:99%/1%; long_gap:100%/0%; relative:100%/0%"
+    },
+    {
+      "criterion_id": "G_RELATIVE",
+      "passed": true,
+      "evidence": "relative exact 99.6% wrong 0.0%; per-seed min 96.1% >= pilot floor 94%."
+    },
+    {
+      "criterion_id": "G_SAFE",
+      "passed": true,
+      "evidence": "aggregate wrong-mapping median 0.6% (ceiling 12%; RB3 31.4%)."
+    },
+    {
+      "criterion_id": "G_CALIB",
+      "passed": true,
+      "evidence": "ambiguous abstain median 100.0% (floor 70%); known false-abstain median 0.0%."
+    },
+    {
+      "criterion_id": "G_STABILITY",
+      "passed": true,
+      "evidence": "min exact 97.0% (floor 65%; RB3 56.9%) & std 0.008 (ceiling 0.07) over 20 seeds."
+    },
+    {
+      "criterion_id": "G_COMPOSITIONAL",
+      "passed": true,
+      "evidence": "compositional (seen relation x seen predicate, unseen pairing) exact 100.0% >= pilot floor 70%; wrong 0.0%."
+    },
+    {
+      "criterion_id": "G_STRUCTURAL",
+      "passed": true,
+      "evidence": "held-out structural constructions verified distinct from training (long_gap/embedded gap+depth disjoint from local): True. Structural-construction performance: embedded:99%/1%; structural_fail=none."
+    },
+    {
+      "criterion_id": "G_NO_MEMORY",
+      "passed": true,
+      "evidence": "binder median exact 99.3% vs zeroed-content control 51.6%, gap +47.7% (need >= 20%)."
+    },
+    {
+      "criterion_id": "G_REPRO",
+      "passed": true,
+      "evidence": "second env (CPU, 8 seeds) median exact 99.3% vs ENV1 99.3%, delta 0.1% (tol 5%); same machine, CPU vs CUDA backend (NOT distinct hardware)."
+    },
+    {
+      "criterion_id": "G_SEALS",
+      "passed": true,
+      "evidence": "sealed artifacts byte-identical before=True after=True; substrate SHA 8eb5362ed39fd6b9 read-only."
+    }
+  ],
+  "reference": {
+    "corpus_sha256": "53a032aedc9bdcf2ffd75c8c1a88cd3d74b95b416041042819c263c4362d48c6",
+    "calibration_sha256": "d1722a55c24c59ac6072a7ab9e3ee7ce9e4c6d44fd7a2c714590531e0b28f319",
+    "substrate_sha256": "8eb5362ed39fd6b9eaf2a4e268951f916459d026cbc201c97678d4ccbe0cdf45",
+    "corpus_valid": true,
+    "structural_distinct": true,
+    "seeds": 20,
+    "repro_seeds": 8,
+    "lexical_baseline_exact": 0.0,
+    "pilot": {
+      "relative_exact_per_seed": [
+        0.990909090909091,
+        1.0,
+        0.9954545454545455,
+        0.9954545454545455
+      ],
+      "relative_min": 0.990909090909091,
+      "compositional_exact_per_seed": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "compositional_median": 1.0,
+      "g_relative_noseed_floor": 0.94,
+      "g_compositional_floor": 0.7,
+      "pilot_seeds": 4
+    },
+    "aggregate": {
+      "exact": {
+        "median": 0.9933,
+        "min": 0.9704,
+        "max": 0.9993,
+        "std": 0.0084,
+        "n": 20
+      },
+      "wrong": {
+        "median": 0.0057,
+        "min": 0.0007,
+        "max": 0.0296,
+        "std": 0.0077,
+        "n": 20
+      },
+      "abstain": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0088,
+        "std": 0.0023,
+        "n": 20
+      },
+      "ambiguous_abstain": {
+        "median": 1.0,
+        "min": 0.5857,
+        "max": 1.0,
+        "std": 0.0999,
+        "n": 20
+      },
+      "no_memory_exact": {
+        "median": 0.5158,
+        "min": 0.5158,
+        "max": 0.5158,
+        "std": 0.0,
+        "n": 20
+      }
+    },
+    "per_construction": {
+      "appositive": {
+        "exact": {
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "std": 0.0,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "std": 0.0,
+          "n": 20
+        }
+      },
+      "concessive": {
+        "exact": {
+          "median": 0.9864,
+          "min": 0.8955,
+          "max": 1.0,
+          "std": 0.0242,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0136,
+          "min": 0.0,
+          "max": 0.1045,
+          "std": 0.0239,
+          "n": 20
+        }
+      },
+      "copular": {
+        "exact": {
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "std": 0.0,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "std": 0.0,
+          "n": 20
+        }
+      },
+      "embedded": {
+        "exact": {
+          "median": 0.9879,
+          "min": 0.9485,
+          "max": 1.0,
+          "std": 0.0149,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0121,
+          "min": 0.0,
+          "max": 0.0515,
+          "std": 0.0149,
+          "n": 20
+        }
+      },
+      "long_gap": {
+        "exact": {
+          "median": 1.0,
+          "min": 0.997,
+          "max": 1.0,
+          "std": 0.0011,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.003,
+          "std": 0.0011,
+          "n": 20
+        }
+      },
+      "relative": {
+        "exact": {
+          "median": 0.9955,
+          "min": 0.9606,
+          "max": 1.0,
+          "std": 0.0115,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0273,
+          "std": 0.0087,
+          "n": 20
+        }
+      }
+    },
+    "per_axis": {
+      "compositional": {
+        "exact": {
+          "median": 1.0,
+          "min": 1.0,
+          "max": 1.0,
+          "std": 0.0,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0,
+          "std": 0.0,
+          "n": 20
+        }
+      },
+      "cue_predicate": {
+        "exact": {
+          "median": 0.9818,
+          "min": 0.9341,
+          "max": 1.0,
+          "std": 0.0166,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0125,
+          "min": 0.0,
+          "max": 0.0659,
+          "std": 0.015,
+          "n": 20
+        }
+      },
+      "relation": {
+        "exact": {
+          "median": 0.998,
+          "min": 0.9798,
+          "max": 1.0,
+          "std": 0.0073,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.002,
+          "min": 0.0,
+          "max": 0.0202,
+          "std": 0.0073,
+          "n": 20
+        }
+      },
+      "structural": {
+        "exact": {
+          "median": 0.9943,
+          "min": 0.9773,
+          "max": 1.0,
+          "std": 0.0059,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0057,
+          "min": 0.0,
+          "max": 0.0227,
+          "std": 0.0059,
+          "n": 20
+        }
+      }
+    },
+    "per_relation": {
+      "abbreviation": {
+        "exact": {
+          "median": 0.9964,
+          "min": 0.9745,
+          "max": 1.0,
+          "std": 0.0068,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0036,
+          "min": 0.0,
+          "max": 0.0255,
+          "std": 0.0068,
+          "n": 20
+        }
+      },
+      "capital": {
+        "exact": {
+          "median": 0.9852,
+          "min": 0.9455,
+          "max": 1.0,
+          "std": 0.0136,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.0125,
+          "min": 0.0,
+          "max": 0.0455,
+          "std": 0.0112,
+          "n": 20
+        }
+      },
+      "currency code": {
+        "exact": {
+          "median": 0.998,
+          "min": 0.9798,
+          "max": 1.0,
+          "std": 0.0073,
+          "n": 20
+        },
+        "wrong": {
+          "median": 0.002,
+          "min": 0.0,
+          "max": 0.0202,
+          "std": 0.0073,
+          "n": 20
+        }
+      }
+    },
+    "relative_per_seed_min": 0.9606,
+    "failure_taxonomy": {
+      "wrong_binding": 9.0,
+      "false_abstain": 0.0,
+      "missed_abstain": 0.0,
+      "malformed": 0,
+      "per_construction": {
+        "appositive": {
+          "wrong_binding": 0.0,
+          "false_abstain": 0.0,
+          "n": 110
+        },
+        "concessive": {
+          "wrong_binding": 0.0409,
+          "false_abstain": 0.0,
+          "n": 220
+        },
+        "relative": {
+          "wrong_binding": 0.0,
+          "false_abstain": 0.0,
+          "n": 330
+        },
+        "long_gap": {
+          "wrong_binding": 0.0,
+          "false_abstain": 0.0,
+          "n": 330
+        },
+        "embedded": {
+          "wrong_binding": 0.0,
+          "false_abstain": 0.0,
+          "n": 330
+        },
+        "copular": {
+          "wrong_binding": 0.0,
+          "false_abstain": 0.0,
+          "n": 165
+        }
+      },
+      "per_relation": {
+        "abbreviation": {
+          "wrong_binding": 0.0036,
+          "false_abstain": 0.0,
+          "n": 550
+        },
+        "capital": {
+          "wrong_binding": 0.0159,
+          "false_abstain": 0.0,
+          "n": 440
+        },
+        "currency code": {
+          "wrong_binding": 0.0,
+          "false_abstain": 0.0,
+          "n": 495
+        }
+      },
+      "note": "3-way head (identity/swapped/abstain): wrong-entity vs wrong-value are not separable; wrong_binding = identity<->swapped confusion."
+    },
+    "second_environment": {
+      "device": "cpu",
+      "median_exact": {
+        "median": 0.9926,
+        "min": 0.9879,
+        "max": 0.9987,
+        "std": 0.0031,
+        "n": 8
+      },
+      "delta_vs_env1": 0.0007
+    },
+    "frozen_gates": {
+      "G_GEN_EXACT_FLOOR": 0.75,
+      "G_PERCON_EXACT_FLOOR": 0.65,
+      "G_PERCON_WRONG_CEIL": 0.15,
+      "G_SAFE_WRONG_CEIL": 0.12,
+      "G_STABILITY_MIN_FLOOR": 0.65,
+      "G_STABILITY_STD_CEIL": 0.07,
+      "G_NO_MEMORY_GAP": 0.2,
+      "G_REPRO_TOL": 0.05,
+      "G_RELATIVE_NOSEED_FLOOR": 0.94,
+      "G_COMPOSITIONAL_FLOOR": 0.7
+    },
+    "claim_status": "Legal-grade attempt: >= 20 seeds + CPU/CUDA second backend (same machine), pilot-calibrated thresholds, no-memory causal control, structural holdout. True multi-hardware repro + independent replication still required for PROVEN."
+  }
+}

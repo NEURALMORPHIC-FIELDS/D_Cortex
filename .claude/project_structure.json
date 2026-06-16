@@ -1,5 +1,5 @@
 {
-  "last_modified": "2026-06-15",
+  "last_modified": "2026-06-16",
   "repo_root": "e:\\proiecte_active\\D_Cortex\\D_Cortex-main",
   "project_root_runs": "runs/dcortex (created under repo: checkpoints/, logs/, dataset_cache/bin/, results/, configs/)",
   "venv": ".venv (Python 3.11, torch cu128)",
@@ -46,6 +46,18 @@
     "scripts/emit_verdict.py": {
       "status": "active",
       "purpose": "Verifier: reads run_meta + loss_history artifacts, re-checks ENV live, evaluates 4 gates (ENV/FIT/LEARNS/RESUME), writes results/verdict.json and results/loss_curve.png. Generation/verification separated."
+    },
+    "scripts/build_role_struct_corpus.py": {
+      "status": "active",
+      "purpose": "structural role-binding corpus builder (cue-predicate vs structural holdout, globally-disjoint entity pools, pinned multi-relation)"
+    },
+    "scripts/validate_role_struct_corpus.py": {
+      "status": "active",
+      "purpose": "per-cell non-triviality + entity disjointness + structural-distinctness validator (G_STRUCTURAL evidence)"
+    },
+    "scripts/certify_role_struct.py": {
+      "status": "active",
+      "purpose": "vnext3 certification: calibration pilot + 20-seed + no-memory causal control + 2 envs + 11 frozen gates"
     }
   },
   "run_artifacts": {
@@ -948,5 +960,24 @@
       "protected_file_diff": "empty"
     },
     "claim_guard": "Successful software verification does not change the failed RB4 data gate or support a generalization claim."
+  },
+  "step_25_v15_7b_role_binding_structural_certify_2026_06_16": {
+    "branch": "rb4-scale-certify-vnext3",
+    "corpus_sha": "53a032aedc9bdcf2ffd75c8c1a88cd3d74b95b416041042819c263c4362d48c6",
+    "result": "ALL 11 GATES PASS",
+    "held_out_exact_median": 0.9933,
+    "held_out_exact_min": 0.9704,
+    "std": 0.0084,
+    "seeds": 20,
+    "structural_long_gap": 1.0,
+    "structural_embedded": 0.988,
+    "cue_predicate": 0.982,
+    "compositional": 1.0,
+    "heldout_relation_currency_code": 0.998,
+    "no_memory_control": 0.5158,
+    "causal_gap_pp": 47.7,
+    "cpu_repro_delta": 0.0007,
+    "seals_byte_identical": true,
+    "claim": "MEASURED systematic generalization to unseen, structurally distinct cue constructions (long filler-gap, clause embedding) incl relative, calibrated abstention, 47.7pp causal margin; position-blind binder + robust substrate (robustness not syntax); CPU-vs-CUDA same machine; single-org; NOT PROVEN (needs multi-hardware + independent replication)."
   }
 }

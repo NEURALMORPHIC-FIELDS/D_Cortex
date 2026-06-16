@@ -735,6 +735,25 @@
       ],
       "status": "success",
       "notes": "ALL 7 GATES PASS on corrected honest holdout. Held-out-predicate exact median 97.1% [95.1%/98.8%] std 0.011 (20 seeds); relative 99.6%/0.4% (was 63%/30.9%); concessive 93.1%; held-out relation currency_code 96.8%; wrong median 2.8% vs RB3 31.4%; CPU repro delta 0.1%. Data-starved hypothesis CONFIRMED. HONEST SCOPE: simple explicitly-cued bindings, cue-predicate axis (not arbitrary syntax), CPU-vs-CUDA same machine (not distinct hardware). MEASURED single-machine, NOT PROVEN. Corpus SHA 408d64a9b87baabb."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "04:10",
+      "requested": "v-next+3 FINAL: scale corpus with GENUINE structural diversity, separate cue-predicate from structural generalization, no-memory causal control, compositional holdout, pilot-calibrated thresholds, failure taxonomy, seed-variance localization, 2 environments, 11 frozen gates. Architecture unchanged, seals byte-identical.",
+      "executed": "Built scripts/build_role_struct_corpus.py (3 pinned relations; globally-disjoint entity pools; cue_predicate vs structural[long_gap,embedded] holdout; compositional appositive; separate entity-disjoint calibration). scripts/validate_role_struct_corpus.py: per-cell 0% baseline, entity disjointness, structural distinctness all PASS. Fixed seal CRLF/LF working-tree mismatch (git blobs untouched) and re-based branch onto sealed role-binding lineage. scripts/certify_role_struct.py: pilot(4)+ENV1 cuda(20)+ENV2 cpu(8), no-memory control, failure taxonomy, variance diagnosis, 11 gates.",
+      "files_touched": [
+        "scripts/build_role_struct_corpus.py",
+        "scripts/validate_role_struct_corpus.py",
+        "scripts/certify_role_struct.py",
+        "data/role_struct/role_struct_corpus.jsonl",
+        "data/role_struct/role_struct_calibration.jsonl",
+        "data/role_struct/verdict.json",
+        "data/role_struct/validation.json",
+        "docs/ROLE_STRUCT_CERTIFY_REPORT.md",
+        "reports/seed_variance_diagnosis.md"
+      ],
+      "status": "success",
+      "notes": "ALL 11 GATES PASS. Held-out exact median 99.3% [97.0%/99.9%] std 0.008 (20 seeds). Structural: long_gap 100.0%, embedded 98.8% (verified distinct gap 47 vs 10, depth 8 vs 0). cue_predicate 98.2%; compositional 100.0%; held-out relation currency_code 99.8%. NO-MEMORY control 51.6% -> causal gap +47.7pp. CPU repro delta 0.1%. Pilot froze G_RELATIVE floor 94%, G_COMPOSITIONAL 70%. Corpus SHA 53a032aedc9bdcf2. HONEST: position-blind binder + robust substrate; structural axis = robustness not syntax; CPU-vs-CUDA same machine; MEASURED single-org, NOT PROVEN."
     }
   ]
 }

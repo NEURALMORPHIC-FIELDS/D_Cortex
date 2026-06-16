@@ -1,0 +1,161 @@
+{
+  "corpus": "E:\\proiecte_active\\D_Cortex\\dcortex_repo\\data\\role_struct\\role_struct_corpus.jsonl",
+  "n_main": 2685,
+  "n_calibration": 400,
+  "per_cell_lexical": {
+    "ok": true,
+    "worst_cell": "appositive | abbreviation",
+    "worst_value": 0.0,
+    "cells": {
+      "appositive | abbreviation": 0.0,
+      "concessive | capital": 0.0,
+      "concessive | abbreviation": 0.0,
+      "relative | capital": 0.0,
+      "relative | abbreviation": 0.0,
+      "long_gap | capital": 0.0,
+      "long_gap | abbreviation": 0.0,
+      "embedded | capital": 0.0,
+      "embedded | abbreviation": 0.0,
+      "copular | currency code": 0.0,
+      "relative | currency code": 0.0,
+      "long_gap | currency code": 0.0,
+      "embedded | currency code": 0.0
+    }
+  },
+  "entity_disjoint": {
+    "ok": true,
+    "overlaps": {}
+  },
+  "fact_overlap_train_eval": 0,
+  "cross_split_text_duplicates": 0,
+  "structure_signatures": {
+    "copular": {
+      "gap": {
+        "median": 11,
+        "min": 9,
+        "max": 17,
+        "n": 495
+      },
+      "depth": {
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "n": 495
+      },
+      "sclass": "local"
+    },
+    "possessive": {
+      "gap": {
+        "median": 7.0,
+        "min": 7,
+        "max": 12,
+        "n": 330
+      },
+      "depth": {
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 330
+      },
+      "sclass": "local"
+    },
+    "appositive": {
+      "gap": {
+        "median": 10.0,
+        "min": 8,
+        "max": 16,
+        "n": 220
+      },
+      "depth": {
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 220
+      },
+      "sclass": "local"
+    },
+    "passive": {
+      "gap": {
+        "median": 9.0,
+        "min": 9,
+        "max": 14,
+        "n": 220
+      },
+      "depth": {
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 220
+      },
+      "sclass": "local"
+    },
+    "concessive": {
+      "gap": {
+        "median": 10.0,
+        "min": 9,
+        "max": 15,
+        "n": 220
+      },
+      "depth": {
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "n": 220
+      },
+      "sclass": "local"
+    },
+    "relative": {
+      "gap": {
+        "median": 10.0,
+        "min": 9,
+        "max": 15,
+        "n": 330
+      },
+      "depth": {
+        "median": 1.0,
+        "min": 1,
+        "max": 1,
+        "n": 330
+      },
+      "sclass": "local"
+    },
+    "long_gap": {
+      "gap": {
+        "median": 47.0,
+        "min": 40,
+        "max": 53,
+        "n": 330
+      },
+      "depth": {
+        "median": 2.0,
+        "min": 2,
+        "max": 2,
+        "n": 330
+      },
+      "sclass": "long_gap"
+    },
+    "embedded": {
+      "gap": {
+        "median": 23.5,
+        "min": 22,
+        "max": 25,
+        "n": 330
+      },
+      "depth": {
+        "median": 8.0,
+        "min": 7,
+        "max": 9,
+        "n": 330
+      },
+      "sclass": "embedded"
+    }
+  },
+  "structural_distinctness": {
+    "ok": true,
+    "long_gap_min": 40,
+    "local_gap_max": 17,
+    "embedded_depth_min": 7,
+    "local_depth_max": 1
+  },
+  "all_ok": true
+}
