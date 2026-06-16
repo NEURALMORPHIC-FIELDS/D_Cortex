@@ -1,0 +1,23 @@
+{
+  "default_action": "abstain",
+  "rules": [
+    {
+      "action": "abstain",
+      "id": "R1_unknown",
+      "message": "Not grounded in the IPC committed memory.",
+      "when": "code not in committed"
+    },
+    {
+      "action": "out_of_domain",
+      "id": "R2_out_of_domain",
+      "message": "Query is outside the IPC classification domain.",
+      "when": "no in-domain keyword and no known code"
+    },
+    {
+      "action": "block",
+      "id": "R4_forbidden",
+      "message": "Legal conclusion is forbidden in this classification pack.",
+      "when": "answer matches a forbidden pattern"
+    }
+  ]
+}

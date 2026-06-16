@@ -1,0 +1,3 @@
+{"pattern": "is patentable", "reason": "patentability is a legal determination, not an IPC fact", "severity": "high"}
+{"pattern": "guaranteed to be granted", "reason": "grant is an examination outcome, not in this pack", "severity": "high"}
+{"pattern": "infringes", "reason": "infringement is a legal conclusion outside this classification pack", "severity": "high"}

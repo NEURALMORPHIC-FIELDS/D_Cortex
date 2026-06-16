@@ -1,0 +1,18 @@
+{
+  "counts": {
+    "committed": 380,
+    "forbidden": 3,
+    "ipc_codes": 192
+  },
+  "files": {
+    "abstain_rules.json": "af8c96c0bae8d8b4acb98cd7e5c36c26cf0d3a8d2d6da9c044c21fd8b9144948",
+    "committed.jsonl": "d361bb4e495520d0d81a49da3c3f790fda05172e350b289abbcaf4eedbb0f82e",
+    "disputed.jsonl": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "forbidden.jsonl": "6f646c0871f739e6f7e71ae9a8d14b19ec3312d8460e984c471b99d18d8500a9",
+    "provisional.jsonl": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "schemas.json": "eb0642cb39e58a1c67c09c9213edcc29d28fd43dcfae0e2d48e2b0046dd16517",
+    "sources.json": "d7addf5034282fabac4316868150482c96bab2aa09503b390186403fbc382b98"
+  },
+  "pack": "D_Cortex_IPCAnalyst",
+  "source_commit": "0ff722fbaea591b329af6f33d74fdbb7b6b2246a"
+}

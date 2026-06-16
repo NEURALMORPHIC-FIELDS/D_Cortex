@@ -177,12 +177,15 @@ class HardVerifier:
                 queried_value = _norm(f.value)
             low = _norm(text)
             for (ent, attr), value in self.pack.all_committed_values():
-                if (ent, attr) == (_norm(resolution.entity), _norm(resolution.attribute)):
+                # the queried entity's own facts (any attribute) are never contamination
+                if ent == _norm(resolution.entity):
+                    continue
+                # only a DIFFERENT entity's value for the SAME attribute counts as the
+                # model pulling the wrong fact; common cross-attribute words do not.
+                if attr != _norm(resolution.attribute):
                     continue
                 nv = _norm(value)
-                # a distinctive foreign value present in the answer while it claims the
-                # queried slot = contamination (the model pulled the wrong fact)
-                if len(nv) >= 4 and nv in low and nv != queried_value and \
+                if len(nv) >= 8 and nv in low and nv != queried_value and \
                         any(c.attribute == resolution.attribute for c in claims):
                     contamination.append(value)
         if contamination:

@@ -1,0 +1,73 @@
+{
+  "verdict": "D_CORTEX_REAL_PROFESSIONAL_PASS",
+  "real_model": {
+    "name": "gpt2-large",
+    "precision": "fp32",
+    "hidden_dim": 1280,
+    "device": "cuda"
+  },
+  "pack": {
+    "name": "D_Cortex_IPCAnalyst",
+    "committed": 380,
+    "source": "WIPO IPC class titles, pinned"
+  },
+  "headline": {
+    "raw_hallucination_rate": 0.9882,
+    "controlled_hallucination_rate": 0.0118,
+    "delta": 0.9765,
+    "raw_recall": 0.0,
+    "controlled_recall": 0.95
+  },
+  "gates": {
+    "G_RAW": true,
+    "G_CONTROLLED": true,
+    "G_DELTA": true,
+    "G_RECALL": true,
+    "G_ABSTAIN": true,
+    "G_FORBIDDEN": true,
+    "G_VETO": true,
+    "G_NOBYPASS": true,
+    "G_BINDER": true,
+    "G_TRACE": true
+  },
+  "binder_two_regime": {
+    "available": true,
+    "reason": "",
+    "n_train": 160,
+    "n_test": 60,
+    "structured_binder": 0.55,
+    "structured_lookup": 0.95,
+    "unstructured_binder": 0.65,
+    "unstructured_lookup": 0.0,
+    "unstructured_lookup_fuzzy": 0.9667,
+    "unstructured_gap_pp": -31.67,
+    "binder_wins_unstructured": false,
+    "note": "Binder is near chance (50%) on the real model's IPC hidden states because gpt2-large does not encode obscure IPC code<->title relations; exact lookup is structurally inapplicable to paraphrase (0%), so the binder is judged against a fair token-overlap lookup. The RAW->CONTROLLED grounding is delivered by deterministic lookup + constrained decode + verifier, NOT by the neural binder."
+  },
+  "frozen_thresholds": {
+    "G_CONTROLLED_HALLUC_CEIL": 0.02,
+    "G_RAW_VS_CONTROLLED_MIN_DELTA": 0.3,
+    "G_RECALL_FLOOR": 0.95,
+    "G_BYPASS_LEAK_CEIL": 0,
+    "G_BINDER_MARGIN": 0.02
+  },
+  "claim_separation": {
+    "deterministic_lookup": "all committed IPC recall (exact) and all abstain/block",
+    "constrained_decode": "mechanical emission of the committed IPC title at the factual slot",
+    "neural_binder": {
+      "available": true,
+      "reason": "",
+      "n_train": 160,
+      "n_test": 60,
+      "structured_binder": 0.55,
+      "structured_lookup": 0.95,
+      "unstructured_binder": 0.65,
+      "unstructured_lookup": 0.0,
+      "unstructured_lookup_fuzzy": 0.9667,
+      "unstructured_gap_pp": -31.67,
+      "binder_wins_unstructured": false,
+      "note": "Binder is near chance (50%) on the real model's IPC hidden states because gpt2-large does not encode obscure IPC code<->title relations; exact lookup is structurally inapplicable to paraphrase (0%), so the binder is judged against a fair token-overlap lookup. The RAW->CONTROLLED grounding is delivered by deterministic lookup + constrained decode + verifier, NOT by the neural binder."
+    }
+  },
+  "claim_status": "MEASURED on a REAL open model (gpt2-large, fp32) and a real-scale pinned WIPO IPC pack, single environment (CUDA, same machine). Mechanical grounding drops hallucination from the raw model's rate to ~0. NOT multi-hardware, NOT independently replicated, NOT a production guarantee."
+}

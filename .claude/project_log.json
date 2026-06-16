@@ -775,6 +775,37 @@
       ],
       "status": "success",
       "notes": "VERDICT D_CORTEX_PROFESSIONAL_CAMPAIGN_PASS. ALL 11 GATES PASS. Mechanical grounding demonstrated: all 13 committed answers overridden (raw undertrained substrate emits gibberish; constraint forces committed value). Hallucination rate 0% on unanswerable+ood; 0 leaks across 29 adversarial. G11 HONEST: binder 98.0% does NOT beat proper (entity,attribute) lookup 100% (gap -1.9pp); naive entity-only lookup 33% was a crippled-baseline artifact, caught and corrected. MEASURED single-env; target = undertrained D_Cortex substrate; binder model-specific; NOT production/multi-model claim."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "07:00",
+      "requested": "Port forced-grounding to a REAL open model + REAL-scale pack; measure RAW vs CONTROLLED hallucination; full organism (control layer, deterministic baseline, neural binder on real hidden states, attribution, binder-vs-baseline two regimes, gates).",
+      "executed": "Real base model gpt2-large (HF, fp32, hidden states). Real-scale pack D_Cortex_IPCAnalyst from official WIPO IPC class titles (thxare/IPCcodes@0ff722fb pinned, cleaned, 192 codes -> 380 committed facts). dcortex_professional/hf_runtime.py (constrained decoding + hidden states), ipc_binder.py (two-regime binder), certify_professional_real.py (RAW vs CONTROLLED + 10 gates). Fixed two harness/verifier bugs (over-aggressive contamination false-veto; case bug leaking a committed code into unanswerable). Caught and corrected a strawman binder comparison (exact-lookup 0% -> added fair fuzzy lookup).",
+      "files_touched": [
+        "dcortex_professional/hf_runtime.py",
+        "dcortex_professional/ipc_binder.py",
+        "dcortex_professional/enforcement.py",
+        "scripts/build_ipc_pack.py",
+        "scripts/certify_professional_real.py",
+        "data/professional_ipc/D_Cortex_IPCAnalyst/*",
+        "data/professional_ipc/verdict.json",
+        "docs/PROFESSIONAL_REAL_REPORT.md"
+      ],
+      "status": "success",
+      "notes": "VERDICT D_CORTEX_REAL_PROFESSIONAL_PASS. ALL 10 GATES PASS. HEADLINE: RAW 98.8% -> CONTROLLED 1.2% hallucination (delta +97.7%) on gpt2-large + WIPO IPC pack. RAW answerable grounded 0%; controlled recall 95%. BINDER honest negative: near-chance on gpt2-large IPC hidden states (structured 55% vs lookup 95%; unstructured 65% vs FAIR fuzzy lookup 97%, loses -32pp). Strawman (+65pp vs 0% exact lookup) caught and corrected. Grounding delivered by lookup+constrained-decode+verifier, NOT the binder. MEASURED single-env; NOT PROVEN."
+    },
+    {
+      "date": "2026-06-16",
+      "time": "07:20",
+      "requested": "Integrity-audit clarification: distinguish pre-existing vs introduced bugs from the real-model campaign, and confirm the prior pushed campaign is unaffected.",
+      "executed": "Classified the two fixes from step_27. (1) CONTAMINATION FALSE-VETO: PRE-EXISTING in dcortex_professional/enforcement.py as committed+pushed on feature/professional-integration @7e45902 (line `len(nv)>=4 and nv in low`). Latent: the prior D_Cortex_PatentAnalyst campaign was UNAFFECTED (its verdict G3 committed_recall=1.0, G3 PASS, no false vetoes) because that pack had no value-substring overlap. It surfaced only on the IPC pack where single-word category values (e.g. AGRICULTURE) are substrings of titles. Fixed on feature/professional-real-model (now flags only a DIFFERENT entity's SAME-attribute value, len>=8). (2) CASE BUG (uppercase candidate codes vs normalized lowercase known_codes leaking A99 into the unanswerable set): INTRODUCED in this campaign's NEW file scripts/certify_professional_real.py (absent from the prior branch) and fixed within the same campaign before any commit.",
+      "files_touched": [
+        "dcortex_professional/enforcement.py",
+        "scripts/certify_professional_real.py",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Verification commands run: `git show feature/professional-integration:dcortex_professional/enforcement.py` (contamination check present => pre-existing); prior verdict committed_recall=1.0 G3=True (=> latent, not triggered, prior campaign verdict UNCHANGED); `git show feature/professional-integration:scripts/certify_professional_real.py` => fatal path not in branch (=> case bug introduced+fixed in this campaign). The enforcement.py improvement does not alter the prior pushed campaign's results; it only prevents the latent false-veto on packs with overlapping committed values. Memory was already updated in entry step_27; this entry adds the pre-existing-vs-introduced traceability the integrity audit asked for."
     }
   ]
 }
