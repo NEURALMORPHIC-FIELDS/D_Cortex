@@ -970,6 +970,37 @@
       ],
       "status": "success",
       "notes": "Anti-confabulation in action: caught and corrected my own positive-bias verdict label (PASS->PARTIAL_CAPACITY_BOUND) AND my own faulty hallucination detector (false 6/6 -> verified 5/6 with sample evidence). Verified samples against counts each time. dcortex/ and steps/13 byte-identical."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "09:45",
+      "requested": "Full autonomy (incl. architectural) to develop the project per the vision direction. Start now.",
+      "executed": "Reframed via investigation (workflow wl3wn6j0r + cross-check): the NEURAL DCortexV2Model already has the scaffold (5 objectual banks incl ConflictMemory, theta_match/theta_conflict continuous decisions, MemoryConsolidator, ValueToKeyProjector, AuxAnswerHead, memory-conditioned emission) but LACKS the discrete arbiter (committed/provisional/disputed + episode-counting promote/retrograde). Confirmed NO trained DCortexV2Model checkpoint exists. Resolved the validity-critical cruxes autonomously (documented in docs/STAGE_U_DESIGN.md) and started Stage U Step 1: a continuous-value NeuralCommitArbiter measured against the symbolic organ + L1-L5 gold, with wrong_commit(rho) as the falsifiable feasibility curve.",
+      "files_touched": [
+        "docs/STAGE_U_DESIGN.md",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Step 1 isolates arbiter mechanism from representation quality via controlled separability rho - answers 'is wrong_commit=0 reachable on continuous values, at what margin' without a checkpoint. Honest: not a claim about a trained model (none exists)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "10:30",
+      "requested": "Autonomous Stage U development per the vision.",
+      "executed": "Built + ran Stage U Step 1: continuous-value NeuralCommitArbiter (committed/provisional/disputed + promote N=2/retrograde M=2/prune K_stale=3/reconcile) measured against the sealed symbolic organ as LIVE oracle on 100 L1-L5 sequences. MECHANISM proven (0/140 wrong_commit, op-set 100/100 at rho0/sig0; hand-traced). Ran adversarial verifier: it UPHELD mechanism + oracle independence + falsifiability, but CAUGHT an overstated 'cosine floor at rho>0.7' as a fixed-theta calibration artifact. Recalibrated theta + added separability MARGIN as the identity-agnostic metric -> honest finding: wrong_commit=0 reachable wherever margin>0 (calibrated-cosine up to rho<=0.95, discretize up to rho<=0.99). Fixed 3 cert bugs en route (tensor-eq crash, noise mis-scaling, non-deterministic seed) - reported, not hidden. Wrote docs/STAGE_U_{DESIGN,FEASIBILITY}.md.",
+      "files_touched": [
+        "docs/STAGE_U_DESIGN.md",
+        "docs/STAGE_U_FEASIBILITY.md",
+        "stage_u/neural_arbiter.py",
+        "stage_u/l_regime.py",
+        "scripts/certify_stage_u_arbiter.py",
+        "runs/stage_u/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Honest property comes from SEPARABILITY (margin), not strictly discreteness. Neural substrate CAN host honest mechanics if training keeps margin>0. NOT a trained-model claim (no checkpoint). dcortex/ + steps/13 byte-identical. Next: Stage U Step 2 = train/constrain the value representation OR wire the arbiter onto DCortexV2Model banks and measure its actual margin."
     }
   ]
 }

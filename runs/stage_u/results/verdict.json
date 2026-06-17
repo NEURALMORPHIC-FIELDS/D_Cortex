@@ -1,0 +1,681 @@
+{
+  "verdict": "D_CORTEX_STAGE_U_STEP1_MEASURED",
+  "scope": "MEASURED, continuous-value arbiter on CONTROLLED value vectors (separability rho + norm-bounded observation noise sigma), oracle = symbolic organ on L1-L5. NO trained DCortexV2Model used (none exists). This characterizes the ARBITER MECHANISM and the separability requirement, NOT a trained representation.",
+  "mechanism_reproduces_organ_rho0_sig0": true,
+  "mechanism": {
+    "cosine": {
+      "wrong_commit": 0,
+      "total": 140,
+      "wrong_commit_rate": 0.0,
+      "op_set_match": 100
+    },
+    "discretize": {
+      "wrong_commit": 0,
+      "total": 140,
+      "wrong_commit_rate": 0.0,
+      "op_set_match": 100
+    }
+  },
+  "falsifiable_wrong_commit": true,
+  "honest_floor": "the determinant is the SEPARABILITY MARGIN (min same-value cosine - max different-value cosine) under noise; with a CALIBRATED threshold both cosine and discretize reach wrong_commit=0 wherever margin>0. The earlier fixed-theta 'cosine floor at rho>0.7' was a calibration artifact (adversarial review).",
+  "noise_caveat": "norm-bounded noise in 768-dim has projection ~sigma/sqrt(D) on the ~1-dim discriminating axis, so it is benign for nearest-prototype; the discretize robustness is a real high-dim property, not a claim that any noise is harmless.",
+  "rhos": [
+    0.0,
+    0.3,
+    0.5,
+    0.7,
+    0.85,
+    0.95,
+    0.99
+  ],
+  "sigmas": [
+    0.0,
+    0.1,
+    0.3,
+    0.5,
+    0.8
+  ],
+  "grid": {
+    "margin": {
+      "rho0.0_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.0,
+        "margin": 1.0,
+        "calibrated_theta": 0.5
+      },
+      "rho0.3_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.3,
+        "margin": 0.7,
+        "calibrated_theta": 0.65
+      },
+      "rho0.5_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.5,
+        "margin": 0.5,
+        "calibrated_theta": 0.75
+      },
+      "rho0.7_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.7,
+        "margin": 0.3,
+        "calibrated_theta": 0.85
+      },
+      "rho0.85_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.85,
+        "margin": 0.15,
+        "calibrated_theta": 0.925
+      },
+      "rho0.95_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.95,
+        "margin": 0.05,
+        "calibrated_theta": 0.975
+      },
+      "rho0.99_sig0.0": {
+        "min_same": 1.0,
+        "max_diff": 0.99,
+        "margin": 0.01,
+        "calibrated_theta": 0.995
+      },
+      "rho0.0_sig0.1": {
+        "min_same": 0.9888,
+        "max_diff": 0.0108,
+        "margin": 0.978,
+        "calibrated_theta": 0.4998
+      },
+      "rho0.3_sig0.1": {
+        "min_same": 0.9884,
+        "max_diff": 0.309,
+        "margin": 0.6795,
+        "calibrated_theta": 0.6487
+      },
+      "rho0.5_sig0.1": {
+        "min_same": 0.9888,
+        "max_diff": 0.506,
+        "margin": 0.4828,
+        "calibrated_theta": 0.7474
+      },
+      "rho0.7_sig0.1": {
+        "min_same": 0.9881,
+        "max_diff": 0.7021,
+        "margin": 0.286,
+        "calibrated_theta": 0.8451
+      },
+      "rho0.85_sig0.1": {
+        "min_same": 0.9886,
+        "max_diff": 0.8492,
+        "margin": 0.1395,
+        "calibrated_theta": 0.9189
+      },
+      "rho0.95_sig0.1": {
+        "min_same": 0.9885,
+        "max_diff": 0.9454,
+        "margin": 0.043,
+        "calibrated_theta": 0.9669
+      },
+      "rho0.99_sig0.1": {
+        "min_same": 0.9879,
+        "max_diff": 0.9827,
+        "margin": 0.0051,
+        "calibrated_theta": 0.9853
+      },
+      "rho0.0_sig0.3": {
+        "min_same": 0.8972,
+        "max_diff": 0.0397,
+        "margin": 0.8574,
+        "calibrated_theta": 0.4684
+      },
+      "rho0.3_sig0.3": {
+        "min_same": 0.9061,
+        "max_diff": 0.3169,
+        "margin": 0.5892,
+        "calibrated_theta": 0.6115
+      },
+      "rho0.5_sig0.3": {
+        "min_same": 0.9046,
+        "max_diff": 0.4954,
+        "margin": 0.4091,
+        "calibrated_theta": 0.7
+      },
+      "rho0.7_sig0.3": {
+        "min_same": 0.9041,
+        "max_diff": 0.6729,
+        "margin": 0.2311,
+        "calibrated_theta": 0.7885
+      },
+      "rho0.85_sig0.3": {
+        "min_same": 0.9065,
+        "max_diff": 0.8055,
+        "margin": 0.101,
+        "calibrated_theta": 0.856
+      },
+      "rho0.95_sig0.3": {
+        "min_same": 0.903,
+        "max_diff": 0.8891,
+        "margin": 0.0139,
+        "calibrated_theta": 0.8961
+      },
+      "rho0.99_sig0.3": {
+        "min_same": 0.9058,
+        "max_diff": 0.9242,
+        "margin": -0.0184,
+        "calibrated_theta": 0.915
+      },
+      "rho0.0_sig0.5": {
+        "min_same": 0.7696,
+        "max_diff": 0.0627,
+        "margin": 0.707,
+        "calibrated_theta": 0.4161
+      },
+      "rho0.3_sig0.5": {
+        "min_same": 0.7627,
+        "max_diff": 0.3008,
+        "margin": 0.4619,
+        "calibrated_theta": 0.5317
+      },
+      "rho0.5_sig0.5": {
+        "min_same": 0.7735,
+        "max_diff": 0.4512,
+        "margin": 0.3223,
+        "calibrated_theta": 0.6123
+      },
+      "rho0.7_sig0.5": {
+        "min_same": 0.7609,
+        "max_diff": 0.5974,
+        "margin": 0.1635,
+        "calibrated_theta": 0.6791
+      },
+      "rho0.85_sig0.5": {
+        "min_same": 0.7698,
+        "max_diff": 0.7137,
+        "margin": 0.0561,
+        "calibrated_theta": 0.7417
+      },
+      "rho0.95_sig0.5": {
+        "min_same": 0.7721,
+        "max_diff": 0.7861,
+        "margin": -0.014,
+        "calibrated_theta": 0.7791
+      },
+      "rho0.99_sig0.5": {
+        "min_same": 0.7723,
+        "max_diff": 0.8253,
+        "margin": -0.053,
+        "calibrated_theta": 0.7988
+      },
+      "rho0.0_sig0.8": {
+        "min_same": 0.5573,
+        "max_diff": 0.0728,
+        "margin": 0.4845,
+        "calibrated_theta": 0.315
+      },
+      "rho0.3_sig0.8": {
+        "min_same": 0.5559,
+        "max_diff": 0.2643,
+        "margin": 0.2916,
+        "calibrated_theta": 0.4101
+      },
+      "rho0.5_sig0.8": {
+        "min_same": 0.5476,
+        "max_diff": 0.3737,
+        "margin": 0.1739,
+        "calibrated_theta": 0.4606
+      },
+      "rho0.7_sig0.8": {
+        "min_same": 0.5386,
+        "max_diff": 0.4918,
+        "margin": 0.0468,
+        "calibrated_theta": 0.5152
+      },
+      "rho0.85_sig0.8": {
+        "min_same": 0.5659,
+        "max_diff": 0.5827,
+        "margin": -0.0168,
+        "calibrated_theta": 0.5743
+      },
+      "rho0.95_sig0.8": {
+        "min_same": 0.5424,
+        "max_diff": 0.6363,
+        "margin": -0.094,
+        "calibrated_theta": 0.5893
+      },
+      "rho0.99_sig0.8": {
+        "min_same": 0.546,
+        "max_diff": 0.6536,
+        "margin": -0.1076,
+        "calibrated_theta": 0.5998
+      }
+    },
+    "cosine_calibrated": {
+      "rho0.0_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.0_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.0_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.3": {
+        "wrong_commit": 12,
+        "total": 140,
+        "wrong_commit_rate": 0.0857,
+        "op_set_match": 80
+      },
+      "rho0.0_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.5": {
+        "wrong_commit": 7,
+        "total": 140,
+        "wrong_commit_rate": 0.05,
+        "op_set_match": 85
+      },
+      "rho0.99_sig0.5": {
+        "wrong_commit": 27,
+        "total": 140,
+        "wrong_commit_rate": 0.1929,
+        "op_set_match": 62
+      },
+      "rho0.0_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.8": {
+        "wrong_commit": 1,
+        "total": 140,
+        "wrong_commit_rate": 0.0071,
+        "op_set_match": 99
+      },
+      "rho0.95_sig0.8": {
+        "wrong_commit": 22,
+        "total": 140,
+        "wrong_commit_rate": 0.1571,
+        "op_set_match": 62
+      },
+      "rho0.99_sig0.8": {
+        "wrong_commit": 37,
+        "total": 140,
+        "wrong_commit_rate": 0.2643,
+        "op_set_match": 41
+      }
+    },
+    "discretize": {
+      "rho0.0_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.0": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.0_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.1": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.0_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.3": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.0_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.5": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.0_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.3_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.5_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.7_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.85_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.95_sig0.8": {
+        "wrong_commit": 0,
+        "total": 140,
+        "wrong_commit_rate": 0.0,
+        "op_set_match": 100
+      },
+      "rho0.99_sig0.8": {
+        "wrong_commit": 7,
+        "total": 140,
+        "wrong_commit_rate": 0.05,
+        "op_set_match": 97
+      }
+    }
+  },
+  "floors_at_sigma_le_0.3": {
+    "margin_positive_max_rho": 0.95,
+    "cosine_calibrated_zero_max_rho": 0.95,
+    "discretize_zero_max_rho": 0.99
+  }
+}

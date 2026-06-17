@@ -1279,5 +1279,45 @@
       "organ_untouched": "dcortex/ and steps/13 byte-identical (read-only)",
       "adversarial_verification": "Independent skeptic agent red-teamed the campaign: UPHELD no-fabricated-facts (cross-checked 4 live incl 1933 NSA patent), wrong_commit=0 falsifiable (corruption injection fires it), value_storage=34/89 arithmetic exact, capacity-bound label honest. CAUGHT initial G_HALLUC overstatement (forced-decode tautology + 2 free-pass abstains) -> fixed with raw-vs-controlled hallucination probe + corrected refusal detector across 3 deterministic re-runs."
     }
+  },
+  "step_34_stage_u_neural_arbiter_2026_06_17": {
+    "status": "implemented_and_verified",
+    "branch": "feature/integration-spine",
+    "campaign": "Stage U (Unification) - port honest mechanics onto the NEURAL continuous-value substrate. Autonomous (architectural autonomy granted); rule = respect the vision direction.",
+    "open_problem": "symbolic wrong_commit=0 comes from EXACT integer value_idx equality; on neural banks 'same value' is a THRESHOLD on 768-dim vectors with a false-match floor. Step 1 MEASURES whether/where wrong_commit=0 survives on continuous values.",
+    "crux_decisions": {
+      "checkpoint": "NO trained DCortexV2Model checkpoint exists (only small *_head.pt). Step 1 isolates ARBITER from REPRESENTATION via a controlled value-separability parameter rho; no training needed.",
+      "value_identity": "pluggable: PRIMARY cosine-threshold on raw vectors (vision-faithful); SECONDARY discretize-to-prototype (regains exact equality, a discrete code).",
+      "dcortex_edit": "editable now but Step 1 keeps it UNTOUCHED; arbiter is a new bank-agnostic module; wires into the model after the mechanism is proven.",
+      "oracle": "symbolic organ (Pas7a 10/10) + L1-L5 documented gold (op-sequence + committed value).",
+      "gate": "wrong_commit (decoded committed != gold) + op-sequence match; falsifiable (corrupted vector fires it)."
+    },
+    "planned_files": [
+      "stage_u/neural_arbiter.py",
+      "stage_u/l_regime.py",
+      "scripts/certify_stage_u_arbiter.py",
+      "runs/stage_u/results/verdict.json",
+      "docs/STAGE_U_DESIGN.md (done)",
+      "docs/STAGE_U_FEASIBILITY.md"
+    ],
+    "honest_scope": "Step 1 measures the arbiter mechanism + separability requirement on CONTROLLED value vectors, NOT a trained model's learned values (none exist). The wrong_commit(rho) curve = the target margin training must hit.",
+    "result": {
+      "verdict": "D_CORTEX_STAGE_U_STEP1_MEASURED",
+      "run": "runs/stage_u/results/verdict.json (deterministic, CPU)",
+      "mechanism": "continuous NeuralCommitArbiter reproduces the symbolic organ EXACTLY at rho0/sig0: wrong_commit 0/140, substantive op-set (RETROGRADE/PROMOTE/PRUNE) 100/100, vs LIVE organ oracle (not hand gold). Hand-traced L1/L2/L5.",
+      "honest_floor": "the determinant is the SEPARABILITY MARGIN (min same-value cos - max diff-value cos under noise), NOT cosine-vs-discretize. Calibrated-cosine wrong_commit=0 up to rho<=0.95 (sigma<=0.3); discretize up to rho<=0.99; both track margin>0.",
+      "falsifiable": "True (inject white->commits white vs oracle red; corrupting an L1 challenger breaks promotion - both fire wrong_commit).",
+      "adversarial_correction": "first version overstated a 'cosine floor at rho>0.7'; adversarial verifier showed it was a fixed-theta calibration artifact. Recalibrated theta from observed distributions -> cosine floor moves to rho<=0.95 (=margin). Mechanism + oracle independence + falsifiability all UPHELD by the verifier.",
+      "scope": "CONTROLLED value vectors (no trained DCortexV2Model exists). Gives the margin TARGET training must hit, NOT a claim about a trained representation. Noise caveat: norm-bounded noise benign on the ~1-dim discriminating axis in 768-dim (real high-dim property).",
+      "files": [
+        "stage_u/neural_arbiter.py",
+        "stage_u/l_regime.py",
+        "scripts/certify_stage_u_arbiter.py",
+        "docs/STAGE_U_DESIGN.md",
+        "docs/STAGE_U_FEASIBILITY.md",
+        "runs/stage_u/results/verdict.json"
+      ],
+      "implication": "the neural substrate CAN host the honest mechanics IF Stage U Step 2 trains/constrains the value representation to keep separability margin>0 (achievable up to ~95% inter-value overlap). Thesis refined: honest property comes from SEPARABILITY, of which discreteness is one guarantor."
+    }
   }
 }
