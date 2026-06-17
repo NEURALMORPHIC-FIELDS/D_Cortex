@@ -1001,6 +1001,49 @@
       ],
       "status": "success",
       "notes": "Honest property comes from SEPARABILITY (margin), not strictly discreteness. Neural substrate CAN host honest mechanics if training keeps margin>0. NOT a trained-model claim (no checkpoint). dcortex/ + steps/13 byte-identical. Next: Stage U Step 2 = train/constrain the value representation OR wire the arbiter onto DCortexV2Model banks and measure its actual margin."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "11:15",
+      "requested": "Methodology pivot: observe the model's ORGANIC tendencies and grow the architecture in that direction (create the algorithmic environment that forms it), instead of forcing our predefined symbolic rules onto it; vision only guides.",
+      "executed": "VERIFIED so far: (1) built margin probe (stage_u/margin_probe.py); INIT baseline value-margin -0.081 at lexical_alpha=0.9, -0.336 contextual -> below Step-1 bar. (2) built local training harness (scripts/train_stage_u.py) with the model's NATIVE losses (L_emit+L_sel+L_sep_neg) on the F/L regime; a bounded run reached top1 0.97-0.99 (task solved) BUT raw w_value cosine margin went non-monotone (-0.08 -> -1.14 @300 -> -0.50 @600), staying NEGATIVE. So natural training solves the task WITHOUT making the stored value cosine-separable. (3) PIVOT per user: stopped forcing cosine separability; built stage_u/observe_geometry.py to OBSERVE where value-identity organically lives (raw cosine vs the model's own decode-head vs linear probe vs head-logit space). (4) launched a training+observation run (blznz59z1).",
+      "files_touched": [
+        "stage_u/margin_probe.py",
+        "stage_u/observe_geometry.py",
+        "scripts/train_stage_u.py",
+        "runs/stage_u/train.log",
+        "runs/stage_u/train2.log"
+      ],
+      "status": "partial",
+      "notes": "PENDING (not yet measured): where value-identity organically lives - decode-head accuracy, linear-probe accuracy, head-logit margin. blznz59z1 still running at report time. Hypothesis (UNVERIFIED): identity lives in the decoded/readout space, not raw w_value cosine. Honesty principle for the pivot: enforce honesty at the EXIT (veto/readout = environmental boundary), not by constraining the model's internal geometry. NO checkpoint of DCortexV2Model existed before this; train_stage_u.py now saves one (gitignored *.pt)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "12:10",
+      "requested": "Observe organic value-identity geometry on a WELL-TRAINED model; correct the earlier single-run overgeneralization.",
+      "executed": "Ran a well-trained DCortexV2Model (train5: seq32/grad_accum16/600 steps, top1 reached 1.0). DEFINITIVE organic geometry (runs/stage_u/results/organic_geometry.json): alpha=0.9 (operative, lexically-bound value): linear_probe 1.0, raw_cosine_margin +0.388 (CROSSED ZERO from init -0.081), decode_head 1.0. alpha=0.0 (pure contextual value): linear_probe 0.356, raw_cosine -1.585, decode_head 0.167 (chance). CORRECTED my earlier claim 'raw cosine stays negative / value is linear not cosine' - that was from ONE run; raw cosine is RUN-DEPENDENT (-0.50 in one run, +0.388 here). STABLE signal across runs = linear_probe 1.0 at alpha=0.9. DEEPER FINDING: at alpha=0.0 the model gets WORSE with training (linear 0.56->0.36, decode 0.33->0.17 chance) -> the model does NOT internalize value contextually, it copies the answer token (lexical binding) and relies on it MORE as it trains.",
+      "files_touched": [
+        "scripts/train_stage_u.py",
+        "stage_u/observe_geometry.py",
+        "runs/stage_u/results/organic_geometry.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Architectural implications (measured): (1) the arbiter should ride the LINEAR/decode readout (stable 1.0), NOT cosine (run-dependent/unstable). (2) The model organically does TOKEN-COPYING (lexical) not contextual INTERNALIZATION - vision-relevant gap (mission wants internalization). Open architect decision: shape the environment to incentivize contextual internalization (reduce lexical reliance)? GPU note: training is batch=1 (memory-stateful), ~20% GPU util - throughput limit of the architecture, not CPU."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "12:40",
+      "requested": "Owner chose B (finish the vision: internalization). Write the fully-specified B campaign as a BOUNDED run to launch cold; do NOT start a long training now.",
+      "executed": "Accepted B. Wrote docs/STAGE_U_STEP_B_SPEC.md (decisive internalization experiment: train copy-proof with low/annealed lexical_alpha; falsifiable target probe@alpha0 RISES>=0.80 vs stays<0.50; bounded 1500 steps; pre-declared targets; two-outcomes-both-valuable). Enabled the harness: scripts/train_stage_u.py now takes --lexical-alpha/--anneal-alpha/--measure-alpha and emits an INTERNALIZATION verdict on the measure-alpha linear probe. Verified syntax + args parse. Did NOT launch any training (owner: run cold/fresh, not at end of a 12h session).",
+      "files_touched": [
+        "docs/STAGE_U_STEP_B_SPEC.md",
+        "scripts/train_stage_u.py",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Reframing accepted: the organic dynamics RESIST internalization (gradient moves AWAY); A=honest arbiter over parroted tokens (vision-empty); B=decisive test of the vision's central premise. Launch commands in the spec. Both ACHIEVED and REFUTED are maximally decision-relevant. Also acknowledged I got stuck in hold-loops responding to the integrity hook - my fault, fixed by delivering."
     }
   ]
 }

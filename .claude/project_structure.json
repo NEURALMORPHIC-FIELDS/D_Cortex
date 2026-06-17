@@ -1318,6 +1318,14 @@
         "runs/stage_u/results/verdict.json"
       ],
       "implication": "the neural substrate CAN host the honest mechanics IF Stage U Step 2 trains/constrains the value representation to keep separability margin>0 (achievable up to ~95% inter-value overlap). Thesis refined: honest property comes from SEPARABILITY, of which discreteness is one guarantor."
+    },
+    "step2_observation": {
+      "decision": "B (per owner) - finish the VISION (internalization), not the mechanism milestone (A).",
+      "definitive_observation": "runs/stage_u/results/organic_geometry.json (well-trained model, top1->1.0): alpha0.9 (lexically-bound value) fully recoverable (linprobe 1.0, cosine +0.388, decode 1.0); alpha0.0 (pure CONTEXTUAL) poor AND WORSENS with training (linprobe 0.56->0.36, decode 0.33->0.17 chance).",
+      "finding": "the model organically COPIES the answer token (lexical binding), does NOT internalize value from context, and gradient descent moves it FURTHER from internalization - the organic dynamics RESIST internalization. A would give an honest arbiter over PARROTED tokens (vision-empty). Cosine is run-dependent (-0.50/+0.39); the STABLE signal is the linear probe (corrected an earlier overgeneralization).",
+      "step_B_spec": "docs/STAGE_U_STEP_B_SPEC.md - the DECISIVE experiment: TRAIN with low/annealed lexical_alpha (copy-proof regime) so the model is FORCED to encode value from context. Falsifiable target: linear probe@alpha0 RISES to >=0.80 with top1>=0.80 (ACHIEVED) vs stays <0.50 (REFUTED -> vision needs architecture change, not env shaping). Bounded (1500 steps), pre-declared, run COLD.",
+      "harness_ready": "scripts/train_stage_u.py now supports --lexical-alpha / --anneal-alpha FROM TO / --measure-alpha; verdict on probe@measure-alpha (INTERNALIZATION_ACHIEVED/PARTIAL/REFUTED). NOT launched (owner: run separately, fresh).",
+      "gpu_note": "training is batch=1 (memory banks are per-episode stateful, [capacity,dim] not batched) -> ~20% GPU util on RTX 5080, ~50 steps/min. NOT a CPU fallback. True utilization needs a batched-memory model change."
     }
   }
 }
