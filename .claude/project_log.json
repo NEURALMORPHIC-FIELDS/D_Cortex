@@ -911,6 +911,65 @@
       ],
       "status": "success",
       "notes": "VERDICT D_CORTEX_ENTITY_RESOLUTION_PASS. HONEST: hypothesis REFUTED - no better resolver wins. On the source text all resolvers are STATISTICALLY TIED at ~99-100% entity acc (R0/R1/R4 100% median, R2/R3 99.4%, std 0.003-0.005); the 0.6pp entity and 5pp F1 gaps are ~1-item differences within noise, NOT significant - R3 is NO BETTER, not worse. Heavy Qwen classifier NOT adopted on parsimony (same accuracy, much higher cost). Real fix = INPUT (text vs Qwen-extracted property word); diagnostic showed misses are Qwen naming 'scale'/'pigmentation' as entity. Applied text-based MiniLM resolution to production: F1 86->100% (validated), adversarial 0 leaks preserved. F3 stays 86% for ALL resolvers -> F3 ceiling is ATTRIBUTE not entity. All gates PASS. dcortex/+steps/13 byte-identical (only integration/+scripts edited)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "17:30",
+      "requested": "Confirm the three end-to-end numbers (entity-diag remaining, recall vs 86%, F1/F3 medians) and push e16d9e3 as a feature-branch checkpoint.",
+      "executed": "Read measured artifact runs/entity_resolution/results/verdict.json and certify_entity_resolution.py to label each number by what it actually measures. KEY HONESTY FINDING: the F columns in verdict.json are EXTRACTION correctness (attr+val+entity for fact AND query), NOT a full organ round-trip (write_fact->Pas7a->read_attribute->verbalize); this run does not re-measure pipeline recall. G_ENTITY_DIAG {wrong_match:0,no_match:2} on F1/F3 query side -> 0 after text fix. F1 extraction-correctness 86->100 (above noise). F3 85.7 flat for ALL resolvers R0..R4 (entity did not move it; ceiling is ATTRIBUTE). Pushed e16d9e3 to origin/feature/integration-spine (fast-forward d3bc148..e16d9e3, verified via ls-remote). main untouched 57c182b.",
+      "files_touched": [
+        "runs/entity_resolution/results/verdict.json (read)",
+        "scripts/certify_entity_resolution.py (read)",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Entity bottleneck CLOSED for F1; for F3 it did not move (attribute is the limiter). Numbers are extraction-layer, not full-pipeline recall - flagged explicitly, not relabeled as e2e. No exact 86.2% artifact exists; measured baseline is 86% F1 / 81% F3 (spine-hardening no-regress thresholds)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "17:45",
+      "requested": "Domain-extension feasibility campaign (patents, one domain): Part 0 organ open-value pre-check (+adapter if needed) -> schema (closed+open) -> real source-pinned corpus+gold -> Qwen extraction -> organ write+RoMR+Pas7a -> verbalize under veto -> gates incl G_ERROR_MAP -> one feasibility map. Likely PARTIAL.",
+      "executed": "PLANNED + investigation phase launched. Reflect-back + assumptions stated (no scope questions per sheet). Appended planned step_33 to project_structure.json. Launched parallel investigation: (1) empirical organ open-string round-trip probe (hard gate, organ-only no GPU), (2) integration/ API map, (3) real patent corpus web research (source-pinned, no fabrication).",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Build deferred until Part 0 verdict known (adapter-or-native decides architecture). Hard stop conditions: organ cannot hold open values even via adapter; Qwen/MiniLM/organ won't load."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "08:55",
+      "requested": "Domain-extension feasibility (patents): Part 0 organ open-value pre-check (+adapter) -> schema -> real source-pinned corpus -> Qwen extraction -> organ write+RoMR+Pas7a -> verbalize under veto -> gates incl G_ERROR_MAP -> feasibility map.",
+      "executed": "Built integration/{patent_schema,domain_adapter,patent_corpus}.py + scripts/certify_domain_extension.py. Part 0: organ stores value as closed-vocab int index (value_idx PRIMARY TRUTH); native open round-trip FALSE; reference-token adapter round-trips (no organ edit). Ran cert deterministically on GPU venv (Qwen2.5-7B 4bit). VERDICT: D_CORTEX_DOMAIN_PARTIAL_CAPACITY_BOUND. wrong_commit=0/55, halluc=0, nobypass PASS, extraction closed 1.0/open 0.9 (UPPER BOUND on clean assembled text). DOMINANT BLOCKER value_storage=34/89 unstorable (2 attrs no slot + 4 applicant overflow). Pas7a update needs 3 reinforcements via DISPUTED. CORRECTED an initial misleading D_CORTEX_DOMAIN_PASS verdict label (positive bias - it hid the capacity blocker) to PARTIAL_CAPACITY_BOUND and re-ran. Wrote docs/DOMAIN_EXTENSION_FEASIBILITY.md (leads with what breaks).",
+      "files_touched": [
+        "integration/patent_schema.py",
+        "integration/domain_adapter.py",
+        "integration/patent_corpus.py",
+        "scripts/certify_domain_extension.py",
+        "scripts/_probe_open_value.py",
+        "docs/DOMAIN_EXTENSION_FEASIBILITY.md",
+        "runs/domain_extension/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Feasibility/risk campaign - PARTIAL as expected. Organ as sealed cannot hold an open domain (closed 4-attr/37-token store); adapter is a bridge for a few values, not a path to an open domain. Real next frontier = extend the SEALED organ vocabulary (big unproven bet). EP25216372.0 not public (404). dcortex/ and steps/13 byte-identical."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "09:15",
+      "requested": "Close domain-extension campaign with honest, adversarially-verified gates.",
+      "executed": "Ran independent adversarial verifier on the feasibility campaign. It UPHELD the dominant findings (no fabrication, wrong_commit=0 falsifiable, value_storage=34/89 exact, capacity-bound honest) and CAUGHT a real G_HALLUC overstatement: the 0-hallucination was true by construction (constrained decode force-emits the value) + 2 of 5 uncovered abstains were free passes. Fixed: added a raw-unconstrained-vs-veto-controlled hallucination probe with real patent identity; corrected the refusal detector across 3 deterministic re-runs (caught my own detector misclassifying refusals as assertions - reported honestly, did not ship the false 6/6). Final: raw model asserts concrete values 5/6 (>=3 verifiably WRONG), veto reduces to 0 grounded leak (6/6 abstain). Updated docs/DOMAIN_EXTENSION_FEASIBILITY.md + verdict.json + structure. Verdict STABLE across all runs: D_CORTEX_DOMAIN_PARTIAL_CAPACITY_BOUND.",
+      "files_touched": [
+        "scripts/certify_domain_extension.py",
+        "docs/DOMAIN_EXTENSION_FEASIBILITY.md",
+        "runs/domain_extension/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Anti-confabulation in action: caught and corrected my own positive-bias verdict label (PASS->PARTIAL_CAPACITY_BOUND) AND my own faulty hallucination detector (false 6/6 -> verified 5/6 with sample evidence). Verified samples against counts each time. dcortex/ and steps/13 byte-identical."
     }
   ]
 }

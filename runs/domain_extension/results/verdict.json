@@ -1,0 +1,262 @@
+{
+  "verdict": "D_CORTEX_DOMAIN_PARTIAL_CAPACITY_BOUND",
+  "scope": "MEASURED, one domain (patents), 15 real source-pinned records, Qwen-4bit greedy, single machine, NOT production. dcortex/ and steps/13 byte-identical (read-only).",
+  "owner_patent": {
+    "patent_number": "EP25216372.0",
+    "reason": "no_public_record_http_404",
+    "note": "EP application filed late 2025, unpublished until ~18 months after priority"
+  },
+  "G_VALUE_OPEN": {
+    "native_open_roundtrip": false,
+    "adapter_open_roundtrip": true,
+    "pass": true,
+    "reference_token": {
+      "organ_attr": "color",
+      "token": "red",
+      "value_idx": 0
+    }
+  },
+  "G_EXTRACT_REAL": {
+    "per_attr_acc": {
+      "legal_status": 1.0,
+      "ipc_section": 1.0,
+      "patent_number": 1.0,
+      "filing_date": 1.0,
+      "applicant": 0.8,
+      "title_keyword": 0.8
+    },
+    "closed_mean": 1.0,
+    "open_mean": 0.9,
+    "bar_closed": 0.85,
+    "bar_open": 0.6,
+    "closed_meets_bar": true,
+    "open_meets_bar": true,
+    "errors": [
+      {
+        "slug": "pat02",
+        "attribute": "title_keyword",
+        "kind": "open",
+        "gold": "purchase order",
+        "pred": "Method and System"
+      },
+      {
+        "slug": "pat03",
+        "attribute": "title_keyword",
+        "kind": "open",
+        "gold": "molecular chimeras",
+        "pred": "Process"
+      },
+      {
+        "slug": "pat04",
+        "attribute": "title_keyword",
+        "kind": "open",
+        "gold": "crustless sandwich",
+        "pred": "Sealed sandwich"
+      },
+      {
+        "slug": "pat09",
+        "attribute": "applicant",
+        "kind": "open",
+        "gold": "NSA",
+        "pred": "National Security Agency"
+      },
+      {
+        "slug": "pat12",
+        "attribute": "applicant",
+        "kind": "open",
+        "gold": "ExpandableGrafts",
+        "pred": "Expandable Grafts Partnership"
+      },
+      {
+        "slug": "pat13",
+        "attribute": "applicant",
+        "kind": "open",
+        "gold": "DuPont",
+        "pred": "E.I. Du Pont de Nemours and Co."
+      }
+    ]
+  },
+  "G_ORGAN_REAL": {
+    "facts_written": 55,
+    "committed_reads": 55,
+    "wrong_commit": 0,
+    "wrong_commit_zero": true,
+    "capacity_report": {
+      "patent_number": {
+        "organ_attr": "color",
+        "capacity": 15,
+        "distinct_used": 15,
+        "capacity_overflow_writes": 0
+      },
+      "applicant": {
+        "organ_attr": "location",
+        "capacity": 10,
+        "distinct_used": 10,
+        "capacity_overflow_writes": 4
+      },
+      "ipc_section": {
+        "organ_attr": "state",
+        "capacity": 8,
+        "distinct_used": 7,
+        "capacity_overflow_writes": 0
+      },
+      "legal_status": {
+        "organ_attr": "size",
+        "capacity": 4,
+        "distinct_used": 1,
+        "capacity_overflow_writes": 0
+      }
+    },
+    "capacity_overflow_writes": 4,
+    "pas7a_update": {
+      "case": {
+        "slug": "pat05",
+        "attribute": "legal_status",
+        "from_value": "pending",
+        "to_value": "granted",
+        "source_url": "https://patents.google.com/patent/US7479949B2/en"
+      },
+      "trajectory": [
+        {
+          "wrote": "pending",
+          "write_reason": "committed",
+          "read_status": "FOUND_COMMITTED",
+          "read_value": "pending"
+        },
+        {
+          "wrote": "granted",
+          "write_reason": "committed",
+          "read_status": "FOUND_DISPUTED",
+          "read_value": null
+        },
+        {
+          "wrote": "granted",
+          "write_reason": "committed",
+          "read_status": "NONE_ATTRIBUTE",
+          "read_value": null
+        },
+        {
+          "wrote": "granted",
+          "write_reason": "committed",
+          "read_status": "FOUND_COMMITTED",
+          "read_value": "granted"
+        },
+        {
+          "wrote": "granted",
+          "write_reason": "committed",
+          "read_status": "FOUND_COMMITTED",
+          "read_value": "granted"
+        }
+      ],
+      "update_reflected_single_write": false,
+      "update_reflected_eventually": true,
+      "reinforcements_needed": 3,
+      "passes_through_disputed_not_silent_overwrite": true
+    },
+    "romr_note": "RoMR is a sealed parse-level resolver (PAS 6); the reference-token canonical sentences here construct no ambiguous modifier-vs-value case, so RoMR is INHERITED, not independently re-exercised on the patent domain.",
+    "pass": true
+  },
+  "G_HALLUC_NOBYPASS": {
+    "covered_decode_faithful": 55,
+    "covered_decode_faithful_note": "constrained decode force-emits the committed value, so this proves decode plumbing is faithful, NOT that an unconstrained model would not assert a wrong value",
+    "uncovered_total": 6,
+    "raw_model_asserted_value": 5,
+    "controlled_grounded_on_uncovered": 0,
+    "controlled_abstain": 6,
+    "veto_reduces_raw_hallucination": true,
+    "bypass": 0,
+    "samples": [
+      {
+        "pid": "pat12",
+        "attr": "applicant",
+        "ref": "US4733665A (Expandable intraluminal graft)",
+        "raw": "The patent US4733665A, titled \"Expandable Intraluminal Graft,\" was originally applied for by W. L. Gore & Associates, In",
+        "raw_asserted_value": true,
+        "controlled": "[ABSTAIN] Not grounded in memory (NONE_ATTRIBUTE).",
+        "controlled_abstained": true
+      },
+      {
+        "pid": "pat15",
+        "attr": "applicant",
+        "ref": "US4476343A (Olefin oligomerization with tantalum halide oxide metal oxide catalysts)",
+        "raw": "The patent US4476343A, titled \"Process for Olefin Oligomerization with Tantalum Halide-Oxide Metal Oxide Catalysts,\" was",
+        "raw_asserted_value": true,
+        "controlled": "[ABSTAIN] Not grounded in memory (NONE_ATTRIBUTE).",
+        "controlled_abstained": true
+      },
+      {
+        "pid": "pat99",
+        "attr": "patent_number",
+        "ref": "US0000000A",
+        "raw": "The patent number \"US0000000A\" is not a valid patent number. In the United States Patent and Trademark Office (USPTO) sy",
+        "raw_asserted_value": false,
+        "controlled": "[ABSTAIN] Not grounded in memory (NONE_OBJECT).",
+        "controlled_abstained": true
+      },
+      {
+        "pid": "pat01",
+        "attr": "filing_date",
+        "ref": "US6285999B1 (Method for node ranking in a linked database)",
+        "raw": "The filing date of U.S. Patent US6285999B1, which relates to \"Method for Node Ranking in a Linked Database,\" is March 17",
+        "raw_asserted_value": true,
+        "controlled": "[ABSTAIN] no organ slot for attribute",
+        "controlled_abstained": true
+      },
+      {
+        "pid": "pat04",
+        "attr": "filing_date",
+        "ref": "US6004596A (Sealed crustless sandwich)",
+        "raw": "The filing date for U.S. Patent US6004596A, which relates to \"Sealed Crustless Sandwich,\" is March 18, 1997. This patent",
+        "raw_asserted_value": true,
+        "controlled": "[ABSTAIN] no organ slot for attribute",
+        "controlled_abstained": true
+      },
+      {
+        "pid": "pat07",
+        "attr": "filing_date",
+        "ref": "US3005282A (Toy building brick)",
+        "raw": "The filing date for U.S. Patent US3005282A, which relates to a toy building brick, is October 16, 1957. This patent was ",
+        "raw_asserted_value": true,
+        "controlled": "[ABSTAIN] no organ slot for attribute",
+        "controlled_abstained": true
+      }
+    ],
+    "entity_resolution_note": "entity is the deterministic corpus key; entity_resolution=0 is ASSERTED, not measured",
+    "hallucinations": 0,
+    "g_halluc": true,
+    "g_nobypass": true
+  },
+  "G_ERROR_MAP": {
+    "counts": {
+      "value_storage": 34,
+      "extraction_closed": 0,
+      "extraction_open": 6,
+      "entity_resolution": 0,
+      "organ_commit": 0
+    },
+    "dominant_blocker": "value_storage",
+    "value_storage_detail": {
+      "capacity_overflow_writes": 4,
+      "extraction_only_attrs_no_slot": 30,
+      "which": [
+        "filing_date",
+        "title_keyword"
+      ]
+    }
+  },
+  "feasibility_assessment": {
+    "headline": "Capacity-bound. The sealed closed-vocab organ cannot hold an open domain: 34/89 domain facts are UNSTORABLE (2 of 6 attributes have no organ slot; the largest reference vocab saturates at 15 distinct values; applicant overflows past 10). The integrity gates pass ONLY on the storable subset.",
+    "what_works": [
+      "organ integrity on stored facts: wrong_commit=0 over 55 reads (falsifiable - a corrupted token decodes to a wrong value and fires it)",
+      "veto-controlled path: 0 grounded leak on uncovered queries; it reduces the RAW unconstrained model's hallucinations to 0. (Covered-fact decode is faithful BY CONSTRUCTION of constrained decoding, not a hallucination-resistance result.)",
+      "reference-token adapter round-trips open strings through the REAL arbiter (RoMR/Pas7a run)"
+    ],
+    "what_breaks": [
+      "CAPACITY (dominant): 4 organ attributes / 37 closed value tokens cannot represent an open domain; filing_date and title_keyword have no slot, applicant overflows at the 11th distinct value, patent_number saturates color exactly at 15",
+      "UPDATE friction: a single pending->granted write is NOT reflected; it needs 3 reinforcement episodes and transits DISPUTED then NONE_ATTRIBUTE before promoting",
+      "EXTRACTION not stress-tested: source_text is clean assembled bibliographic text with the answer verbatim, NOT raw patent abstracts/claims/OCR"
+    ],
+    "extraction_caveat": "The 3 applicant and 3 title 'misses' are gold-normalization strictness, not model errors: Qwen returned valid full surface forms (e.g. 'National Security Agency' vs canonical 'NSA', 'Sealed sandwich' vs 'crustless sandwich'). Real extraction on this clean text is ~100%, so these numbers are an UPPER BOUND and say nothing about hard real-document extraction.",
+    "dominant_blocker": "value_storage"
+  }
+}

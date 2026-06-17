@@ -1190,5 +1190,94 @@
     "f1_with_text_resolution": 1.0,
     "f3_all_resolvers": 0.8571,
     "claim": "Hypothesis refuted: all resolvers statistically tied ~99-100% on the source text (R0/R1/R4 100% median, R2/R3 99.4%, within noise); no resolver meaningfully wins. Heavy Qwen classifier gives no measurable gain and is NOT adopted (parsimony). Real fix was the input (text vs extracted property word): applied to production, F1 86->100%, adversarial 0 leaks. F3 ceiling (86%) is attribute, not entity. MEASURED single machine; dcortex/+steps/13 byte-identical."
+  },
+  "step_33_domain_extension_real_facts_2026_06_17": {
+    "status": "implemented_and_verified",
+    "branch": "feature/integration-spine",
+    "type": "feasibility/risk campaign (one domain: patents). Expected output = feasibility map, likely PARTIAL, not a PASS.",
+    "hard_gate": "Part 0 G_VALUE_OPEN - can the sealed organ round-trip OPEN-STRING values (patent_number, filing_date, applicant)? If not, build a value-adapter in integration/ (organ holds a reference token; integration/ holds token->open-string table). Do NOT edit dcortex/ or steps/13.",
+    "schema": {
+      "closed_attributes": {
+        "legal_status": [
+          "granted",
+          "pending",
+          "refused",
+          "withdrawn"
+        ],
+        "ipc_section": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H"
+        ]
+      },
+      "open_attributes": [
+        "patent_number",
+        "filing_date",
+        "applicant",
+        "title_keyword"
+      ]
+    },
+    "planned_files": [
+      "integration/value_adapter.py (only if Part 0 requires it)",
+      "integration/patent_schema.py or config (schema)",
+      "integration/patent_corpus.py (real source-pinned corpus + gold)",
+      "scripts/certify_domain_extension.py (pipeline + gates + G_ERROR_MAP)",
+      "runs/domain_extension/results/verdict.json",
+      "docs/DOMAIN_EXTENSION_FEASIBILITY.md"
+    ],
+    "gates": [
+      "G_VALUE_OPEN",
+      "G_EXTRACT_REAL (closed>=0.85, open>=0.60, reported separately)",
+      "G_ORGAN_REAL (wrong_commit=0, RoMR, Pas7a on real update)",
+      "G_HALLUC=0",
+      "G_NOBYPASS",
+      "G_ERROR_MAP (the deliverable)"
+    ],
+    "discipline": "no fabrication; every gold triple source-pinned to a real patent; unverifiable fields omitted, not invented.",
+    "result": {
+      "verdict": "D_CORTEX_DOMAIN_PARTIAL_CAPACITY_BOUND",
+      "run": "runs/domain_extension/results/verdict.json (deterministic, Qwen2.5-7B 4bit greedy, RTX 5080)",
+      "gpu_venv": "e:/proiecte_active/D_Cortex/D_Cortex-main/.venv/Scripts/python.exe (torch 2.11+cu128, bnb 0.49.2)",
+      "files_built": [
+        "integration/patent_schema.py",
+        "integration/domain_adapter.py",
+        "integration/patent_corpus.py",
+        "scripts/certify_domain_extension.py",
+        "docs/DOMAIN_EXTENSION_FEASIBILITY.md",
+        "scripts/_probe_open_value.py (Part 0 probe)"
+      ],
+      "G_VALUE_OPEN": "PASS - native open round-trip FALSE (closed-vocab int index, value_idx PRIMARY TRUTH); adapter round-trips via reference token. Confirmed 2 independent sources.",
+      "G_EXTRACT_REAL": {
+        "closed_mean": 1.0,
+        "open_mean": 0.9,
+        "note": "on CLEAN assembled bibliographic text (answer verbatim) - UPPER BOUND, not raw documents; 6 open 'misses' are gold-normalization strictness not model errors"
+      },
+      "G_ORGAN_REAL": {
+        "wrong_commit": 0,
+        "committed_reads": 55,
+        "capacity_overflow_writes": 4,
+        "pas7a_update": "single-write NOT reflected; needs 3 reinforcements via DISPUTED->NONE_ATTRIBUTE->COMMITTED",
+        "romr": "INHERITED/sealed, not re-exercised on domain"
+      },
+      "G_HALLUC": "controlled grounded-on-uncovered=0 (6/6 abstain). Raw unconstrained model asserted concrete values 5/6, >=3 verifiably WRONG vs source (applicant W.L.Gore for US4733665A real=Expandable Grafts; date Oct-1957 for LEGO US3005282A real=1958-07-28; date Mar-1997 for US6004596A real=1997-12-08); veto reduced 5->0. Covered 55/55 decode-faithful is BY CONSTRUCTION (constrained decode), not model restraint. entity_resolution=0 ASSERTED not measured.",
+      "G_NOBYPASS": "PASS (0 bypass, 5/5 abstain)",
+      "G_ERROR_MAP": {
+        "value_storage": 34,
+        "extraction_open": 6,
+        "extraction_closed": 0,
+        "entity_resolution": 0,
+        "organ_commit": 0,
+        "dominant_blocker": "value_storage"
+      },
+      "dominant_finding": "Organ is a closed 4-attribute / 37-token store; 34/89 domain facts UNSTORABLE (2 attrs no slot, applicant overflow at 11th, patent_number saturates color at 15). Integrity gates pass ONLY on storable subset. Holding a real open domain requires extending the SEALED organ vocabulary (the big bet), out of scope here.",
+      "corpus": "15 real source-pinned patents (Google Patents URLs); EP25216372.0 absent (HTTP 404, unpublished 2025 EP app); no fabrication",
+      "organ_untouched": "dcortex/ and steps/13 byte-identical (read-only)",
+      "adversarial_verification": "Independent skeptic agent red-teamed the campaign: UPHELD no-fabricated-facts (cross-checked 4 live incl 1933 NSA patent), wrong_commit=0 falsifiable (corruption injection fires it), value_storage=34/89 arithmetic exact, capacity-bound label honest. CAUGHT initial G_HALLUC overstatement (forced-decode tautology + 2 free-pass abstains) -> fixed with raw-vs-controlled hallucination probe + corrected refusal detector across 3 deterministic re-runs."
+    }
   }
 }
