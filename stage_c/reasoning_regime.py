@@ -52,13 +52,13 @@ def _fact_text(e: str, rel: str, val: str) -> str:
     raise ValueError(rel)
 
 
-def c1_relational(rng, variant: str) -> CItem:
-    e1, e2 = rng.sample(ENTITIES, 2)
+def c1_relational(rng, variant: str, entities=ENTITIES) -> CItem:
+    e1, e2 = rng.sample(entities, 2)
     v = rng.choice(COLORS)
     facts = [(e1, "color", v), (e2, "same_color", e1)]
     if variant == "shuffled":
         # a third entity gets a different color; e2 now points to it -> answer follows the shuffle
-        e3 = rng.choice([x for x in ENTITIES if x not in (e1, e2)])
+        e3 = rng.choice([x for x in entities if x not in (e1, e2)])
         v3 = rng.choice([c for c in COLORS if c != v])
         facts = [(e1, "color", v), (e3, "color", v3), (e2, "same_color", e3)]
         answer = v3
@@ -74,8 +74,8 @@ def c1_relational(rng, variant: str) -> CItem:
     return CItem("C1", variant, facts, texts, q, answer)
 
 
-def c2_comparison(rng, variant: str) -> CItem:
-    e1, e2 = rng.sample(ENTITIES, 2)
+def c2_comparison(rng, variant: str, entities=ENTITIES) -> CItem:
+    e1, e2 = rng.sample(entities, 2)
     s1, s2 = rng.sample(SIZES, 2)
     facts = [(e1, "size", s1), (e2, "size", s2)]
     bigger = e1 if SIZE_RANK[s1] > SIZE_RANK[s2] else e2
@@ -100,5 +100,5 @@ VARIANTS = ["memory", "text_context", "shuffled", "unanswerable"]
 _BUILD = {"C1": c1_relational, "C2": c2_comparison}
 
 
-def build(rng, family: str, variant: str) -> CItem:
-    return _BUILD[family](rng, variant)
+def build(rng, family: str, variant: str, entities=ENTITIES) -> CItem:
+    return _BUILD[family](rng, variant, entities)
