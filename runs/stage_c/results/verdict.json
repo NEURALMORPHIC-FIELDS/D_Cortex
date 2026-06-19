@@ -1,0 +1,333 @@
+{
+  "verdict": "C_PARTIAL",
+  "final_eval": {
+    "C0_memory": {
+      "acc": 0.0,
+      "abstain_rate": 0.7
+    },
+    "C0_text_context": {
+      "acc": 0.0,
+      "abstain_rate": 0.675
+    },
+    "C0_shuffled": {
+      "acc": 0.0,
+      "abstain_rate": 0.719
+    },
+    "C0_unanswerable": {
+      "acc": 0.787,
+      "abstain_rate": 0.787
+    },
+    "C1_memory": {
+      "acc": 0.894,
+      "abstain_rate": 0.0
+    },
+    "C1_text_context": {
+      "acc": 0.906,
+      "abstain_rate": 0.0
+    },
+    "C1_shuffled": {
+      "acc": 0.212,
+      "abstain_rate": 0.0
+    },
+    "C1_unanswerable": {
+      "acc": 0.0,
+      "abstain_rate": 0.0
+    },
+    "C2_memory": {
+      "acc": 0.475,
+      "abstain_rate": 0.0
+    },
+    "C2_text_context": {
+      "acc": 0.463,
+      "abstain_rate": 0.0
+    },
+    "C2_shuffled": {
+      "acc": 0.469,
+      "abstain_rate": 0.0
+    },
+    "C2_unanswerable": {
+      "acc": 0.0,
+      "abstain_rate": 0.0
+    }
+  },
+  "C0_direct_1hop_storage": 0.0,
+  "C1_relational_2hop": 0.894,
+  "C2_comparison": 0.475,
+  "storage_works_thinking_fails": false,
+  "gates": {
+    "c1_memory>=0.80": true,
+    "c2_memory>=0.80": false,
+    "memory>=text-0.10": true,
+    "shuffled_follows>=0.80": false,
+    "abstains>=0.80": false
+  },
+  "trajectory": [
+    {
+      "step": 400,
+      "eval": {
+        "C0_memory": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C0_text_context": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C0_shuffled": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C0_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C1_memory": {
+          "acc": 0.1,
+          "abstain_rate": 0.0
+        },
+        "C1_text_context": {
+          "acc": 0.1,
+          "abstain_rate": 0.0
+        },
+        "C1_shuffled": {
+          "acc": 0.087,
+          "abstain_rate": 0.0
+        },
+        "C1_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C2_memory": {
+          "acc": 0.312,
+          "abstain_rate": 0.325
+        },
+        "C2_text_context": {
+          "acc": 0.325,
+          "abstain_rate": 0.388
+        },
+        "C2_shuffled": {
+          "acc": 0.338,
+          "abstain_rate": 0.3
+        },
+        "C2_unanswerable": {
+          "acc": 0.537,
+          "abstain_rate": 0.537
+        }
+      }
+    },
+    {
+      "step": 800,
+      "eval": {
+        "C0_memory": {
+          "acc": 0.0,
+          "abstain_rate": 0.938
+        },
+        "C0_text_context": {
+          "acc": 0.0,
+          "abstain_rate": 0.975
+        },
+        "C0_shuffled": {
+          "acc": 0.0,
+          "abstain_rate": 0.938
+        },
+        "C0_unanswerable": {
+          "acc": 0.95,
+          "abstain_rate": 0.95
+        },
+        "C1_memory": {
+          "acc": 0.175,
+          "abstain_rate": 0.0
+        },
+        "C1_text_context": {
+          "acc": 0.237,
+          "abstain_rate": 0.0
+        },
+        "C1_shuffled": {
+          "acc": 0.2,
+          "abstain_rate": 0.0
+        },
+        "C1_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C2_memory": {
+          "acc": 0.45,
+          "abstain_rate": 0.087
+        },
+        "C2_text_context": {
+          "acc": 0.487,
+          "abstain_rate": 0.087
+        },
+        "C2_shuffled": {
+          "acc": 0.425,
+          "abstain_rate": 0.062
+        },
+        "C2_unanswerable": {
+          "acc": 0.062,
+          "abstain_rate": 0.062
+        }
+      }
+    },
+    {
+      "step": 1200,
+      "eval": {
+        "C0_memory": {
+          "acc": 0.0,
+          "abstain_rate": 0.65
+        },
+        "C0_text_context": {
+          "acc": 0.0,
+          "abstain_rate": 0.688
+        },
+        "C0_shuffled": {
+          "acc": 0.0,
+          "abstain_rate": 0.562
+        },
+        "C0_unanswerable": {
+          "acc": 0.662,
+          "abstain_rate": 0.662
+        },
+        "C1_memory": {
+          "acc": 1.0,
+          "abstain_rate": 0.0
+        },
+        "C1_text_context": {
+          "acc": 1.0,
+          "abstain_rate": 0.0
+        },
+        "C1_shuffled": {
+          "acc": 0.275,
+          "abstain_rate": 0.0
+        },
+        "C1_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C2_memory": {
+          "acc": 0.5,
+          "abstain_rate": 0.013
+        },
+        "C2_text_context": {
+          "acc": 0.375,
+          "abstain_rate": 0.113
+        },
+        "C2_shuffled": {
+          "acc": 0.425,
+          "abstain_rate": 0.1
+        },
+        "C2_unanswerable": {
+          "acc": 0.013,
+          "abstain_rate": 0.013
+        }
+      }
+    },
+    {
+      "step": 1600,
+      "eval": {
+        "C0_memory": {
+          "acc": 0.0,
+          "abstain_rate": 0.625
+        },
+        "C0_text_context": {
+          "acc": 0.0,
+          "abstain_rate": 0.662
+        },
+        "C0_shuffled": {
+          "acc": 0.0,
+          "abstain_rate": 0.613
+        },
+        "C0_unanswerable": {
+          "acc": 0.688,
+          "abstain_rate": 0.688
+        },
+        "C1_memory": {
+          "acc": 1.0,
+          "abstain_rate": 0.0
+        },
+        "C1_text_context": {
+          "acc": 1.0,
+          "abstain_rate": 0.0
+        },
+        "C1_shuffled": {
+          "acc": 0.2,
+          "abstain_rate": 0.0
+        },
+        "C1_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C2_memory": {
+          "acc": 0.4,
+          "abstain_rate": 0.237
+        },
+        "C2_text_context": {
+          "acc": 0.425,
+          "abstain_rate": 0.163
+        },
+        "C2_shuffled": {
+          "acc": 0.4,
+          "abstain_rate": 0.2
+        },
+        "C2_unanswerable": {
+          "acc": 0.163,
+          "abstain_rate": 0.163
+        }
+      }
+    },
+    {
+      "step": 2000,
+      "eval": {
+        "C0_memory": {
+          "acc": 0.0,
+          "abstain_rate": 0.7
+        },
+        "C0_text_context": {
+          "acc": 0.0,
+          "abstain_rate": 0.7
+        },
+        "C0_shuffled": {
+          "acc": 0.0,
+          "abstain_rate": 0.637
+        },
+        "C0_unanswerable": {
+          "acc": 0.762,
+          "abstain_rate": 0.762
+        },
+        "C1_memory": {
+          "acc": 0.85,
+          "abstain_rate": 0.0
+        },
+        "C1_text_context": {
+          "acc": 0.912,
+          "abstain_rate": 0.0
+        },
+        "C1_shuffled": {
+          "acc": 0.175,
+          "abstain_rate": 0.0
+        },
+        "C1_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        },
+        "C2_memory": {
+          "acc": 0.55,
+          "abstain_rate": 0.0
+        },
+        "C2_text_context": {
+          "acc": 0.512,
+          "abstain_rate": 0.0
+        },
+        "C2_shuffled": {
+          "acc": 0.487,
+          "abstain_rate": 0.0
+        },
+        "C2_unanswerable": {
+          "acc": 0.0,
+          "abstain_rate": 0.0
+        }
+      }
+    }
+  ],
+  "scope": "MEASURED, DCortexV2Model on the C regime, held-out entities, single machine, small synthetic. NOT generality.",
+  "DIAGNOSIS": "If C0 (1-hop storage read) works but C1/C2 (multi-step) fail, the architecture HAS STORAGE memory but NO MECHANISM to OPERATE over it: decode is single-pass read->emit, with no working scratchpad for intermediate reasoning states. 'Thinking in memory' then requires BUILDING the cognitive-operation layer (the vision's Stage 5), NOT training the existing substrate. It cannot think IN memory because it has WORKING memory only for writing facts, not for the reasoning process."
+}

@@ -1348,5 +1348,15 @@
       "next_plan": "L3 FIRST as cheap FALSIFICATION of the verdict (train model on size/location too; if L3 wrong_commit drops to ~0 -> confirms unification clean on the WHOLE regime; if not -> the OOD explanation was wrong, real completion problem). THEN Stage C (the differentiating thesis - reasoning over memory). NOT scaling yet.",
       "L3_falsification": "CONFIRMED: multi-attribute training (color+size+location) drops L3 wrong_commit 40/60 -> 0/60; full-regime wrong_commit=0 (140/140), op 100/100, margin -0.38 -> +0.227. The OOD explanation held; the arbiter unifies cleanly on the whole regime once values are trained (=separable). ckpt_multiattr.pt. Substrate loop clean end-to-end; thinking loop (Stage C) is next."
     }
+  },
+  "step_35_stage_c_reasoning_2026_06_17": {
+    "status": "measured",
+    "branch": "feature/integration-spine",
+    "verdict": "NO genuine reasoning-over-memory (shortcut, not thinking)",
+    "result": "runs/stage_c/results/verdict.json (clean run b2r3gwcos): C1 2-hop raw acc 0.894 LOOKS positive but the SHUFFLED control refutes it (C1_shuffled 0.212 - does NOT follow the binding) => SHORTCUT (outputs the single available color), NOT chaining. C2 comparison 0.475 (~chance). Does not abstain on broken chains. C0 1-hop was a candidates() BUG (color answer scored vs entity candidates -> 0.0 artificially; fixed); storage is independently proven (Step B decode 1.0).",
+    "interpretation": "The model READS memory shallowly (1 lookup) but does NOT OPERATE over it (2-hop chain refuted by shuffled; comparison at chance). Confirms the owner's 'no memory to think in', refined: storage-read yes, multi-step operation no. The thinking mechanism (cognitive-operation layer, vision Stage 5) is UNBUILT, not untrainable.",
+    "anti_confab": "Raw C1=0.89 was a positive-bias TRAP; the pre-declared shuffled control caught it (the gate is the control, not raw accuracy). Led with the correction.",
+    "bugs_fixed": "candidates() now uses color tokens for C0+C1 (was entity tokens for C0); verdict logic adds C_REFUTED_SHORTCUT (high acc + shuffled<0.50).",
+    "next": "build memory tokenization (docs/MEMORY_TOKENIZATION_SPEC.md) - the proven-substrate -> loadable-domain-memory piece; thinking (Stage 5) is the separate frontier to BUILD."
   }
 }

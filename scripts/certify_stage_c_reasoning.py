@@ -67,7 +67,7 @@ def query_answer_tok(item):
 
 
 def candidates(item):
-    if item.family == "C1":
+    if item.family in ("C0", "C1"):     # color answers (C0 direct + C1 relational); C2 = entity answers
         toks = [tok(c) for c in R.COLORS] + [ABSTAIN_TOK]
     else:
         ents = [f[0] for f in item.facts] + [item.query.split("the ")[-1].rstrip("?")]
@@ -105,7 +105,7 @@ def evaluate(model, n=80, seed=999):
     rng = random.Random(seed)
     res = {}
     with torch.no_grad():
-        for fam in ("C1", "C2"):
+        for fam in ("C0", "C1", "C2"):
             for var in R.VARIANTS:
                 ok = ab = tot = 0
                 for _ in range(n):
@@ -155,9 +155,8 @@ def main() -> int:
         opt.zero_grad(set_to_none=True)
         a = alpha_at(step)
         for _ in range(GA):
-            fam = rng.choice(["C1", "C2"])
-            var = "unanswerable" if rng.random() < 0.2 else "memory"   # train memory + abstain
-            it = R.build(rng, fam, var, TRAIN_ENTS)
+            fam = rng.choice(["C0", "C1", "C2"])   # include 1-hop sanity; memory-only (no abstain collapse)
+            it = R.build(rng, fam, "memory", TRAIN_ENTS)
             with torch.amp.autocast("cuda", dtype=torch.bfloat16) if DEVICE == "cuda" else contextlib.nullcontext():
                 loss = run_item(model, it, a, train=True)
             (loss / GA).backward()
@@ -175,25 +174,41 @@ def main() -> int:
                 json.dumps({"trajectory": traj}, indent=2), encoding="utf-8")
 
     ev = evaluate(model, n=160)
+    c0m = ev["C0_memory"]["acc"]
     c1m, c2m = ev["C1_memory"]["acc"], ev["C2_memory"]["acc"]
     mem_ge_text = (c1m >= ev["C1_text_context"]["acc"] - 0.10) and (c2m >= ev["C2_text_context"]["acc"] - 0.10)
     shuf_follows = ev["C1_shuffled"]["acc"] >= 0.80 and ev["C2_shuffled"]["acc"] >= 0.80
     abstains = ev["C1_unanswerable"]["abstain_rate"] >= 0.80 and ev["C2_unanswerable"]["abstain_rate"] >= 0.80
-    thinks = (c1m >= 0.80 and c2m >= 0.80 and mem_ge_text and shuf_follows and abstains)
-    refuted = (c1m < 0.50 or not mem_ge_text)
-    verdict = "C_THINKS_IN_MEMORY" if thinks else ("C_REFUTED" if refuted else "C_PARTIAL")
-    out = {"verdict": verdict, "final_eval": ev, "gates": {"c1_memory>=0.80": c1m >= 0.80,
-           "c2_memory>=0.80": c2m >= 0.80, "memory>=text-0.10": mem_ge_text,
-           "shuffled_follows>=0.80": shuf_follows, "abstains>=0.80": abstains},
+    # SHORTCUT detection: high raw accuracy that does NOT follow the shuffled binding is NOT genuine
+    # reasoning - it is a shallow read of the available value. The shuffled control is the real gate.
+    shortcut = (c1m >= 0.80 and ev["C1_shuffled"]["acc"] < 0.50)
+    thinks = (c1m >= 0.80 and c2m >= 0.80 and mem_ge_text and shuf_follows and abstains and not shortcut)
+    refuted = (c1m < 0.50 or not mem_ge_text or shortcut)
+    verdict = "C_THINKS_IN_MEMORY" if thinks else ("C_REFUTED_SHORTCUT" if shortcut else
+              ("C_REFUTED" if refuted else "C_PARTIAL"))
+    storage_works = c0m >= 0.80
+    thinking_fails = (c1m < 0.50 and c2m < 0.50)
+    out = {"verdict": verdict, "final_eval": ev,
+           "C0_direct_1hop_storage": c0m, "C1_relational_2hop": c1m, "C2_comparison": c2m,
+           "storage_works_thinking_fails": bool(storage_works and thinking_fails),
+           "gates": {"c1_memory>=0.80": c1m >= 0.80, "c2_memory>=0.80": c2m >= 0.80,
+                     "memory>=text-0.10": mem_ge_text, "shuffled_follows>=0.80": shuf_follows,
+                     "abstains>=0.80": abstains},
            "trajectory": traj,
-           "scope": "MEASURED, DCortexV2Model trained on the C regime, held-out entities, single machine, small synthetic. NOT generality.",
-           "note": "Lead with the negative: memory-vs-text gap + shuffled control are the gates, not raw acc. If C1 memory is at chance while C2 works, the limit is multi-hop CHAINING specifically."}
+           "scope": "MEASURED, DCortexV2Model on the C regime, held-out entities, single machine, small synthetic. NOT generality.",
+           "DIAGNOSIS": ("If C0 (1-hop storage read) works but C1/C2 (multi-step) fail, the architecture HAS "
+                         "STORAGE memory but NO MECHANISM to OPERATE over it: decode is single-pass read->emit, "
+                         "with no working scratchpad for intermediate reasoning states. 'Thinking in memory' then "
+                         "requires BUILDING the cognitive-operation layer (the vision's Stage 5), NOT training the "
+                         "existing substrate. It cannot think IN memory because it has WORKING memory only for "
+                         "writing facts, not for the reasoning process.")}
     (RUN_DIR / "results" / "verdict.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(SEP, flush=True)
     print(f"[INFO] VERDICT: {verdict}", flush=True)
-    print(f"  C1 memory {c1m} | C2 memory {c2m} | mem>=text {mem_ge_text} | shuffled {shuf_follows} | abstains {abstains}", flush=True)
-    print("STAGE_C_JSON " + json.dumps({"verdict": verdict, "c1_mem": c1m, "c2_mem": c2m,
-          "c1_text": ev["C1_text_context"]["acc"], "shuf_follows": shuf_follows, "abstains": abstains}), flush=True)
+    print(f"  C0 1hop-storage {c0m} | C1 2hop {c1m} | C2 compare {c2m} | "
+          f"storage_works_thinking_fails={storage_works and thinking_fails}", flush=True)
+    print("STAGE_C_JSON " + json.dumps({"verdict": verdict, "c0_storage": c0m, "c1_mem": c1m, "c2_mem": c2m,
+          "storage_works_thinking_fails": bool(storage_works and thinking_fails)}), flush=True)
     return 0
 
 

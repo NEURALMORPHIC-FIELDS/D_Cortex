@@ -96,8 +96,26 @@ def c2_comparison(rng, variant: str, entities=ENTITIES) -> CItem:
     return CItem("C2", variant, facts, texts, q, answer)
 
 
+def c0_direct(rng, variant: str, entities=ENTITIES) -> CItem:
+    """1-hop sanity: a single direct color fact, queried directly. This is the basic recall the
+    model already does (~100% in Step B); if C0 fails, the setup is broken, not the reasoning."""
+    e = rng.choice(entities)
+    v = rng.choice(COLORS)
+    facts = [(e, "color", v)]
+    answer = v
+    if variant == "unanswerable":
+        e2 = rng.choice([x for x in entities if x != e])
+        q = f"What color is the {e2}?"
+        return CItem("C0", variant, facts, [_fact_text(*facts[0])], q, ABSTAIN)
+    texts = [_fact_text(*f) for f in facts]
+    q = f"What color is the {e}?"
+    if variant == "text_context":
+        q = " ".join(texts) + " " + q
+    return CItem("C0", variant, facts, texts, q, answer)
+
+
 VARIANTS = ["memory", "text_context", "shuffled", "unanswerable"]
-_BUILD = {"C1": c1_relational, "C2": c2_comparison}
+_BUILD = {"C0": c0_direct, "C1": c1_relational, "C2": c2_comparison}
 
 
 def build(rng, family: str, variant: str, entities=ENTITIES) -> CItem:

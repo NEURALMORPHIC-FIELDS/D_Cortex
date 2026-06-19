@@ -1163,6 +1163,20 @@
       ],
       "status": "success",
       "notes": "This piece = SUBSTRATE -> loadable-domain-memory (v1 value: honest inspectable scalable library). Reasoning (Stage C) stays the separately-scoped frontier. Stage C confirmation run b2r3gwcos in flight (expect: storage works C0, thinking fails C1/C2 -> confirms owner's 'no memory to think in' = the thinking mechanism is unbuilt, not untrainable)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "20:10",
+      "requested": "C confirmation result.",
+      "executed": "Clean C run (C0 storage vs C1/C2 thinking). RESULT: C1 raw 0.894 is a SHORTCUT - the shuffled control refutes it (C1_shuffled 0.212, does not follow the binding); C2 comparison 0.475 (chance); no abstain on broken chains. Led with the correction (did NOT report 89% as reasoning - the control is the gate). Found+fixed a candidates() bug (C0 color answer scored vs entity candidates -> spurious 0.0). Added C_REFUTED_SHORTCUT to the verdict logic. Updated memory (step_35).",
+      "files_touched": [
+        "scripts/certify_stage_c_reasoning.py",
+        "runs/stage_c/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "NO genuine reasoning-over-memory: shallow read yes, multi-step operation no. Anti-confab win: shuffled control caught the 89% shortcut trap. Owner's 'no memory to think in' confirmed+refined. Next: build memory tokenization (proven substrate -> loadable memory); thinking = Stage 5 frontier to BUILD. Awaiting owner: clean re-run (fix C0 sanity) vs proceed to tokenizer."
     }
   ]
 }
