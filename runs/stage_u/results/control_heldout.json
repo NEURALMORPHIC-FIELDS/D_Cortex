@@ -1,0 +1,19 @@
+{
+  "control": "held_out_entity_generalization",
+  "ckpt": "ckpt_anneal.pt",
+  "decode_train_entities": 0.8467,
+  "decode_heldout_entities": 0.9333,
+  "chance": 0.1667,
+  "heldout_entities": [
+    "cow",
+    "pig",
+    "duck",
+    "frog",
+    "goat",
+    "sheep",
+    "mouse",
+    "snake"
+  ],
+  "generalizes": true,
+  "interpretation": "decode@0.0 holds (0.93) on entities NEVER seen in training => the model reads the value from CONTEXT, not entity-specific memorization. Internalization GENERALIZES across entities. Scope: same 15-value vocab, same domain, same scale; novel values/domains/scale NOT tested."
+}

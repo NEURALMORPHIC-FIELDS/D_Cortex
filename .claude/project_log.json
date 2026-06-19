@@ -1059,6 +1059,31 @@
       ],
       "status": "success",
       "notes": "Positive but CONTROLLED result: the vision's central premise (internalize value from context) is realizable on DCortexV2Model at small scale. Earned via adversarial control, not asserted. Scope: small synthetic, single domain - NOT generality. STRICT control pending. Trainer verdict-logic to be fixed (gate on decode+control)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "16:20",
+      "requested": "(continued) complete Step B corroboration.",
+      "executed": "Detected STRICT training process DIED at step 650 (python procs=0, GPU idle, log stops with no traceback -> external termination, not a code crash). STRICT reached decode@0.0=0.980 at step600 (corroborates the internalization trajectory) but saved NO checkpoint, so the STRICT adversarial control could NOT run. Corrected memory to state corroboration is PARTIAL (trajectory only, no STRICT control). The DECISIVE verdict stands on the ANNEAL run, which COMPLETED and PASSED the adversarial control (INTERNALIZATION ACHIEVED) - it does not depend on STRICT.",
+      "files_touched": [
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "partial",
+      "notes": "Honest: STRICT control missing (process killed). Verdict unaffected (ANNEAL complete+controlled). Re-running STRICT for its control is optional full-corroboration, not required for the verdict."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "16:35",
+      "requested": "Advisor recommendation + execute the gating honesty check (held-out generalization).",
+      "executed": "Ran the held-out ENTITY generalization control on ckpt_anneal.pt: decode@0.0 on 8 entities never seen in training (cow,pig,duck,frog,goat,sheep,mouse,snake) = 0.933, vs training-entity 0.847 (chance 0.167). PASSED -> the model reads value from CONTEXT not entity-memorization; internalization GENERALIZES across entities. This STRENGTHENS the ACHIEVED verdict (was the key remaining validity risk).",
+      "files_touched": [
+        "runs/stage_u/results/control_heldout.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Honest scope: generalizes across entities only; same 15-value vocab/domain/scale. Recommended next: unification (wire Step-1 arbiter onto the model's internalized values, end-to-end L1-L5, wrong_commit on the model's OWN values)."
     }
   ]
 }
