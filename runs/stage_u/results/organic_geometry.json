@@ -1,23 +1,23 @@
 {
   "organic": {
-    "alpha0.9": {
-      "lexical_alpha": 0.9,
-      "n": 150,
-      "raw_cosine_margin": 0.3875,
-      "decode_head_value_accuracy": 1.0,
-      "head_logit_cosine_margin": -0.027,
-      "linear_probe_accuracy": 1.0,
-      "chance": 0.1667
-    },
     "alpha0.0": {
       "lexical_alpha": 0.0,
       "n": 150,
-      "raw_cosine_margin": -1.5855,
-      "decode_head_value_accuracy": 0.1667,
-      "head_logit_cosine_margin": -1.902,
-      "linear_probe_accuracy": 0.3556,
+      "raw_cosine_margin": 0.0054,
+      "decode_head_value_accuracy": 1.0,
+      "head_logit_cosine_margin": -0.0307,
+      "linear_probe_accuracy": 1.0,
+      "chance": 0.1667
+    },
+    "alpha0.9": {
+      "lexical_alpha": 0.9,
+      "n": 150,
+      "raw_cosine_margin": 0.1049,
+      "decode_head_value_accuracy": 1.0,
+      "head_logit_cosine_margin": -0.0623,
+      "linear_probe_accuracy": 1.0,
       "chance": 0.1667
     }
   },
-  "top1_final": 0.609
+  "top1_final": 1.0
 }
