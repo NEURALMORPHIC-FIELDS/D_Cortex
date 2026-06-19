@@ -1223,6 +1223,21 @@
       ],
       "status": "success",
       "notes": "Negative is honest and decisive. Caveats recorded (linear-probe != absent; OOD single-fact base; readout-specific). Means: the AUTO-extraction front-end is unsafe on multi-fact text (~half wrong, ~19% cross-bound); canonical store untouched/exact. Consistent with Stage C: single-object clean, multi-object separation is the frontier. Next (architect's call): MLP/attention-query readout (not-present vs not-linearly-present), or train base on multi-fact text, or restrict auto-extraction to single-fact."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "23:59",
+      "requested": "Autonomous: develop the multi-object road. Step 1 - measure how far the frozen base is (nonlinear/attention readout probe).",
+      "executed": "Built scripts/certify_multiobject_readout.py: readout ladder (linear / 1-hidden MLP / 4-head attention) on the FROZEN ckpt_multiattr at the entity position, multi-entity regime, held-out 10/30, 5 seeds. Caught+fixed a confound (first attention undertrained, wb 0.19 in-sample -> strengthened multi-head+prenorm+residual, 2x steps -> fits in-sample 0.069). RESULT held-out wrong_binding: linear 0.1825, mlp 0.1400, attention 0.1975 -> DIRECTION BINDING_ABSENT_IN_FROZEN_REP. Decisive signature: MLP fits train perfectly (in-sample 0.000) but fails held-out (0.14) = generalization gap, NOT capacity -> no generalizable separable-object structure in the frozen rep.",
+      "files_touched": [
+        "scripts/certify_multiobject_readout.py",
+        "docs/MULTIOBJECT_STEP1_RESULT.md",
+        "runs/multiobject_readout/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "FAR -> step 2 (retrain base to maintain separable co-occurring objects) is MANDATORY. Readout depth would not help (failure is generalization, not capacity). Next: train_multiobject (fine-tune a COPY, never overwrite ckpt_multiattr), then step 3 re-test Stage I + Stage C on the new ckpt."
     }
   ]
 }
