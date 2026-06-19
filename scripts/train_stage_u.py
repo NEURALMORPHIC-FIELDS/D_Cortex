@@ -239,24 +239,34 @@ def main() -> int:
     except Exception as exc:  # noqa: BLE001
         print(f"[WARN] checkpoint save failed: {exc}", flush=True)
 
+    # Gate on DECODE (the model's OWN answer-head reading the value), NOT the linear probe:
+    # the probe is high-from-init (value-identity is linearly present in w_value even untrained),
+    # so a probe-RISE gate mislabels; decode rising 0->high is the internalization signal.
+    # ACHIEVED is only confirmed by the adversarial control (stage_u/control_internalization.py).
+    def dec(geom, alpha):
+        return geom[f"alpha{alpha}"].get("decode_head_value_accuracy", 0.0)
     p0, pF = probe(m0, ma), probe(final, ma)
+    d0, dF = dec(m0, ma), dec(final, ma)
     t1F = traj[-1].get("top1") or 0.0
-    rose = pF > p0
-    if pF >= 0.80 and rose and t1F >= 0.80:
-        verdict = "INTERNALIZATION_ACHIEVED"
-    elif pF < 0.50:
+    rose = dF > d0 + 0.10
+    if dF >= 0.80 and rose:
+        verdict = "INTERNALIZATION_ACHIEVED_PENDING_CONTROL"
+    elif dF < 0.50:
         verdict = "INTERNALIZATION_REFUTED"
     else:
         verdict = "INTERNALIZATION_PARTIAL"
     summary = {"verdict": verdict, "measure_alpha": ma, "train_alpha": train_desc,
-               "probe_init": round(p0, 4), "probe_final": round(pF, 4), "probe_rose": bool(rose),
+               "decode_init": round(d0, 4), "decode_final": round(dF, 4), "decode_rose": bool(rose),
+               "probe_init": round(p0, 4), "probe_final": round(pF, 4),
                "top1_final": t1F, "steps": args.steps, "trajectory": traj,
                "honest_scope": ("single model, small synthetic regime, single machine; the linear PROBE "
                                 "(not top1) is the internalization gate; NOT a generality claim.")}
     (RUN_DIR / "results" / "train_trajectory.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    print(f"[INFO] VERDICT: {verdict} | probe@{ma} {p0:.3f} -> {pF:.3f} (rose={rose}) | top1 {t1F:.3f}", flush=True)
-    print("STAGE_U_TRAIN_JSON " + json.dumps({"verdict": verdict, "probe_init": round(p0, 4),
-          "probe_final": round(pF, 4), "top1": t1F, "measure_alpha": ma, "train_alpha": train_desc}), flush=True)
+    print(f"[INFO] VERDICT: {verdict} | decode@{ma} {d0:.3f} -> {dF:.3f} (rose={rose}) | "
+          f"probe@{ma} {pF:.3f} | top1 {t1F:.3f} (control required to confirm ACHIEVED)", flush=True)
+    print("STAGE_U_TRAIN_JSON " + json.dumps({"verdict": verdict, "decode_init": round(d0, 4),
+          "decode_final": round(dF, 4), "probe_final": round(pF, 4), "top1": t1F,
+          "measure_alpha": ma, "train_alpha": train_desc}), flush=True)
     return 0
 
 

@@ -1,0 +1,14 @@
+{
+  "regime": "ANNEAL_0.5_to_0.0",
+  "ckpt": "ckpt_anneal.pt",
+  "step": 1500,
+  "probe_true": 1.0,
+  "probe_shuffled_label": 0.1111,
+  "probe_overfits": false,
+  "decode_true": 0.8467,
+  "decode_vs_shuffled_gold": 0.1133,
+  "decode_genuine": true,
+  "chance": 0.1667,
+  "verdict": "INTERNALIZATION_ACHIEVED_BY_CONTROL",
+  "note": "trainer auto-label PARTIAL is a bug (gated on probe-RISE; probe was genuine-and-high throughout per shuffled-label control). decode (model own head) rose 0->0.847 at alpha=0.0 and collapses to chance on shuffled gold => genuine internalization."
+}

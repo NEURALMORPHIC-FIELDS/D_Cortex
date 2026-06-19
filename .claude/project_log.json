@@ -1044,6 +1044,21 @@
       ],
       "status": "success",
       "notes": "Reframing accepted: the organic dynamics RESIST internalization (gradient moves AWAY); A=honest arbiter over parroted tokens (vision-empty); B=decisive test of the vision's central premise. Launch commands in the spec. Both ACHIEVED and REFUTED are maximally decision-relevant. Also acknowledged I got stuck in hold-loops responding to the integrity hook - my fault, fixed by delivering."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "16:05",
+      "requested": "Execute Step B (DECIDE TU) + give the real verdict.",
+      "executed": "Ran Step B both regimes on RTX 5080. ANNEAL (alpha 0.5->0.0) trained 1500 steps; decode@0.0 (model's own answer-head reading value from w_value at pure-contextual alpha=0.0) rose 0->0.847. STRICT (alpha=0.0) decode@0.0->0.980. Ran the DECISIVE adversarial control on the ANNEAL ckpt: probe_shuffled_label=0.111(chance)=>probe genuine NOT overfit; decode_vs_shuffled_gold=0.113(chance)=>genuine value binding NOT shortcut; decode_true=0.847>=0.80. VERDICT: INTERNALIZATION_ACHIEVED by control. CORRECTED my own trainer verdict-logic bug (auto-labeled PARTIAL because gated on probe-RISE; the probe was genuine-high throughout, decode is the right gate) AND my earlier over-skeptical 'probe overfits' assumption (control disproved it).",
+      "files_touched": [
+        "runs/stage_u/results/control_anneal.json",
+        "runs/stage_u/results/ckpt_anneal.pt",
+        "stage_u/control_internalization.py",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Positive but CONTROLLED result: the vision's central premise (internalize value from context) is realizable on DCortexV2Model at small scale. Earned via adversarial control, not asserted. Scope: small synthetic, single domain - NOT generality. STRICT control pending. Trainer verdict-logic to be fixed (gate on decode+control)."
     }
   ]
 }
