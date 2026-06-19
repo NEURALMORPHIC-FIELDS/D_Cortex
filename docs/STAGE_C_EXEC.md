@@ -1,5 +1,16 @@
 # Stage C - EXECUTION SPEC (the thinking-in-memory test, ready to launch COLD)
 
+## LESSON FROM RUN 1 (mandatory for any Stage 5 / chaining test design)
+The non-shuffled chaining regime is GAMEABLE: when only ONE candidate value is in memory, the model
+outputs it WITHOUT reasoning and scores high (run 1: C1 non-shuffled 0.894), a major false positive.
+The REAL chaining test is the MULTI-DISTRACTOR condition (>= 2 candidate values in memory, the answer
+determined only by FOLLOWING the binding - the "shuffled" variant). There the model was at chance
+(C1_shuffled 0.212). THEREFORE: make the multi-distractor / multi-value-in-memory condition the
+DEFAULT measurement for any chaining or comparison test, NOT a side control. A single-option regime
+lets ANY new architecture cheat by emitting the unique available value. Chaining is confirmed ONLY by
+the multi-distractor number. (This is why the pre-declared shuffled control mattered - it caught the
+0.894 trap; bake it into the default next time.)
+
 Status: ready to launch fresh. The regime data generator (stage_c/reasoning_regime.py) is BUILT and
 SMOKE-VERIFIED (families C1/C2 x variants memory/text_context/shuffled/unanswerable; C1/memory has
 no copy leak; unanswerable -> ABSTAIN). What remains for the cold launch is the train+eval cert
