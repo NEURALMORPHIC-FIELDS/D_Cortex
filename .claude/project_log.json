@@ -1151,6 +1151,18 @@
       ],
       "status": "success",
       "notes": "C ready to launch cold: regime data VERIFIED now; train+eval cert is the only remaining build, fully specified. The decisive gate is the memory-vs-text_context comparison + shuffled control, NOT raw accuracy. Both THINKS and REFUTED are maximally decision-relevant; REFUTED before scaling is the highest-value negative."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "19:30",
+      "requested": "Owner blueprint 'Shared Memory as Thinking Substrate' + write the implementation prompt for the first buildable piece (memory tokenization codebook + canonical-direct shared store + provenance).",
+      "executed": "Reflected back the blueprint; wrote docs/MEMORY_TOKENIZATION_SPEC.md - the fully-specified implementation spec for the first buildable piece (no frontier). Resolved 4 validity-critical cruxes (documented): (1) codebook derives from INTERNALIZED w_value (Step B) via VQ + separation + gold-anchor, not text token; (2) learned codebook K=512 growable -> thousands of values (fixes the 37-token capacity wall); (3) canonical + extracted objects share one representation space (canonical encoded through the model for payload, committed directly as authoritative); (4) Stage U mechanics run on TOKEN EQUALITY (the discretization that made unification clean). Falsifiable gates: G_TOKENIZER_BIJECTION (same->same, distinct->distinct, 0 collisions), G_SCALE, G_CANONICAL_ROUNDTRIP, G_ARBITER_ON_TOKENS (re-confirm wrong_commit=0 on tokens), G_INSPECTABLE, G_NO_TEXT_LEAK. SPEC written; build deferred to after the running C-confirmation (GPU contention) - tokenizer verifies CPU-light on the existing trained ckpt.",
+      "files_touched": [
+        "docs/MEMORY_TOKENIZATION_SPEC.md",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "This piece = SUBSTRATE -> loadable-domain-memory (v1 value: honest inspectable scalable library). Reasoning (Stage C) stays the separately-scoped frontier. Stage C confirmation run b2r3gwcos in flight (expect: storage works C0, thinking fails C1/C2 -> confirms owner's 'no memory to think in' = the thinking mechanism is unbuilt, not untrainable)."
     }
   ]
 }
