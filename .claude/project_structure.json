@@ -1387,5 +1387,29 @@
     },
     "scope_revision": "v1 NO LONGER claims 'the model reasons over your domain' (Stage C undermined it). v1 = honest scalable store + administration + retrieval + no out-of-memory hallucination. Canonical writes are EXACT; the 92% bijection floor is the EXTRACTION path (Stage I) only.",
     "deferred": "VQ codebook (b) -> Stage I (extraction). Stage 5 (operate-on-memory / thinking) untouched."
+  },
+  "step_38_stage_i_extraction_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured negative)",
+    "track": "SUBSTRATE/extraction (v1 front-end) - NOT reasoning (Stage 5)",
+    "verdict": "STAGE_I_BINDING_FAIL",
+    "files": {
+      "scripts/certify_stage_i_extraction.py": "FROZEN base, encoder per-token hidden states at entity position (no answer_token_id, no memory write), linear probes (value_head->frozen codebook, attribute_head->3); multi-entity same-attr distinct-value regime; held-out 10/30 entities; 5 seeds.",
+      "docs/STAGE_I_RESULT.md": "Full result + decomposition + caveats + next steps.",
+      "runs/stage_i/results/verdict.json": "STAGE_I_BINDING_FAIL"
+    },
+    "headline": {
+      "G_BINDING_bar": 0.02,
+      "wrong_binding_median_heldout": 0.21,
+      "cross_binding_median": 0.1925,
+      "attribute_error_median": 0.0225,
+      "value_error_median": 0.48,
+      "tokenizer_isolation": 0.0,
+      "extraction_added_value_error": 0.48,
+      "in_sample_wrong_binding": 0.121,
+      "in_sample_value_error": 0.353
+    },
+    "meaning": "The frozen rep does NOT linearly separate co-occurring per-entity values at the entity position (fails in-sample too -> representational, not generalization). Codebook NOT the bottleneck (tokenizer-isolation 0). Auto-extraction front-end UNSAFE on multi-fact text (~half wrong, ~19% cross-bound). Canonical store untouched/exact. Consistent with Stage C (single-object clean, multi-object separation is the frontier).",
+    "caveats": "linear-probe fail != info absent (could be nonlinear / value-token position / attention readout); base is OOD (single-fact-per-encode training); readout-specific.",
+    "next_architect_call": "MLP/attention-query readout (not-present vs not-linearly-present); or train base on multi-fact text; or restrict auto-extraction to single-fact inputs."
   }
 }

@@ -1208,6 +1208,21 @@
       ],
       "status": "success",
       "notes": "Canonical = EXACT (token from known value), so the 92% bijection floor never touches canonical writes - it is the EXTRACTION path (Stage I) only. arbiter-on-tokens 0/140 re-confirms wrong_commit=0 on canonical via the scalable codebook (37-wall gone). SUBSTRATE track done; THINKING (Stage 5) untouched and not claimed."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "23:30",
+      "requested": "GO: build + run the complete Stage I extraction cert (multi-entity amended variant).",
+      "executed": "Built scripts/certify_stage_i_extraction.py: FROZEN ckpt_multiattr, encoder per-token hidden states at the ENTITY token position (read-only, no answer_token_id, no memory write), LINEAR probes (value_head 768->768 cosine to frozen MemoryTokenizer codebook; attribute_head ->3). Multi-entity same-attribute distinct-value regime ('The bear is red. The fox is blue.'), held-out 10/30 entities, 5 seeds x 1500 steps. Smoke OK (untrained heads wrong_binding 0.485). VERDICT STAGE_I_BINDING_FAIL: G_BINDING wrong_binding median 0.21 (bar 0.02) FAIL; cross_binding 0.1925 (sibling's value bound to this object, ~5.6x chance); value_error 0.48; tokenizer-isolation 0.0 so extraction_added=0.48 (codebook NOT the bottleneck); attribute_error 0.0225 (near-clean). In-sample diagnostic: train wrong_binding 0.121 / value_error 0.353 -> REPRESENTATIONAL limit, not just generalization gap.",
+      "files_touched": [
+        "scripts/certify_stage_i_extraction.py",
+        "docs/STAGE_I_RESULT.md",
+        "runs/stage_i/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Negative is honest and decisive. Caveats recorded (linear-probe != absent; OOD single-fact base; readout-specific). Means: the AUTO-extraction front-end is unsafe on multi-fact text (~half wrong, ~19% cross-bound); canonical store untouched/exact. Consistent with Stage C: single-object clean, multi-object separation is the frontier. Next (architect's call): MLP/attention-query readout (not-present vs not-linearly-present), or train base on multi-fact text, or restrict auto-extraction to single-fact."
     }
   ]
 }
