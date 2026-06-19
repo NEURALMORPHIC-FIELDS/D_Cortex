@@ -1126,6 +1126,18 @@
       ],
       "status": "success",
       "notes": "Falsification test CONFIRMED (could have gone the other way). Substrate loop now clean end-to-end on the whole regime. Calibration held: this is the SUBSTRATE loop, NOT the thinking loop; Stage C (reasoning over memory) is next and is where the vision is actually decided."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "18:15",
+      "requested": "Proceed to Stage C (the heart).",
+      "executed": "Scoped Stage C (docs/STAGE_C_DESIGN.md): the falsifiable test of 'thinking in memory' - 2-hop relational (C1) + comparison (C2) + resolve-then-use (C3) families, copy-proof, with the DECISIVE in-memory ablation (same conclusion from memory state without source text in context) + shuffled-binding control + honesty abstain. Pre-declared targets: THINKS-IN-MEMORY (>=0.80 + ablation holds + abstains) vs REFUTED (<0.50 or only-with-text-in-context or can't-abstain). SPEC only - not launched (open research bet, run fresh per discipline).",
+      "files_touched": [
+        "docs/STAGE_C_DESIGN.md",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Stage U complete (substrate loop, whole regime, wrong_commit=0). Stage C = the thinking loop, scoped + ready, NOT started. U-clean does NOT predict C; C is where the vision is actually decided."
     }
   ]
 }
