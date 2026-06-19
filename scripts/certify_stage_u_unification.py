@@ -40,10 +40,17 @@ import tiktoken
 from dcortex.config import DCortexConfig
 from dcortex.model import DCortexV2Model
 from integration.organ_client import OrganClient
-from stage_u.l_regime import build_regime, run_symbolic_oracle, ALL_VALUES
+from stage_u.l_regime import build_regime, run_symbolic_oracle, ALL_VALUES, VALUES
 from stage_u.neural_arbiter import NeuralCommitArbiter, cosine_same_value
 
 SEP = "=" * 70
+# value -> attribute -> surface template (location uses the prepositional form, matching the
+# organ's canonical and the multi-attribute training).
+VALUE_ATTR = {v: "color" for v in VALUES}
+VALUE_ATTR["big"] = "size"
+VALUE_ATTR["forest"] = "location"
+ATTR_TEMPLATE = {"color": "The {e} is {v}.", "size": "The {e} is {v}.",
+                 "location": "The {e} is in the {v}."}
 RUN_DIR = REPO_ROOT / "runs" / "stage_u"
 ENC = tiktoken.get_encoding("gpt2")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -63,7 +70,7 @@ class ModelValueSpace:
         key = (entity, value)
         if key in self._cache:
             return self._cache[key]
-        text = f"The {entity} is {value}."
+        text = ATTR_TEMPLATE[VALUE_ATTR.get(value, "color")].format(e=entity, v=value)
         ids = torch.tensor([ENC.encode_ordinary(text)], device=DEVICE)
         ans = torch.tensor([self.val_tokens[value]], device=DEVICE)
         with torch.no_grad(), contextlib.redirect_stdout(io.StringIO()):

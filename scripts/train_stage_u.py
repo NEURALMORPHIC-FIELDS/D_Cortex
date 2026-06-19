@@ -65,35 +65,56 @@ def _pad(ids, n):
     return ids[:n] if len(ids) > n else ids + [EOT] * (n - len(ids))
 
 
-def _fact(e, c, idx):
-    return {"text": f"The {e} is {c}.", "entity": e, "value": c, "idx": idx,
-            "ans": ENC.encode_ordinary(f" {c}")[0]}
+# Multi-attribute regime (L3 falsification): the model must internalize size and location too,
+# not just color. Templates / queries match integration/corpus.py + the V15 value sets so the
+# unification cert reads them with the same surface forms.
+SIZES = ["tiny", "small", "big", "huge"]
+LOCATIONS = ["forest", "cave", "castle", "river", "mountain", "garden", "cellar", "tower", "ocean", "desert"]
+ATTR_VALUES = {"color": COLORS, "size": SIZES, "location": LOCATIONS}
+ATTR_FACT = {"color": "The {e} is {v}.", "size": "The {e} is {v}.", "location": "The {e} is in the {v}."}
+ATTR_UPDATE = {"color": "The {e} is now {v}.", "size": "The {e} is now {v}.",
+               "location": "The {e} is now in the {v}."}
+ATTR_QUERY = {"color": "What color is the {e}? The {e} is", "size": "What size is the {e}? The {e} is",
+              "location": "Where is the {e}? The {e} is in the"}
+ATTRS = ["color", "size", "location"]
 
 
-def gen_episode(rng):
+def _fact(e, v, idx, attr="color"):
+    return {"text": ATTR_FACT[attr].format(e=e, v=v), "entity": e, "value": v, "idx": idx,
+            "ans": ENC.encode_ordinary(f" {v}")[0], "attr": attr}
+
+
+def gen_episode(rng, multi_attr=True):
     r = rng.random()
     n = rng.randint(MIN_FACTS, MAX_FACTS)
+    attr = rng.choice(ATTRS) if multi_attr else "color"
+    vals_all = ATTR_VALUES[attr]
+    qtmpl = ATTR_QUERY[attr]
     if r < SIMPLE:                                            # simple
-        ents, cols = rng.sample(ENTITIES, n), rng.sample(COLORS, n)
-        facts = [_fact(e, c, i) for i, (e, c) in enumerate(zip(ents, cols))]
+        ents, vals = rng.sample(ENTITIES, n), rng.sample(vals_all, min(n, len(vals_all)))
+        n = len(vals)
+        facts = [_fact(e, v, i, attr) for i, (e, v) in enumerate(zip(ents, vals))]
         t = rng.randint(0, n - 1)
-        return {"facts": facts, "prompt": f"What color is the {ents[t]}? The {ents[t]} is",
+        return {"facts": facts, "prompt": qtmpl.format(e=ents[t]),
                 "target": t, "ans": facts[t]["ans"], "type": "simple"}
     if r < SIMPLE + UPDATE:                                   # update
-        ents, cols = rng.sample(ENTITIES, n), rng.sample(COLORS, n + 1)
-        facts = [_fact(e, c, i) for i, (e, c) in enumerate(zip(ents, cols[:n]))]
+        vals = rng.sample(vals_all, min(n + 1, len(vals_all)))
+        n = len(vals) - 1
+        ents = rng.sample(ENTITIES, n)
+        facts = [_fact(e, v, i, attr) for i, (e, v) in enumerate(zip(ents, vals[:n]))]
         ut = rng.randint(0, n - 1)
-        nc = cols[n]
-        facts.append({"text": f"The {ents[ut]} is now {nc}.", "entity": ents[ut], "value": nc,
-                      "idx": n, "ans": ENC.encode_ordinary(f" {nc}")[0]})
-        return {"facts": facts, "prompt": f"What color is the {ents[ut]} now? The {ents[ut]} is",
+        nv = vals[n]
+        facts.append({"text": ATTR_UPDATE[attr].format(e=ents[ut], v=nv), "entity": ents[ut],
+                      "value": nv, "idx": n, "ans": ENC.encode_ordinary(f" {nv}")[0], "attr": attr})
+        upd_q = qtmpl.replace("? ", " now? ", 1) if "?" in qtmpl else qtmpl
+        return {"facts": facts, "prompt": upd_q.format(e=ents[ut]),
                 "target": n, "ans": facts[-1]["ans"], "type": "update"}
     cluster = rng.choice([ANIMALS, FANTASY])                  # distractor
-    n = min(n, len(cluster))
-    ents, cols = rng.sample(cluster, n), rng.sample(COLORS, n)
-    facts = [_fact(e, c, i) for i, (e, c) in enumerate(zip(ents, cols))]
+    n = min(n, len(cluster), len(vals_all))
+    ents, vals = rng.sample(cluster, n), rng.sample(vals_all, n)
+    facts = [_fact(e, v, i, attr) for i, (e, v) in enumerate(zip(ents, vals))]
     t = rng.randint(0, n - 1)
-    return {"facts": facts, "prompt": f"What color is the {ents[t]}? The {ents[t]} is",
+    return {"facts": facts, "prompt": qtmpl.format(e=ents[t]),
             "target": t, "ans": facts[t]["ans"], "type": "distractor"}
 
 

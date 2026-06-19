@@ -1098,6 +1098,34 @@
       ],
       "status": "success",
       "notes": "Stage U core loop closes end-to-end at small scale: internalize from context -> honest mechanics on the model's OWN memory -> wrong_commit=0 in-distribution. Honest scope: small synthetic, single domain; L3 needs size/location training. Earned by measurement + per-level isolation, not asserted."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "17:10",
+      "requested": "Owner calibrations on the unification verdict + direction L3->C.",
+      "executed": "Adopted two owner calibrations: (1) reframed the clean claim as per-level wrong_commit=0 on SEPARABLE values + arbiter-needs-only-same/different (mean_diff 0.08), NOT 'wrong_commit<=decode_floor' (wrong_commit=0 on colors coexists with ~15% exact-decode floor). (2) Clarified SCOPE: U closed the SUBSTRATE loop (honest self-revising memory inside the internalizing model), NOT the THINKING loop; the vision's heart (reason over memory) is Stage C, not done; 'Stage U complete' != 'vision achieved'. Updated verdict.json + memory. Next: L3 as cheap falsification (train size/location, re-run unification) -> then Stage C.",
+      "files_touched": [
+        "runs/stage_u/results/unification_verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Framing corrected toward stronger+honester claim. Proceeding autonomously: L3 (falsify/confirm) -> Stage C (the heart, where the vision is actually decided)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "18:05",
+      "requested": "L3 falsification: train model on size/location, re-run unification.",
+      "executed": "Extended trainer to multi-attribute (color+size+location); retrained copy-proof (ANNEAL, 1500 steps, decode@0.0->1.0 - internalizes all attrs); made unification value_vec attribute-aware (location 'is in the'). Re-ran unification on ckpt_multiattr.pt: L3 wrong_commit 40/60 -> 0/60; WHOLE-regime wrong_commit=0 (140/140), op-sequence 100/100; calibration margin -0.38 -> +0.227 (now separable). CONFIRMED the OOD hypothesis - the L3 errors were untrained values, not arbiter failure. Unification clean on the entire regime.",
+      "files_touched": [
+        "scripts/train_stage_u.py",
+        "scripts/certify_stage_u_unification.py",
+        "runs/stage_u/results/unification_verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Falsification test CONFIRMED (could have gone the other way). Substrate loop now clean end-to-end on the whole regime. Calibration held: this is the SUBSTRATE loop, NOT the thinking loop; Stage C (reasoning over memory) is next and is where the vision is actually decided."
     }
   ]
 }

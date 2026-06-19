@@ -1,19 +1,19 @@
 {
   "verdict": "D_CORTEX_STAGE_U_UNIFIED_CLEAN",
-  "ckpt": "runs/stage_u/results/ckpt_anneal.pt",
+  "ckpt": "runs/stage_u/results/ckpt_multiattr.pt",
   "value_identity_calibration": {
-    "min_same": 0.6185,
-    "mean_same": 0.9682,
-    "max_diff": 0.9999,
-    "mean_diff": 0.0768,
-    "margin": -0.3814,
-    "theta": 0.8092
+    "min_same": 0.9978,
+    "mean_same": 0.9999,
+    "max_diff": 0.7704,
+    "mean_diff": 0.006,
+    "margin": 0.2275,
+    "theta": 0.8841
   },
-  "decode_floor_rate": 0.3333,
+  "decode_floor_rate": 0.0,
   "identity_cosine": {
-    "wrong_commit": 40,
+    "wrong_commit": 0,
     "n": 140,
-    "wrong_commit_rate": 0.2857,
+    "wrong_commit_rate": 0.0,
     "op_set_match": 100,
     "per_level_wrong": {
       "L1": {
@@ -26,7 +26,7 @@
       },
       "L3": {
         "n": 60,
-        "wrong": 40
+        "wrong": 0
       },
       "L4": {
         "n": 20,
@@ -39,9 +39,9 @@
     }
   },
   "identity_decode": {
-    "wrong_commit": 40,
+    "wrong_commit": 0,
     "n": 140,
-    "wrong_commit_rate": 0.2857,
+    "wrong_commit_rate": 0.0,
     "op_set_match": 100,
     "per_level_wrong": {
       "L1": {
@@ -54,7 +54,7 @@
       },
       "L3": {
         "n": 60,
-        "wrong": 40
+        "wrong": 0
       },
       "L4": {
         "n": 20,
@@ -69,5 +69,5 @@
   "n_sequences": 100,
   "interpretation": "Two value-identity functions for the arbiter on the model's OWN internalized w_value: COSINE (imposed metric) vs DECODE (the model's own readout, vision-faithful). decode_floor_rate = the model's head mis-read rate on clean value vectors (the internalization floor). The arbiter op-sequence matches the symbolic oracle; wrong_commit under the DECODE identity should equal the decode floor (the residual is internalization quality, NOT an arbiter failure). COSINE is worse because the w_value geometry is not cosine-separable (margin < 0) - the Step-1 'honesty comes from separability' finding, on the real representation.",
   "scope": "MEASURED, trained ANNEAL ckpt on L1-L5, small synthetic regime, single machine.",
-  "CLEAN_CONCLUSION": "Honest mechanics UNIFY CLEANLY onto the model's internalized values: wrong_commit=0 on L1/L2/L4/L5 (promote/retrograde/no-inflation/prune, all on trained COLOR values), op-sequence 100/100 vs symbolic oracle. ALL 40 errors are in L3 (completion), which uses big/forest (size/location) values the color-only-trained model never saw (out-of-distribution decode), NOT an arbiter failure. The vision's core loop closes end-to-end at small scale: internalize value from context -> honest mechanics on the model's OWN internalized memory -> wrong_commit=0 on the in-distribution regime."
+  "L3_FALSIFICATION": "CONFIRMED the OOD hypothesis. After training the model on size+location (multi-attribute), L3 wrong_commit dropped 40/60 -> 0/60; wrong_commit=0 on the WHOLE regime (140/140), op-sequence 100/100, and the value-identity margin went -0.38 (color-only, big/forest OOD) -> +0.227 (now separable). This proves the earlier L3 errors were purely untrained values, NOT an arbiter failure. The honest mechanics UNIFY CLEANLY onto the model's internalized representation across the entire regime. (Scope unchanged: SUBSTRATE loop, not the THINKING loop; small synthetic, single domain.)"
 }
