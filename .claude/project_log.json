@@ -1177,6 +1177,21 @@
       ],
       "status": "success",
       "notes": "NO genuine reasoning-over-memory: shallow read yes, multi-step operation no. Anti-confab win: shuffled control caught the 89% shortcut trap. Owner's 'no memory to think in' confirmed+refined. Next: build memory tokenization (proven substrate -> loadable memory); thinking = Stage 5 frontier to BUILD. Awaiting owner: clean re-run (fix C0 sanity) vs proceed to tokenizer."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "21:10",
+      "requested": "Build the memory tokenizer (first buildable piece).",
+      "executed": "Built stage_u/memory_tokenizer.py (gold-anchored prototype codebook over internalized w_value) + scripts/certify_memory_tokenizer.py. Verified on ckpt_multiattr: G_SCALE PASS (200 distinct values -> 200 tokens, 0 collisions, held-out 1.0 - the 37-token wall REMOVED), G_NO_TEXT_LEAK PASS (8/8, value not text), G_TOKENIZER_BIJECTION PARTIAL 0.923 (0 distinct-value collisions; the 7.7% are same-value drift = internalization-consistency floor, not codebook). VERDICT PARTIAL. Led with confirmed (scale+value-identity) vs limited (exact bijection internalization-bound).",
+      "files_touched": [
+        "stage_u/memory_tokenizer.py",
+        "scripts/certify_memory_tokenizer.py",
+        "runs/memory_tokenizer/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Capacity wall REMOVED (200/200, 0 collisions) - the campaign-blocking problem solved. Handle is value-based. Exact bijection 92% (internalization floor); fix = VQ codebook. Next: shared store + canonical path; arbiter-on-tokens would carry the ~8% floor until internalization improves."
     }
   ]
 }

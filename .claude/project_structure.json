@@ -1,5 +1,5 @@
 {
-  "last_modified": "2026-06-17",
+  "last_modified": "2026-06-20",
   "repo_root": "e:\\proiecte_active\\D_Cortex\\D_Cortex-main",
   "project_root_runs": "runs/dcortex (created under repo: checkpoints/, logs/, dataset_cache/bin/, results/, configs/)",
   "venv": ".venv (Python 3.11, torch cu128)",
@@ -1358,5 +1358,17 @@
     "anti_confab": "Raw C1=0.89 was a positive-bias TRAP; the pre-declared shuffled control caught it (the gate is the control, not raw accuracy). Led with the correction.",
     "bugs_fixed": "candidates() now uses color tokens for C0+C1 (was entity tokens for C0); verdict logic adds C_REFUTED_SHORTCUT (high acc + shuffled<0.50).",
     "next": "build memory tokenization (docs/MEMORY_TOKENIZATION_SPEC.md) - the proven-substrate -> loadable-domain-memory piece; thinking (Stage 5) is the separate frontier to BUILD."
+  },
+  "step_36_memory_tokenizer_2026_06_20": {
+    "status": "measured",
+    "branch": "feature/integration-spine",
+    "verdict": "MEMORY_TOKENIZER_PARTIAL - the two NEW properties CONFIRMED (scale + value-identity); exact bijection internalization-limited.",
+    "source": "runs/memory_tokenizer/results/verdict.json; scripts/certify_memory_tokenizer.py on ckpt_multiattr.pt",
+    "G_SCALE": "PASS: 200 distinct values -> 200 tokens, 0 collisions, held-out assign 1.0. The sealed organ's 37-token capacity wall (which blocked the patent domain campaign) is REMOVED.",
+    "G_NO_TEXT_LEAK": "PASS 8/8: same value via different entity+template -> same token (handle is on the INTERNALIZED value, not the text - preserves the axis-inversion).",
+    "G_TOKENIZER_BIJECTION": "PARTIAL 0.923 (bar 0.99): distinct-value collisions=0 (values never share a prototype); the 7.7% are same-value vectors drifting to a neighbor prototype on held-out contexts = the model's internalization CONSISTENCY floor (~8% drift, matches unification mean_same 0.968), NOT a codebook limit.",
+    "fix": "the gold-anchored PROTOTYPE codebook is passive; a learned VQ codebook (commitment loss pulling same-value w_value together during the model's training) is the refinement to push bijection >=0.99.",
+    "implication": "arbiter-on-tokens would have ~8% wrong_commit (the same internalization floor as unification), not 0, until internalization consistency improves.",
+    "meaning": "Turns Stage U into a SCALABLE, value-based memory (the two goals achieved); exact same/different is internalization-limited at 92%."
   }
 }

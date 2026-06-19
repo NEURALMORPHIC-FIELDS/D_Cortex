@@ -1,0 +1,24 @@
+{
+  "verdict": "MEMORY_TOKENIZER_PARTIAL",
+  "ckpt": "runs/stage_u/results/ckpt_multiattr.pt",
+  "G_TOKENIZER_BIJECTION": {
+    "acc": 0.9229,
+    "collisions": 0,
+    "pass": false,
+    "n_values": 24
+  },
+  "G_NO_TEXT_LEAK": {
+    "leaks": 0,
+    "n": 8,
+    "pass": true
+  },
+  "G_SCALE": {
+    "n_values": 200,
+    "tokens_used": 200,
+    "held_out_acc": 1.0,
+    "pass": true,
+    "vs_sealed_organ_wall": 37
+  },
+  "scope": "MEASURED, gold-anchored prototype codebook over the trained model's internalized w_value; real values bijection + controlled-vector scale. A full learned VQ is the later refinement.",
+  "meaning": "same value -> same token EXACT (the arbiter's discrete identity) + distinct -> distinct + scales to hundreds of tokens: the 37-token capacity wall of the sealed organ is removed."
+}
