@@ -1192,6 +1192,22 @@
       ],
       "status": "success",
       "notes": "Capacity wall REMOVED (200/200, 0 collisions) - the campaign-blocking problem solved. Handle is value-based. Exact bijection 92% (internalization floor); fix = VQ codebook. Next: shared store + canonical path; arbiter-on-tokens would carry the ~8% floor until internalization improves."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "21:40",
+      "requested": "Build fork (a): shared store + canonical-direct write path + arbiter-on-tokens gate. Adopt the honest scope revision (v1 = storage + administration, NOT reasoning). Defer VQ (b) to Stage I.",
+      "executed": "Built stage_u/shared_store.py (SharedMemoryStore + MemoryObject; write_canonical assigns the token DIRECTLY from the KNOWN value = EXACT, no internalization drift; write_extracted tokenizes w_value = carries the ~8% Stage-I floor; get/list/edit/dump = inspectable+editable). Built scripts/certify_shared_store.py (CPU, model-free for canonical). Verdict SHARED_STORE_VERIFIED: G_CANONICAL_ROUNDTRIP PASS, G_ARBITER_ON_TOKENS canonical wrong_commit 0/140 (exact - Stage U holds without asterisk on canonical tokens), G_INSPECTABLE PASS (edited red->blue, re-read exact). Wrote docs/V1_SCOPE.md: v1 = exact/honest/auditable/self-revising STORAGE + ADMINISTRATION (more than RAG), NOT 'reasons over the domain' (Stage C refuted 2-hop chaining via the shuffled control); reasoning = Stage 5 frontier; VQ (b) deferred to Stage I extraction.",
+      "files_touched": [
+        "stage_u/shared_store.py",
+        "scripts/certify_shared_store.py",
+        "docs/V1_SCOPE.md",
+        "runs/shared_store/results/verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Canonical = EXACT (token from known value), so the 92% bijection floor never touches canonical writes - it is the EXTRACTION path (Stage I) only. arbiter-on-tokens 0/140 re-confirms wrong_commit=0 on canonical via the scalable codebook (37-wall gone). SUBSTRATE track done; THINKING (Stage 5) untouched and not claimed."
     }
   ]
 }

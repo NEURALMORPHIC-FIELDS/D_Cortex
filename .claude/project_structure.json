@@ -1370,5 +1370,22 @@
     "fix": "the gold-anchored PROTOTYPE codebook is passive; a learned VQ codebook (commitment loss pulling same-value w_value together during the model's training) is the refinement to push bijection >=0.99.",
     "implication": "arbiter-on-tokens would have ~8% wrong_commit (the same internalization floor as unification), not 0, until internalization consistency improves.",
     "meaning": "Turns Stage U into a SCALABLE, value-based memory (the two goals achieved); exact same/different is internalization-limited at 92%."
+  },
+  "step_37_shared_store_canonical_path_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED",
+    "track": "SUBSTRATE (v1) - NOT thinking (Stage 5)",
+    "files": {
+      "stage_u/shared_store.py": "SharedMemoryStore + MemoryObject. write_canonical = token DIRECT from KNOWN value (EXACT, no internalization drift, status=committed, provenance=user_canonical, trust=1.0). write_extracted = tokenize(w_value) via MemoryTokenizer (provisional, carries the ~8% Stage-I floor). get/list/edit/dump = inspectable + editable shared store.",
+      "scripts/certify_shared_store.py": "CPU cert (canonical path is model-free). Gates below.",
+      "docs/V1_SCOPE.md": "Honest scope: v1 = exact/auditable/self-revising STORAGE + ADMINISTRATION (more than RAG); NOT reasoning over the domain (Stage C refuted 2-hop). Reasoning = Stage 5. VQ (b) deferred to Stage I.",
+      "runs/shared_store/results/verdict.json": "SHARED_STORE_VERIFIED"
+    },
+    "gates": {
+      "G_CANONICAL_ROUNDTRIP": "PASS - write_canonical(bear,color,red) -> read red, committed, user_canonical, exact token",
+      "G_ARBITER_ON_TOKENS_canonical": "PASS - wrong_commit 0/140 on L1-L5 via canonical token identity (Stage U holds EXACTLY on canonical, no internalization asterisk)",
+      "G_INSPECTABLE": "PASS - edit red->blue, re-read exact, dump auditable"
+    },
+    "scope_revision": "v1 NO LONGER claims 'the model reasons over your domain' (Stage C undermined it). v1 = honest scalable store + administration + retrieval + no out-of-memory hallucination. Canonical writes are EXACT; the 92% bijection floor is the EXTRACTION path (Stage I) only.",
+    "deferred": "VQ codebook (b) -> Stage I (extraction). Stage 5 (operate-on-memory / thinking) untouched."
   }
 }
