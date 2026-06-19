@@ -1138,6 +1138,19 @@
       ],
       "status": "success",
       "notes": "Stage U complete (substrate loop, whole regime, wrong_commit=0). Stage C = the thinking loop, scoped + ready, NOT started. U-clean does NOT predict C; C is where the vision is actually decided."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "18:40",
+      "requested": "Owner: C is next (decided), execute COLD; write the fully-specified C execution prompt now so it is launch-ready.",
+      "executed": "Built + SMOKE-VERIFIED the Stage C reasoning regime generator (stage_c/reasoning_regime.py): C1 relational 2-hop (copy-proof: answer not in query) + C2 comparison, x variants memory/text_context/shuffled/unanswerable; verified facts/queries/answers + abstain + no copy leak (CPU, deterministic). Wrote docs/STAGE_C_EXEC.md: the launch-ready execution spec with the DECISIVE gates (acc(memory)>=0.80 AND memory~text_context AND shuffled follows the binding AND abstains on broken chain), pre-declared THINKS/PARTIAL/REFUTED, architectural-risk flag (single-pass decoder may not chain), train/test split by entity, bounded budget, launch plan. Did NOT build/launch the training cert (owner: run fresh; shipping an untested GPU harness would violate discipline).",
+      "files_touched": [
+        "stage_c/reasoning_regime.py",
+        "docs/STAGE_C_EXEC.md",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "C ready to launch cold: regime data VERIFIED now; train+eval cert is the only remaining build, fully specified. The decisive gate is the memory-vs-text_context comparison + shuffled control, NOT raw accuracy. Both THINKS and REFUTED are maximally decision-relevant; REFUTED before scaling is the highest-value negative."
     }
   ]
 }
