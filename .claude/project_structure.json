@@ -1336,6 +1336,14 @@
       "next": "ANNEAL controlled verdict = INTERNALIZATION ACHIEVED is the decisive result. Optional: re-run STRICT to completion for its control (full corroboration). Then wire Step-1 arbiter onto the internalized value (Stage U completion).",
       "strict_status": "STRICT process KILLED externally at step 650 (no traceback/error - external termination, likely resource/session limit). It reached decode@0.0=0.980 at step 600 (trajectory CORROBORATES, even stronger than ANNEAL) BUT did NOT complete and saved NO checkpoint, so its adversarial control did NOT run. Corroboration is PARTIAL (trajectory only). The verdict stands on ANNEAL (complete + controlled), which does not depend on STRICT.",
       "heldout_generalization": "PASSED: decode@0.0 on UNSEEN entities (cow,pig,...) = 0.933 (>= training-entity 0.847); the model reads value from context, NOT entity-memorization. Internalization GENERALIZES across entities. Strengthens ACHIEVED. Scope: same 15-value vocab/domain/scale; novel values/domains/scale untested. (runs/stage_u/results/control_heldout.json)"
+    },
+    "step_C_unification": {
+      "verdict": "D_CORTEX_STAGE_U_UNIFIED (clean on in-distribution)",
+      "source": "runs/stage_u/results/unification_verdict.json; scripts/certify_stage_u_unification.py on ckpt_anneal.pt",
+      "result": "Honest-mechanics arbiter (Step 1) run on the trained model's OWN internalized w_value (Step B), end-to-end L1-L5. wrong_commit=0 on L1/L2/L4/L5 (promote/retrograde/no-inflation/prune, trained COLOR values); op-sequence 100/100 vs symbolic oracle (both cosine and model-decode identity). ALL 40/140 errors are L3 (big/forest = size/location, OOD for the color-only-trained model) = internalization-coverage gap, NOT arbiter failure. decode_floor 33% inflated by L3; ~15% on colors.",
+      "meaning": "THE VISION'S CORE LOOP CLOSES end-to-end at small scale: model internalizes value from context -> honest mechanics operate on the model's own internalized memory -> wrong_commit=0 in-distribution. Stage U complete at this scale.",
+      "calibration": "model w_value mean_same 0.968 / mean_diff 0.077 (colors cleanly separable); margin -0.38 from big/forest OOD outliers only.",
+      "scope": "single model, small synthetic regime, single domain. NOT generality. L3 fix = train on size/location too."
     }
   }
 }

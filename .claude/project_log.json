@@ -1084,6 +1084,20 @@
       ],
       "status": "success",
       "notes": "Honest scope: generalizes across entities only; same 15-value vocab/domain/scale. Recommended next: unification (wire Step-1 arbiter onto the model's internalized values, end-to-end L1-L5, wrong_commit on the model's OWN values)."
+    },
+    {
+      "date": "2026-06-17",
+      "time": "16:55",
+      "requested": "porneste / unifica - wire the Step-1 arbiter onto the model's internalized values (Stage U completion).",
+      "executed": "Built scripts/certify_stage_u_unification.py: runs the honest-mechanics arbiter on the trained model's OWN internalized w_value, end-to-end L1-L5, vs the symbolic organ oracle. Result: wrong_commit=0 on L1/L2/L4/L5 (all trained-color conflict/consolidation levels), op-sequence 100/100. ALL 40/140 errors isolated to L3 (big/forest = size/location values the color-only model never trained on = OOD decode), NOT arbiter failure. Tested two value-identity functions (cosine vs the model's own decode); both clean on the actual color-conflict pairs (mean_diff 0.08). VERDICT: UNIFIED_CLEAN (arbiter adds 0 error beyond the model's internalization floor).",
+      "files_touched": [
+        "scripts/certify_stage_u_unification.py",
+        "runs/stage_u/results/unification_verdict.json",
+        ".claude/project_structure.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "Stage U core loop closes end-to-end at small scale: internalize from context -> honest mechanics on the model's OWN memory -> wrong_commit=0 in-distribution. Honest scope: small synthetic, single domain; L3 needs size/location training. Earned by measurement + per-level isolation, not asserted."
     }
   ]
 }
