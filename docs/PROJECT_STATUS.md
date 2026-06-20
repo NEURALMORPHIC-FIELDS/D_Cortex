@@ -18,6 +18,9 @@ cannot resolve (the honesty invariant extended to multi-hop). The remaining fron
 EXTRACTION front-end: it was MEASURED to be a PRETRAINING (paraphrase-robustness) property, not a
 fine-tuning-diversity property, on the small from-scratch closed-vocab substrate. So the extraction
 frontier and the scale frontier MERGE into one move: port the proven mechanism arc to a pretrained base.
+Stage 9.0/9.0b then MEASURED that premise on two frozen 7B bases: PARTIAL - the binding is real and far
+above the toy substrate and addressing is robust, but a frozen readout does not expose it CLEANLY (cross-
+binding ~0.15), so the port needs a trained adapter (Stage 9.1), not a frozen readout.
 
 ## Two layers of foundation (proven earlier, preserved)
 - **v11 (2026-04-18, SEALED):** memory-conditioned token emission - memory as a functional layer
@@ -43,6 +46,7 @@ Every step is a falsifiable gate with the dangerous direction reported first; ne
 | Stage 6 | Free-text extraction from varied phrasing | SUBSTRATE_LIMITED (value 0.56, wrong-bind 0.38) | STAGE6_EXTRACTION_RESULT.md |
 | Stage 7 | Substrate fine-tune for phrasing robustness + arc re-verify | PHRASING_REFUTED; arc FULLY PRESERVED (Stage U 0/140, traversal 1.0/0.994, abstain preserved) | STAGE7_SUBSTRATE_RESULT.md |
 | Stage 8 | Scale phrasing diversity; structurally-distinct held-out | REFUTED_AT_SCALE (value 0.337 near chance) -> paraphrase-robustness is a PRETRAINING property | STAGE8_PHRASING_SCALE_RESULT.md |
+| Stage 9.0/9.0b | Does a FROZEN pretrained base (Qwen+Mistral 7B) expose the binding via causal readout | PARTIAL (Qwen fails all gates; Mistral at-bar; binding real + above substrate, addressing robust, cross-bind ~0.15) | STAGE9_PRETRAINED_BINDING_RESULT.md |
 
 ## The deep finding (what the arc taught)
 - ONE object is clean everywhere (storage, honesty, internalization, canonical, single-step operation).
@@ -70,6 +74,27 @@ PORT the proven mechanism arc (Stage 5 -> 5e) to a PRETRAINED base, where paraph
 is tractable. Stage 8 showed free-text extraction-binding is coupled to pretraining, so the EXTRACTION
 frontier and the SCALE frontier are ONE move, not two. The mechanism is proven; the path to autonomy is
 the pretrained base.
+
+### Stage 9.0/9.0b (2026-06-20) - the pretrained-base premise, MEASURED (verdict PARTIAL)
+A frozen-readout probe on Qwen2.5-7B-Instruct + Mistral-7B-Instruct-v0.3 (4-bit, FROZEN) tested whether
+pretraining exposes the binding the toy substrate failed at (Family-B 0.337). Result
+`PRETRAINING_BINDING_PARTIAL` (`docs/STAGE9_PRETRAINED_BINDING_RESULT.md`), negatives first:
+- **A frozen single-layer readout does NOT cleanly expose binding on both bases.** Qwen FAILS all three
+  pre-declared gates (value 0.585<0.70, wrong 0.158>0.15, cf-follow 0.555<0.60); Mistral passes but value
+  0.700 sits EXACTLY at the bar. Cross-binding ~0.15 on both -> multi-object separability still imperfect
+  even on 7B reps.
+- **But the binding is real and far above the toy substrate** (0.585/0.700 vs 0.337 vs chance 0.25), reads
+  the scene not a prior (counterfactual value-swap is followed), and ADDRESSING is robust (relation
+  0.87/0.97 - the traversal precondition).
+- **Family-A clean control closes the gap:** within a phrasing family the readout is clean (value
+  0.85/0.80, cross-bind 0.04/0.10); the ONLY residual difficulty is the A->B structural-phrasing transfer.
+  entity-pos on Family A falls to chance (0.22/0.23), confirming the earlier 9.0 "REFUTED" was purely a
+  causal-position measurement artifact.
+- **Next move = Stage 9.1**, framed NOT as a big fine-tune but as **re-stabilizing the proven D_Cortex
+  design on banks built from pretrained reps**: 9.1-A adapter-only (frozen base) to pull cross-binding
+  under 0.10, 9.1-B light LoRA only if needed, 9.1-C the full anti-cheat arc (text-absent, zeroed-memory
+  collapse, shuffled stored values, counterfactual overwrite, broken-chain abstain, LLM-direct baseline)
+  on NOVEL/COUNTERFACTUAL facts.
 
 ## Validity discipline (how every claim here was earned)
 Falsifiable pre-declared gates; lead with the dangerous direction (wrong-binding, cross-binding) not

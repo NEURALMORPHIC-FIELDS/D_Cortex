@@ -1662,5 +1662,24 @@
     },
     "meaning": "Scaling phrasing diversity to 16 did NOT make the substrate abstract phrasing-INVARIANCE: on a STRUCTURALLY-DISTINCT held-out family the binding is near chance (0.337), worse than Stage 7's random-split 0.52. Robust across 3 fine-tune seeds. Phrasing-invariance is SURFACE-FORM (paraphrase) generalization = a PRETRAINING property a from-scratch closed-vocab substrate lacks capacity for (entity-invariance generalized over a content slot; paraphrase does not). Foundation preserved (Stage U 0/140).",
     "next": "PORT the proven mechanism arc (Stage 5->5e) to a PRETRAINED base - extraction-binding from free text is coupled to pretraining, so the extraction frontier and the scale frontier MERGE into one move. Mechanism arc = durable asset; free-text extraction = pretraining property."
+  },
+  "step_50_stage9_pretrained_binding_probe_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured PARTIAL; necessary-not-sufficient for Stage 9.1)",
+    "track": "AUTONOMY FRONT-END: pretrained-base binding probe (frozen readout)",
+    "verdict": "PRETRAINING_BINDING_PARTIAL",
+    "files": {
+      "scripts/certify_stage9_0_pretrained_probe.py": "first probe; value verdict was a causal-position ARTIFACT (entity-token of a Family-A scene is upstream of the value on a causal decoder); relation result valid",
+      "scripts/certify_stage9_0b_causal_readout.py": "corrected causal readout (append 'The {e} is', read last token) + counterfactual value-swap, native-readout baseline, Family-A clean entity-pos control, layer sweep; 5 seeds x 200 eval, Qwen+Mistral 7B 4-bit frozen",
+      "docs/STAGE9_PRETRAINED_BINDING_RESULT.md": "negatives-first result + Stage 9.1 framing"
+    },
+    "gates": {
+      "bars": {"value_binding": 0.70, "wrong_binding_max": 0.15, "counterfactual_follow_min": 0.60},
+      "Qwen2.5-7B": {"value": 0.585, "wrong": 0.1575, "cf_follow": 0.555, "native": 0.6525, "entity_pos_B": 0.395, "entity_pos_A": 0.2225, "value_A": 0.8475, "relation": 0.87, "PASS": false},
+      "Mistral-7B-v0.3": {"value": 0.70, "wrong": 0.1475, "cf_follow": 0.6825, "native": 0.60, "entity_pos_B": 0.43, "entity_pos_A": 0.23, "value_A": 0.80, "relation": 0.97, "PASS": "at-bar"},
+      "small_substrate_baseline_familyB": 0.337,
+      "chance": 0.25
+    },
+    "meaning": "A frozen single-layer readout does NOT cleanly expose entity-value binding on both 7B bases (Qwen fails all 3 gates; Mistral at-bar; cross-binding ~0.15). But the binding is real and far above the toy substrate (0.337), reads the scene not a prior (counterfactual-follow), and addressing is robust (relation 0.87/0.97). Family-A clean control: entity_pos falls to chance (0.22/0.23) -> the 9.0 REFUTED was purely a causal-position artifact; in-family readout is clean (value 0.85/0.80, cross-bind 0.04/0.10) so the residual frontier is the A->B structural-phrasing transfer. native ~ value -> no large latent surplus over the model's native in-context answer.",
+    "next": "Stage 9.1 = re-stabilize the proven D_Cortex design on banks built from pretrained reps: 9.1-A adapter-only (frozen base) to pull cross-binding under 0.10; 9.1-B light LoRA only if needed; 9.1-C full anti-cheat arc (text-absent, zeroed-memory collapse, shuffled stored values, counterfactual overwrite, broken-chain abstain, LLM-direct baseline) on NOVEL/COUNTERFACTUAL facts. NOT a full fine-tune."
   }
 }

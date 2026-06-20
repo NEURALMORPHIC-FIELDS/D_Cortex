@@ -4,6 +4,43 @@ All notable changes to D_Cortex v2.0-alpha are documented in this file.
 
 Format: keep a changelog style. Dates in ISO 8601. Semantic versioning loosely applied.
 
+## [Stage 9.0/9.0b — pretrained binding probe, verdict PARTIAL] - 2026-06-20
+
+Tested the pretrained-base premise DIRECTLY: does a FROZEN 7B base (Qwen2.5-7B-Instruct +
+Mistral-7B-Instruct-v0.3, 4-bit) expose the entity-value binding the toy substrate failed at
+(Family-B 0.337)? Verdict `PRETRAINING_BINDING_PARTIAL`. Full detail:
+`docs/STAGE9_PRETRAINED_BINDING_RESULT.md`.
+
+### Measured (negatives first)
+- A frozen single-layer readout does NOT cleanly expose the binding on both bases: **Qwen FAILS all three
+  pre-declared gates** (value 0.585<0.70, wrong-binding 0.158>0.15, counterfactual-follow 0.555<0.60);
+  **Mistral passes but value 0.700 sits exactly at the 0.70 bar**. Cross-binding ~0.15 on both — the
+  multi-object separability frontier persists even on 7B reps.
+- The binding IS real and far above the toy substrate (0.585/0.700 vs 0.337 vs chance 0.25), reads the
+  scene not a prior (counterfactual value-swap followed), and addressing is robust (relation 0.87/0.97).
+- Native-readout (the model's own argmax: 0.65/0.60) ≈ the probed value — no large latent surplus over
+  the model's native in-context answer.
+
+### Validity work
+- Caught and corrected a causal-position MEASUREMENT ARTIFACT in the first probe
+  (`certify_stage9_0_pretrained_probe.py`): reading the entity token of a Family-A scene
+  ("the bear is big") is upstream of the value on a causal decoder → exactly chance. The corrected probe
+  (`certify_stage9_0b_causal_readout.py`) reads a causally valid position (append "The {e} is").
+- Adversarial design review (4-agent workflow, SGV) before the certifying run: replaced a vacuous
+  no-scene control with a counterfactual value-swap, added a native-readout baseline, scope caveats,
+  shuffled-split layer selection.
+- Clean Family-A entity-pos control: entity-pos falls to chance (0.22/0.23), confirming the 9.0 "REFUTED"
+  was purely the causal-position artifact; the Family-B headline reproduced byte-for-byte.
+
+### Next
+- Stage 9.1 = re-stabilize the proven D_Cortex design on banks built from pretrained reps (adapter-only →
+  light LoRA if needed → full anti-cheat arc on NOVEL/COUNTERFACTUAL facts), NOT a full fine-tune.
+
+### Files
+- New: `scripts/certify_stage9_0_pretrained_probe.py`, `scripts/certify_stage9_0b_causal_readout.py`,
+  `docs/STAGE9_PRETRAINED_BINDING_RESULT.md`. Updated: `docs/PROJECT_STATUS.md`, `docs/PROGRESS.md`,
+  `.claude/project_log.json`, `.claude/project_structure.json`. (Run outputs under `runs/` are gitignored.)
+
 ## [integration-spine arc — operate-over-memory PROVEN] - 2026-06-20
 
 Carried the vision (memory as the organ of thought) end to end on the NEURAL model. Every step a

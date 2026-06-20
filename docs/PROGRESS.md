@@ -410,3 +410,33 @@ Regula firmă: niciuna dintre direcții nu se începe fără un adapter scris ex
   generalitate sau scală.
 - **Succesor justificat**: portarea arcului dovedit (Stage 5→5e) pe o bază PREANTRENATĂ — extracția și
   scala fuzionează într-o singură mutare.
+
+---
+
+## [50] Stage 9.0/9.0b — Sonda de binding pe bază preantrenată înghețată (2026-06-20)
+
+- **Scop**: testarea DIRECTĂ a premisei pentru bază preantrenată — expune un readout înghețat (Qwen2.5-7B
+  + Mistral-7B, 4-bit, FROZEN) binding-ul entitate-valoare pe care substratul mic l-a ratat (Family-B
+  0.337)? Sondă, NU memorie; necesar-nu-suficient pentru Stage 9.1.
+- **Verdict**: **PRETRAINING_BINDING_PARTIAL** ([STAGE9_PRETRAINED_BINDING_RESULT.md](STAGE9_PRETRAINED_BINDING_RESULT.md)).
+- **NEGATIVE întâi**:
+  - Un readout înghețat single-layer NU expune binding-ul curat pe ambele baze. Qwen PICĂ toate 3 gate-
+    urile (value 0.585<0.70, wrong 0.158>0.15, cf-follow 0.555<0.60); Mistral trece dar value 0.700 fix
+    pe bară. Cross-binding ~0.15 pe ambele — separabilitatea multi-obiect încă imperfectă pe reps 7B.
+  - native-readout (0.65/0.60) ≈ value → fără surplus latent mare peste răspunsul nativ in-context.
+- **Real (după negative)**: binding prezent + mult peste substrat (0.585/0.700 vs 0.337 vs șansă 0.25);
+  cf-follow urmează swap-ul valorilor (citește scena, nu priorul); adresare/pointer robust (relation
+  0.87/0.97 — precondiția de traversare).
+- **Control curat Family-A**: entity_pos pe Family A (value-after-entity) cade la șansă (0.22/0.23) pe
+  ambele → refutarea din 9.0 a fost integral artefact de poziție cauzală. In-family readout-ul e curat
+  (value 0.85/0.80, cross-bind 0.04/0.10); frontiera reziduală e DOAR transferul structural-phrasing A→B.
+- **Disciplină de proces**: refutarea inițială din 9.0 (artefact propriu) prinsă înainte de raportare;
+  două erori de framing din statusul interimar prinse de auditor-ul Stop-hook și corectate (negativ-întâi;
+  entity_pos 0.395 NU e „≈șansă"); revizuire adversarială de design (workflow 4-agenți, SGV) → 1 blocant
+  (control no-scene vacuu) + 8 should-fix, toate aplicate înainte de rularea de certificare.
+- **Scope guard**: PASS-ul ar acoperi DOAR precondiția de readout — nu separabilitate multi-fact operabilă,
+  nu operate/compare/chain, nu abstain, nu overwrite. Query-ul „The {e} is" e frame canonic; doar SCENA
+  (Family B) + entitățile sunt held-out.
+- **Succesor justificat**: **Stage 9.1** — re-stabilizarea designului dovedit D_Cortex pe bănci din reps
+  preantrenate (adapter-only → LoRA ușor doar dacă e nevoie → arc anti-cheat complet pe fapte
+  NOVEL/COUNTERFACTUAL), NU full fine-tune.

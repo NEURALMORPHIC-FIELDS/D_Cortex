@@ -1392,6 +1392,36 @@
       ],
       "status": "success",
       "notes": "DECISIVE CALIBRATED NEGATIVE (anticipated): scaling phrasing diversity to 16 did NOT make the substrate abstract phrasing-INVARIANCE. On a STRUCTURALLY-DISTINCT held-out family the binding is near chance (0.337), WORSE than Stage 7's 0.52 (random split, near-duplicates). Robust across 3 fine-tune seeds (hardens the Stage 7 single-seed caveat). Entity-invariance generalized (Step 2) over a CONTENT slot; phrasing-invariance is SURFACE-FORM generalization (paraphrase-robustness), a pretraining/language-understanding property a from-scratch closed-vocab substrate lacks the capacity for. Foundation preserved (Stage U 0/140). NEXT MOVE: port the proven mechanism arc (5->5e) to a PRETRAINED base - extraction and scale MERGE into one frontier. The mechanism arc is the durable asset; free-text extraction is a pretraining property. The negative FOCUSES the program (one move not two), does not stall it."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "15:22",
+      "requested": "Resume Stage 9.0: frozen pretrained binding readout probe (Qwen2.5-7B + Mistral-7B) - does pretraining expose the entity-value binding the small from-scratch substrate failed at (Family-B 0.337)?",
+      "executed": "Built+ran certify_stage9_0_pretrained_probe.py -> value ~chance (Qwen 0.2042, Mistral 0.2458), relation strong (0.875/0.967). DIAGNOSED the near-chance value result as a CAUSAL-POSITION MEASUREMENT ARTIFACT (the probe read the rep at the ENTITY TOKEN of a bare Family-A scene 'the bear is big' - on a causal decoder that position is upstream of the value -> trained on noise -> exactly chance; 9.0 relation result is valid). Built certify_stage9_0b_causal_readout.py with a CAUSALLY VALID readout (append 'The {e} is', read last token). Ran a 4-agent adversarial design review (workflow, SGV): 1 blocking + 8 should-fix. APPLIED: replaced the vacuous no-scene control (forced ~chance by random labels -> misleading indicator) with a counterfactual value-SWAP control (anti-prior + 9.1 anti-cheat), added a train-free native-readout baseline, scope caveats (readout-precondition only; query canonical; relation reported-not-gated), shuffled-split layer selection, entity-pos guard + whole-word matching. Ran 9.0b (5 seeds x 200 eval, both 7B). RESULT verdict PRETRAINING_BINDING_PARTIAL: Qwen FAILS all 3 gates (value 0.585<0.70, wrong 0.158>0.15, cf 0.555<0.60); Mistral PASSES all 3 but value 0.700 EXACTLY at bar (wrong 0.1475, cf 0.6825). Binding present + far above substrate 0.337 + cf-follow tracks the swap (real, not leakage), but cross-binding ~0.15 on both (multi-object separability still imperfect) and native-readout (Qwen 0.653, Mistral 0.600) ~ value (no large latent surplus). Relation/addressing robust (0.87/0.97). entity_pos_artifact 0.395/0.43 ABOVE chance (Family-B value-first leaks to entity pos - NOT a clean 9.0-artifact repro).",
+      "files_touched": [
+        "scripts/certify_stage9_0_pretrained_probe.py",
+        "scripts/certify_stage9_0b_causal_readout.py",
+        "docs/STAGE9_PRETRAINED_BINDING_RESULT.md",
+        "runs/stage9_0b_causal/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "partial",
+      "notes": "ANTI-CONFABULATION NOTE: 9.0's 'REFUTED' was MY measurement artifact (causal position), caught by me before reporting it as a finding; 9.0b corrects it. Stop-hook auditor then caught two real framing errors in my interim status (I led positive instead of negatives-first while Qwen failed all 3 gates; I mislabeled entity_pos 0.395 as '~chance' when it is 58% above chance) - both accepted and corrected, source of the corrected entity_pos interpretation above. HONEST TAKEAWAY for Stage 9.1: GREEN on addressing (relation pointer solid on both bases); AMBER on value-binding (present + above substrate but NOT clean at a frozen readout - model-dependent, borderline, ~0.15 cross-bind). 9.1 CANNOT rely on a pure frozen-base readout for clean 2-object separation; needs a trained adapter AND likely a light base fine-tune to sharpen co-occurring-fact separability (the root frontier), then the full anti-cheat arc on NOVEL/COUNTERFACTUAL facts. KNOWN LIMITATION: the 9.0b entity_pos control reads Family B (value-first) so it is not a clean 9.0-artifact repro; a clean control would read entity-pos on Family A. NOT yet committed/pushed (awaiting user go)."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "16:06",
+      "requested": "Close the known limitation before making main canonical: clean entity-pos reproduction on Family A (where the 9.0 bug arose), reported separately, without changing thresholds.",
+      "executed": "Parametrized certify_stage9_0b_causal_readout.py value_eval_reps by phrasing family; added a Family-A eval AFTER the relation reps so the Family-B (headline) and relation RNG draws are byte-identical -> Family-B numbers REPRODUCED EXACTLY (Qwen value 0.585/wrong 0.1575/cf 0.555/entity_pos_B 0.395; Mistral 0.700/0.1475/0.6825/0.430), verdict PRETRAINING_BINDING_PARTIAL unchanged. CLEAN Family-A entity-pos control: entity_pos_A = 0.2225 (Qwen) / 0.230 (Mistral), AT chance 0.25 on both -> the 9.0 REFUTED was FULLY a causal-position artifact on the exact family it arose. Family-A reference (in-family, held-out entities only): value 0.848/0.800, wrong 0.043/0.103, cf 0.850/0.818 -> the readout is CLEAN within a phrasing family; the residual frontier is isolated to the A->B structural-phrasing transfer (value 0.85->0.585 Qwen, 0.80->0.70 Mistral).",
+      "files_touched": [
+        "scripts/certify_stage9_0b_causal_readout.py",
+        "docs/STAGE9_PRETRAINED_BINDING_RESULT.md",
+        "runs/stage9_0b_causal/results/verdict.json",
+        ".claude/project_log.json"
+      ],
+      "status": "success",
+      "notes": "GAP CLOSED. The Family-A clean control confirms the 9.0 artifact diagnosis with no residual ambiguity (entity_pos_A ~ chance on both bases) while the Family-B headline reproduced byte-for-byte (determinism + the addition perturbs nothing upstream). SHARPENED DIAGNOSIS for Stage 9.1: pretrained reps give a CLEAN entity-value readout within a phrasing family (value ~0.8, cross-bind ~0.04-0.10); the ONLY residual difficulty is structural-phrasing (Family A->B) invariance - the same paraphrase-robustness frontier Stage 8 found on the toy substrate, here much milder (0.585-0.70 vs 0.337) but present. Stage 9.1 adapter/LoRA objective is precisely to close the A->B gap and pull cross-binding under 0.10. Ready to commit to main (verdict PARTIAL)."
     }
   ]
 }
