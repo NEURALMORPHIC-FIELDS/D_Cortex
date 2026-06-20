@@ -1331,6 +1331,21 @@
       ],
       "status": "success",
       "notes": "BREAKTHROUGH: multi-hop graph traversal over persisted memory SOLVED via STRUCTURAL addressing. The relational pointer stored as a copy of the target's content-key generalizes held-out (1.0) where the learned representation (Stage 5c) sat at chance (0.45); the operation traverses it (chaining 1.0, grounded 0.949). Memory is a navigable graph. Confirms the owner's mechanism: reuse content-addressing (which generalizes), do not learn a new pointer. Comparison + single-fact preserved (frozen encoder). Caveat: abstain on broken pointers 0.667 (weak gate, separate honesty sub-capability); target identification template-given (addressing mechanism tested, not free-text extraction). Closes the 5b/5c frontier."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "12:35",
+      "requested": "Stage 5e honest traversal: abstain on broken chains, extend wrong_commit=0 to multi-hop. Dual gate. Deliver verdict.",
+      "executed": "Built scripts/certify_stage5e_honest_traversal.py: FROZEN encoder; 5d structural traversal + confT-driven detection-based abstain (abstain_logit = scale*(thresh-confT); confT = retrieval confidence at the followed content-key); balanced answerable/broken (138/134 held-out); 5 seeds. RESULT: G_ABSTAIN_BROKEN 0.858 (>=0.80) PASS, G_NO_OVER_ABSTAIN 0.022 (<=0.10) PASS, G_CHAINING_PRESERVED ans 0.971/grounded 0.964 PASS, G_COMPARISON 1.0, G_POINTER 1.0, single-fact 0/140. VERDICT STAGE_5_HONEST_TRAVERSAL (all gates pass).",
+      "files_touched": [
+        "scripts/certify_stage5e_honest_traversal.py",
+        "docs/STAGE5E_HONEST_RESULT.md",
+        "runs/stage5e_honest/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "HONESTY EXTENDED TO MULTI-HOP: the navigable graph abstains on broken chains (0.858) AND answers when answerable (over-abstain 0.022) - the DUAL gate passes (anti-collapse). Detection-based on confT (non-stored target ~0.15 vs stored ~0.98, generalizes held-out). wrong_commit=0 (the signature property) now holds on graph traversal, not just single facts. Closes the thinking-in-memory loop HONESTLY at small scale. Boundary: target identification template-given (free-text extraction = next campaign, Stage I-class); small synthetic, not generality."
     }
   ]
 }

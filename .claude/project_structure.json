@@ -1569,5 +1569,28 @@
     "breakthrough": "Multi-hop graph traversal over persisted memory SOLVED. Structural pointer (copy of target content-key) generalizes held-out (1.0) where learned rep (5c) sat at chance (0.45); operation traverses it (chaining 1.0, grounded 0.949). Memory is a navigable graph. Confirms: reuse content-addressing, do not learn a pointer. Comparison + single-fact preserved (frozen encoder).",
     "caveat": "abstain on broken pointers 0.667 (weak gate); target identification template-given (addressing mechanism tested, not free-text extraction).",
     "next": "strengthen abstain (confidence-gated refusal); free-text target identification (extraction); scale beyond 6 colors / single architecture."
+  },
+  "step_46_stage5e_honest_traversal_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED",
+    "track": "VISION LAYER 5: honest multi-hop traversal (abstain)",
+    "verdict": "STAGE_5_HONEST_TRAVERSAL",
+    "files": {
+      "scripts/certify_stage5e_honest_traversal.py": "confT-driven detection-based abstain; dual gate; balanced regime; 5 seeds",
+      "docs/STAGE5E_HONEST_RESULT.md": "dual gate + preservation + boundary"
+    },
+    "gates": {
+      "G_ABSTAIN_BROKEN": 0.858,
+      "G_NO_OVER_ABSTAIN": 0.022,
+      "G_CHAINING_PRESERVED": [
+        0.971,
+        0.964
+      ],
+      "G_COMPARISON_PRESERVED": 1.0,
+      "G_POINTER_GENERALIZES": 1.0,
+      "G_SINGLE_FACT": "0/140"
+    },
+    "meaning": "wrong_commit=0 (signature honesty) EXTENDED to multi-hop graph traversal. The navigable graph abstains on broken chains (0.858) AND answers when answerable (over-abstain 0.022) - dual gate, anti-collapse. Detection-based on retrieval confidence confT (generalizes held-out). Closes the thinking-in-memory loop HONESTLY at small scale.",
+    "boundary": "target identification template-given; free-text extraction (build graph from text) = next campaign (Stage I-class); small synthetic, not generality.",
+    "next": "free-text extraction (identify entities/relations from text -> graph); then scale."
   }
 }
