@@ -1527,5 +1527,26 @@
     "meaning": "Operation-layer pointer recovery from the FROZEN relational bank value does NOT achieve generalizable graph traversal (chaining 0.32, grounded 0.25); comparison preserved (1.0). The cheaper coupled fix (recovery-in-operation) is refuted; the encoder relational-WRITING extension (pointer-write fine-tune) is the indicated necessary next step.",
     "caveat": "in-sample vs held-out recovery undiagnosed.",
     "next": "extend encoder relational writing (pointer-write fine-tune) so B's slot stores target key recoverably; re-run this cert; optional in-sample recovery probe."
+  },
+  "step_44_stage5c_pointer_write_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured negative)",
+    "track": "VISION LAYER 5: relational pointer-write / graph traversal",
+    "verdict": "STAGE_5_POINTER_REFUTED",
+    "files": {
+      "scripts/certify_stage5c_pointer_write.py": "STEP 0 diagnostic + encoder pointer-write fine-tune + re-test; 5 seeds",
+      "docs/STAGE5C_POINTER_RESULT.md": "negative + the deep value-vs-pointer generalization finding"
+    },
+    "gates": {
+      "STEP0_recovery_in": 0.985,
+      "STEP0_recovery_held": 0.355,
+      "G_POINTER_RECOVERY_held": 0.5,
+      "G_CHAINING_BANK": 0.382,
+      "G_CHAIN_GROUNDED": 0.35,
+      "G_ABSTAIN": 0.381,
+      "G_COMPARISON_PRESERVED": 1.0,
+      "G_SINGLE_FACT_PRESERVED_cosine": 1.0
+    },
+    "deep_finding": "VALUE-identity separability generalizes across entities (Step 2 0.92 held-out); RELATIONAL-POINTER address does NOT (in-sample 1.0, held-out 0.50 even after dedicated pointer-write). Architecture operates on per-object VALUES over persisted memory (comparison, Stage 5) but cannot store a GENERALIZABLE relational POINTER -> memory not yet a navigable graph; multi-hop traversal blocked by encoder relational-pointer non-generalization, not the operation. Single-fact + comparison preserved (distill cosine 1.0).",
+    "next": "a different relational-addressing mechanism (dedicated relational key space / structural key-copy / address-binding objective), not value separability. Caveat: one pointer-write recipe refuted."
   }
 }

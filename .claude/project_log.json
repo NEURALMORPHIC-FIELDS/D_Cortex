@@ -1301,6 +1301,21 @@
       ],
       "status": "success",
       "notes": "NEGATIVE (clean, falsifiable): the cheaper coupled fix (pointer-recovery IN THE OPERATION LAYER, aux-supervised, frozen encoder) is REFUTED - the frozen relational bank value does not expose a recoverable, held-out-generalizable address to the target slot. Operation trains fine (comparison 1.0) but recovery/traversal does not generalize. Indicated next step: EXTEND THE ENCODER'S RELATIONAL WRITING (pointer-write, a small fine-tune) so B's slot stores A's key as a first-class recoverable pointer - the deferred encoder-side fix is necessary, operation-side alone insufficient. Caveat: in-sample vs held-out recovery undiagnosed. Single-step operation over banks remains DEMONSTRATED+grounded (Stage 5); graph traversal is the precise remaining frontier, fix on the encoder."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "11:30",
+      "requested": "Stage 5c encoder pointer-write: store relational pointers as first-class followable addresses; STEP 0 diagnostic + pointer-write + re-test. Deliver verdict.",
+      "executed": "Built scripts/certify_stage5c_pointer_write.py: STEP 0 (frozen recovery in-sample/held-out), pointer-write fine-tune of encoder.blocks (contrastive recover(B_value)->target key + distillation preservation of non-relational values; keys stable since address path not trained), re-test graph traversal with Stage 5b operation on real banks. 5 seeds, held-out 14/16. RESULT: STEP 0 in 0.985/held 0.355 (entity-specific). After pointer-write: G_POINTER_RECOVERY held-out 0.500 (in-sample 1.000) FAIL bar 0.90; G_CHAINING_BANK 0.382, G_CHAIN_GROUNDED 0.350 FAIL; G_ABSTAIN 0.381 FAIL; G_COMPARISON_PRESERVED 1.0 PASS; single-fact preservation cosine 1.0 PASS. VERDICT STAGE_5_POINTER_REFUTED.",
+      "files_touched": [
+        "scripts/certify_stage5c_pointer_write.py",
+        "docs/STAGE5C_POINTER_RESULT.md",
+        "runs/stage5c_pointer/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "DEEP FINDING (the result of the 5b/5c arc): VALUE-identity separability GENERALIZES across entities (Step 2 0.92 held-out) but RELATIONAL-POINTER address does NOT (in-sample 1.0, held-out 0.50 even with dedicated pointer-write). The architecture operates on per-object VALUES over persisted memory (comparison demonstrated+grounded, Stage 5) but cannot store a GENERALIZABLE relational POINTER -> memory is not yet a navigable graph; multi-hop traversal blocked by the encoder's relational-pointer non-generalization, not the operation. Single-fact + comparison preserved perfectly (distill cosine 1.0). Next frontier: a different relational-addressing mechanism (dedicated relational key space / structural key-copy / address-binding objective), not value separability. Caveat: one pointer-write recipe; refutes THIS recipe strongly, localizes the limit."
     }
   ]
 }
