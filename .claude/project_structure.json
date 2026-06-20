@@ -1681,5 +1681,58 @@
     },
     "meaning": "A frozen single-layer readout does NOT cleanly expose entity-value binding on both 7B bases (Qwen fails all 3 gates; Mistral at-bar; cross-binding ~0.15). But the binding is real and far above the toy substrate (0.337), reads the scene not a prior (counterfactual-follow), and addressing is robust (relation 0.87/0.97). Family-A clean control: entity_pos falls to chance (0.22/0.23) -> the 9.0 REFUTED was purely a causal-position artifact; in-family readout is clean (value 0.85/0.80, cross-bind 0.04/0.10) so the residual frontier is the A->B structural-phrasing transfer. native ~ value -> no large latent surplus over the model's native in-context answer.",
     "next": "Stage 9.1 = re-stabilize the proven D_Cortex design on banks built from pretrained reps: 9.1-A adapter-only (frozen base) to pull cross-binding under 0.10; 9.1-B light LoRA only if needed; 9.1-C full anti-cheat arc (text-absent, zeroed-memory collapse, shuffled stored values, counterfactual overwrite, broken-chain abstain, LLM-direct baseline) on NOVEL/COUNTERFACTUAL facts. NOT a full fine-tune."
+  },
+  "step_51_stage9_1a0_llm_ignorance_prescreen_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (validity foundation for the 9.1 arc)",
+    "track": "AUTONOMY: Stage 9.1-A0 - LLM-ignorance pre-screen (the first step of 9.1-A)",
+    "verdict": "PRESCREEN_OK",
+    "files": {
+      "scripts/certify_stage9_1a0_prescreen.py": "4-option MC pre-screen (chance 0.25), 70 candidates (52 invented private micro-domain + 18 counterfactual overwrites), K=4 phrasings, instruct chat template, letter-logit forced pick + confidence; eligibility requires BOTH bases acc<=0.50 AND conf<=0.45",
+      "runs/stage9_1a0_prescreen/results/eligible_facts.json": "GITIGNORED - the 59 validated facts feeding 9.1-A"
+    },
+    "gates": {
+      "eligible": "59/70 (41 invented + 18 counterfactual)",
+      "dropped": "11 (ALL invented; guessing-variance false-positives, not genuine base knowledge)",
+      "eligible_direct_accuracy_Qwen": 0.1229,
+      "eligible_direct_accuracy_Mistral": 0.1441,
+      "chance": 0.25,
+      "counterfactual_survival": "18/18 (base confidently picks the REAL value, never the stored counterfactual)"
+    },
+    "meaning": "Validity foundation for Stage 9.1 is in place: a 59-fact set on which BOTH frozen bases answer at/below chance with NO memory (reported separately, no average). The 18 counterfactuals are the cleanest memory-must-override-prior facts (acc ~0, confidently wrong); the 41 invented are genuine ignorance (~chance, flat confidence). The sub-chance eligible accuracy is driven by the counterfactuals, not an artifact. The LLM-direct baseline now provably fails on this set, so the 9.1-A arc on it measures D_Cortex memory, not LLM prior.",
+    "next": "9.1-A adapter-only on the eligible set: frozen base, memory banks built from pretrained hidden states via a trained adapter (reuse STRUCTURAL addressing, do NOT learn pointer reps), target cross-binding <0.10, with text-absent query + zeroed-memory collapse + shuffled-stored-value + counterfactual-overwrite controls and the LLM-direct baseline."
+  },
+  "step_52_stage9_1a_b_adapter_outcome_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (honest, after 3 overclaim-retractions by adversarial review)",
+    "track": "AUTONOMY: Stage 9.1-A/B - frozen-base + trained-adapter D_Cortex re-stabilization",
+    "verdict": "9.1-A: STAGE_9_1A_ADAPTER_INSUFFICIENT (RAG-equivalent). 9.1-B: STAGE_9_1B_MODEL_DEPENDENT_PARTIAL",
+    "files": {
+      "scripts/certify_stage9_1a_adapter.py": "faithful bank, raw-storage frozen value decode, FSL/ent_q baselines, held-out-by-value, multi-slot, honest FSL-margin gate",
+      "scripts/certify_stage9_1b_confusable_addressing.py": "confusable entities, cross-phrasing query (non-self-match), trained addressing vs frozen routing, held-out confusable"
+    },
+    "key_numbers": {
+      "9.1-A_value_margin_over_FSL": {"Qwen": -0.002, "Mistral": 0.029, "meaning": "trained value path does NOT beat a zero-param frozen lookup -> value recovery is a frozen base property (RAG)"},
+      "9.1-A_addressing@10": {"both": 1.0, "caveat": "ORTHOGONAL entities = trivial 1-of-10 routing, NOT separability"},
+      "9.1-B_trained_vs_frozen_addr@10": {"Qwen": "1.0 vs 0.90 (margin 0.10, FAIL)", "Mistral": "1.0 vs 0.775 (margin 0.225, PASS)"},
+      "9.1-B_caveats": "n_max=10 not 50 (test set 48); entities differ by a CLEAN number token (feature-separable, not entangled); trained saturated 1.0; model-dependent"
+    },
+    "meaning": "A FROZEN base + trained ADAPTER yields a faithful content-addressable KV store / RAG-equivalent (9.1-A) plus MODEST, model-dependent routing-sharpening among confusable-context entities (9.1-B Mistral), but does NOT cross the multi-object separability/binding frontier. The value path is a frozen base property (does not beat a frozen lookup); addressing among orthogonal entities is trivial; learned separability among confusable entities is modest and only at n<=10 on feature-separable entities. THE DISCIPLINE caught 3 overclaims (string-self-match decode; positive framing of a failing run; moved-goalpost from FSL to ent_q-alone).",
+    "next": "The genuine frontier (cross-binding ~0.15 of CO-OCCURRING values, localized in 9.0b) is NOT addable by a frozen-base adapter -> it points back to the Step-2 finding: separability is TRAINABLE INTO THE BASE (from-scratch substrate got 0.92), not into a frozen base via an adapter. Honest options: strengthen 9.1-B (n=50 + truly-entangled entities + adversarial review) OR move to base-touching (light LoRA that changes base reps, porting the proven Step-2 separability recipe to the pretrained base) OR consolidate the honest RAG-ceiling conclusion. Architect to decide."
+  },
+  "step_53_stage9_1b_entangled_refuted_and_arc_closure_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (clean negative; frozen-base adapter direction CLOSED + consolidated)",
+    "track": "AUTONOMY: Stage 9.1-B entangled-entity stress test (architect chose 'strengthen to a strong claim') + 9.1 arc consolidation",
+    "verdict": "STAGE_9_1B_CONFUSABLE_SEPARABILITY_REFUTED (both bases)",
+    "files": {
+      "scripts/certify_stage9_1b_confusable_addressing.py": "ENTANGLED entities = ordered pairs of shared symbols (order-only difference), cross-phrasing query (non-self-match), trained addressing vs FROZEN routing, held-out, n=2/10/50",
+      "docs/STAGE9_1_ADAPTER_ARC_RESULT.md": "consolidated honest 9.1 arc (the single source for the frozen-base adapter conclusion)"
+    },
+    "gates": {
+      "entanglement_confusability_mean": {"Qwen": 0.9546, "Mistral": 0.9513},
+      "frozen_routing@50": {"Qwen": 0.06, "Mistral": 0.04, "meaning": "~chance -> entities genuinely entangled; raw reps cannot separate order"},
+      "trained_addressing": {"n2": "0.97/0.94", "n10": "0.83/0.74", "n50": "0.48/0.46 (FAIL vs 0.80 bar)"},
+      "verdict": "REFUTED both bases: separability does NOT hold at scale (n=50)"
+    },
+    "meaning": "FINAL: a frozen base + trained adapter does NOT cross the multi-object separability/binding frontier. Trained addressing learns a real, held-out order-binding signal that beats frozen-chance at every scale but DEGRADES MONOTONICALLY and FAILS at n=50 -> scale-fragile, REFUTED. Combined with 9.1-A (value path = frozen base property, RAG-equivalent), the frozen-base adapter direction is CLOSED. The separability frontier requires BASE TRAINING (Step-2 recipe). Architect chose CONSOLIDATE + COMMIT.",
+    "next": "Base-touching (light LoRA that changes base reps, porting the proven Step-2 separability recipe to a pretrained base; test if cross-binding ~0.15 drops below 0.10 when the base moves) is the honest next move - DELIBERATELY DEFERRED as a separate, larger decision (real fine-tune, different risk profile). NOT more frozen-base adapter work. dcortex/ + steps/ SEALED."
   }
 }

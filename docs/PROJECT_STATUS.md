@@ -96,6 +96,21 @@ pretraining exposes the binding the toy substrate failed at (Family-B 0.337). Re
   collapse, shuffled stored values, counterfactual overwrite, broken-chain abstain, LLM-direct baseline)
   on NOVEL/COUNTERFACTUAL facts.
 
+### Stage 9.1 OUTCOME (2026-06-20) - the frozen-base adapter direction is CLOSED (`docs/STAGE9_1_ADAPTER_ARC_RESULT.md`)
+A frozen base + a trained adapter yields a faithful content-addressable KV store (RAG-equivalent) plus
+small-N routing-sharpening that does NOT scale. It does NOT cross the separability frontier.
+- **9.1-A0** pre-screen OK (validity foundation: 74 facts the base cannot answer).
+- **9.1-A INSUFFICIENT** - the value path does NOT beat a zero-param frozen lookup (value_margin_over_FSL
+  -0.002 / +0.029); once addressing returns the slot, the value is a FROZEN base property. RAG-equivalent.
+- **9.1-B REFUTED** - on genuinely ENTANGLED entities (order-only difference, frozen routing at chance at
+  scale), trained addressing separates at small N (n=10: 0.83/0.74) but DEGRADES and FAILS at n=50 (0.48 /
+  0.46 vs 0.80 bar), BOTH bases.
+- Three overclaims were caught by adversarial review and retracted before reporting (string-self-match
+  decode; moved gate FSL->ent_q-alone; positive framing of a failing run) - the negatives are load-bearing.
+- **The separability/binding frontier (cross-binding ~0.15, 9.0b) requires BASE TRAINING** (the proven
+  Step-2 recipe: separability is TRAINABLE INTO THE BASE, 0.92 from-scratch), NOT a frozen-base adapter.
+  Base-touching (light LoRA) is the honest next move, deliberately deferred as a separate decision.
+
 ## Validity discipline (how every claim here was earned)
 Falsifiable pre-declared gates; lead with the dangerous direction (wrong-binding, cross-binding) not
 raw recovery; bank-grounded / chain-grounded controls (shuffle the store -> the answer must follow);

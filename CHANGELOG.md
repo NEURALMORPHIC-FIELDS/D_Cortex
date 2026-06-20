@@ -4,6 +4,40 @@ All notable changes to D_Cortex v2.0-alpha are documented in this file.
 
 Format: keep a changelog style. Dates in ISO 8601. Semantic versioning loosely applied.
 
+## [Stage 9.1 — frozen-base adapter arc, CLOSED (RAG ceiling; separability needs base training)] - 2026-06-20
+
+Re-stabilized the proven D_Cortex design on banks built from FROZEN pretrained reps with a trained
+adapter, and stress-tested the separability frontier. Full detail: `docs/STAGE9_1_ADAPTER_ARC_RESULT.md`.
+
+### Measured (negatives first)
+- **9.1-A `STAGE_9_1A_ADAPTER_INSUFFICIENT`**: the value path does NOT beat a zero-parameter frozen lookup
+  of the stored value rep (value_margin_over_FSL = -0.002 Qwen / +0.029 Mistral). Once content-addressing
+  returns the slot (addressing=1.0), the value is a FROZEN base-model property, not a trained capability ->
+  a faithful content-addressable KV store, i.e. RAG-equivalent, nothing D_Cortex-specific beyond it.
+- **9.1-B `STAGE_9_1B_CONFUSABLE_SEPARABILITY_REFUTED`**: on genuinely ENTANGLED entities (ordered pairs of
+  shared symbols; frozen routing collapses to ~chance at scale), trained addressing separates at small N
+  (n=10: 0.83/0.74) but DEGRADES monotonically and FAILS at n=50 (0.48 / 0.46 vs the 0.80 bar), both bases.
+- **9.1-A0** pre-screen OK (74 facts the base provably cannot answer - the validity foundation).
+
+### Validity work
+- THREE overclaims were caught by adversarial review (workflows) and retracted BEFORE reporting:
+  a string-self-match canonical decode (no frozen-lookup baseline); a "PROVEN" reached by moving the gated
+  baseline from FSL (which it fails) to a near-chance ent_q-alone baseline; and positive framing of a run
+  that failed its own pre-declared gates. The certs were made honest (the decisive value_margin_over_FSL
+  gate is now in the script). The negatives are the load-bearing result.
+
+### Conclusion / next
+- A frozen base + trained adapter = RAG-equivalent KV store + small-N routing-sharpening that does not
+  scale. The multi-object separability / binding frontier (cross-binding ~0.15, Stage 9.0b) is NOT
+  crossable by a frozen-base adapter; it requires BASE TRAINING (the proven Step-2 recipe). The honest
+  next move is base-touching (light LoRA changing base reps), deliberately deferred as a separate decision.
+
+### Files
+- New: `scripts/certify_stage9_1a0_prescreen.py`, `scripts/certify_stage9_1a_adapter.py`,
+  `scripts/certify_stage9_1b_confusable_addressing.py`, `docs/STAGE9_1_ADAPTER_ARC_RESULT.md`.
+  Updated: `docs/PROJECT_STATUS.md`, `docs/PROGRESS.md`, `.claude/project_log.json`,
+  `.claude/project_structure.json`. (Run outputs under `runs/` are gitignored.)
+
 ## [Stage 9.0/9.0b — pretrained binding probe, verdict PARTIAL] - 2026-06-20
 
 Tested the pretrained-base premise DIRECTLY: does a FROZEN 7B base (Qwen2.5-7B-Instruct +

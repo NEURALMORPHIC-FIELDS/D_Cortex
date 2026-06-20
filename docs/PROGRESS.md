@@ -440,3 +440,26 @@ Regula firmă: niciuna dintre direcții nu se începe fără un adapter scris ex
 - **Succesor justificat**: **Stage 9.1** — re-stabilizarea designului dovedit D_Cortex pe bănci din reps
   preantrenate (adapter-only → LoRA ușor doar dacă e nevoie → arc anti-cheat complet pe fapte
   NOVEL/COUNTERFACTUAL), NU full fine-tune.
+
+---
+
+## [51] Stage 9.1 — Adapter pe base înghețat: plafon RAG, frontiera cere base training (2026-06-20)
+
+- **Scop**: re-stabilizarea designului D_Cortex pe bănci din reps preantrenate cu adapter antrenat, bază
+  înghețată; testul: traversează un adapter frontiera de separabilitate multi-obiect?
+- **Verdict consolidat** ([STAGE9_1_ADAPTER_ARC_RESULT.md](STAGE9_1_ADAPTER_ARC_RESULT.md)): **DIRECȚIA
+  ÎNCHISĂ** — un base înghețat + adapter = KV-store content-addressable fidel (echivalent RAG) + ascuțire
+  de routing la N mic care NU scalează. NU traversează frontiera.
+- **9.1-A0** pre-screen OK (fundație de validitate: 74 fapte pe care baza nu le poate răspunde).
+- **9.1-A INSUFFICIENT**: calea de valoare NU bate un lookup înghețat (value_margin_over_FSL −0.002/+0.029);
+  odată ce adresarea întoarce slotul, valoarea e proprietate ÎNGHEȚATĂ a bazei. Echivalent RAG.
+- **9.1-B REFUTED**: pe entități genuin ÎNTREȚESUTE (diferență doar de ordine; frozen routing la șansă la
+  scară), adresarea antrenată separă la N mic (n=10: 0.83/0.74) dar DEGRADEAZĂ și PICĂ la n=50 (0.48/0.46 vs
+  bara 0.80), pe AMBELE baze.
+- **Disciplină de proces**: 3 supra-afirmări prinse de review adversarial și RETRASE înainte de raport
+  (self-match de string; gate mutat FSL→ent_q-alone; framing pozitiv al unei rulări care pică). Negativele
+  sunt rezultatul portant.
+- **Localizare**: frontiera de separabilitate/binding (cross-binding ~0.15, 9.0b) cere **BASE TRAINING**
+  (rețeta Step-2: separabilitate antrenabilă ÎN bază, 0.92 from-scratch), NU un adapter pe base înghețat.
+- **Succesor justificat**: base-touching (LoRA ușor care schimbă reps-urile bazei) — decizie deliberată
+  separată, NU continuare pe adapter-frozen.
