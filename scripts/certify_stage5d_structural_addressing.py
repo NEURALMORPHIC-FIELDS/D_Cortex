@@ -346,6 +346,8 @@ def main() -> int:
                      "FROZEN encoder; held-out; single machine. NOT generality, NOT free-text. Target identification "
                      "is template-given (the extraction sub-problem is separate); this tests the ADDRESSING mechanism."),
            "meaning": {
+               "STAGE_5_GRAPH_TRAVERSAL_PROVEN": "structural pointer generalizes held-out AND the operation traverses "
+                   "it (chaining + grounded pass); abstain on broken pointers is the separate weak gate.",
                "STAGE_5_GRAPH_COMPLETE": "structural pointer generalizes AND the operation traverses it (grounded) -> "
                    "memory is a navigable graph; thinking-in-memory closed at small scale (per-object op + traversal).",
                "STAGE_5_POINTER_OK_TRAVERSAL_FAIL": "structural pointer generalizes but the operation does not traverse "

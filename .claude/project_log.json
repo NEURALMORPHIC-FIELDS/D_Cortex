@@ -1361,6 +1361,22 @@
       ],
       "status": "success",
       "notes": "DECISIVE NEGATIVE (anticipated): the frozen templated-trained substrate does NOT expose value/relation bindings from VARIED phrasing. Step 2 generalized across ENTITIES (phrasing fixed), not across PHRASINGS -> varied surface structure is OOD. wrong-binding 0.38 = fabrication, not honest. Extraction-binding from varied phrasing is a SUBSTRATE property, not recoverable by an external readout. Stage-I-redux at the phrasing level. HONEST NUANCE: abstain_broken 0.96 - the 5e confT-honesty mechanism TRANSFERS (broken target -> low confidence -> abstain); only BINDING is substrate-limited. NEXT MOVE (clear): substrate fine-tune on VARIED PHRASING (the Step-2 move one level up), then re-run this cert. The MECHANISM arc (Stage 5-5e) is complete; the free-text EXTRACTION front-end is not yet closed - this localizes the work exactly."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "14:10",
+      "requested": "Stage 7: substrate fine-tune for phrasing-robust extraction (Step 2 one level up), with MANDATORY full arc re-verification on the new substrate. Deliver verdict.",
+      "executed": "Built scripts/train_substrate_phrasing.py: gentle fine-tune of encoder.blocks (52 tensors) + value/relation heads on mixed templated+varied phrasing toward value/relation targets + distillation anchoring templated bank-writes; saved COPY ckpt_multiobject_phrase.pt (templated bank preservation cosine 1.0). Fixed a verdict-dict bug in certify_stage5d (missing GRAPH_TRAVERSAL_PROVEN meaning key). Re-verified the arc by re-running the proven certs on the new substrate. RESULT - extraction re-test (certify_stage6 --ckpt new): STILL STAGE_6_SUBSTRATE_LIMITED (value 0.52, wrong 0.42, unchanged). Arc re-verification: Stage U 0/140; comparison 0.881; 5d traversal chaining 1.0/grounded 0.994/pointer 1.0; 5e abstain 0.836/over 0.007/chaining 0.993 - ALL PRESERVED. VERDICT STAGE_7_PHRASING_REFUTED.",
+      "files_touched": [
+        "scripts/train_substrate_phrasing.py",
+        "scripts/certify_stage5d_structural_addressing.py",
+        "docs/STAGE7_SUBSTRATE_RESULT.md",
+        "runs/stage7_substrate/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "Two things decided it together: (1) extraction did NOT improve - fine-tune on ~4 training phrasings did not generalize to held-out phrasings (value 0.52, wrong-binding 0.42 unchanged); memorization not abstraction. (2) the proven arc FULLY SURVIVED on the new substrate (Stage U 0/140, comparison 0.88, traversal 1.0/0.994, honest abstain 0.836/0.007 - distillation kept templated banks 1.0). The MANDATORY arc re-verification (the user's validity guard) worked exactly: NO regression on the arc, NO progress on extraction = a clean safe-to-iterate negative, no disguised step-back. Confound named: Step 2 generalized over ENTITIES with 14+; here ~4 phrasings = too little phrasing diversity. NEXT: scale up phrasing diversity (the entity-count analog), re-run; the arc re-verification confirms the fine-tune is safe to iterate. Mechanism arc (5-5e) now ALSO shown robust to a gentle substrate fine-tune."
     }
   ]
 }

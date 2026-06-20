@@ -1610,5 +1610,36 @@
     },
     "meaning": "The frozen templated-trained substrate does NOT expose value/relation bindings from VARIED phrasing (value 0.56, wrong-binding 0.38 = fabrication). Step 2 generalized across entities (phrasing fixed), not phrasings -> varied surface = OOD. Extraction-binding from varied phrasing is a SUBSTRATE property. Stage-I-redux at the phrasing level. Honesty mechanism (5e abstain) TRANSFERS (broken-target abstain 0.96); only binding is limited.",
     "next": "substrate fine-tune on VARIED PHRASING (the Step-2 move one level up), then re-run this cert. Mechanism arc (5-5e) complete; free-text extraction front-end not yet closed - localized exactly here."
+  },
+  "step_48_stage7_substrate_phrasing_robust_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured negative, arc preserved)",
+    "track": "AUTONOMY FRONT-END: substrate fine-tune for phrasing-robust extraction",
+    "verdict": "STAGE_7_PHRASING_REFUTED",
+    "files": {
+      "scripts/train_substrate_phrasing.py": "gentle encoder fine-tune toward value/relation targets + distillation; new ckpt",
+      "docs/STAGE7_SUBSTRATE_RESULT.md": "two-things-decide-it + arc preservation + next move"
+    },
+    "extraction_new_substrate": {
+      "value_bind": 0.52,
+      "wrong_value_bind": 0.42,
+      "rel_bind": 0.467,
+      "verdict": "STAGE_6_SUBSTRATE_LIMITED (unchanged)"
+    },
+    "arc_re_verified": {
+      "stage_u": "0/140",
+      "comparison": 0.881,
+      "traversal": [
+        1.0,
+        0.994
+      ],
+      "abstain": [
+        0.836,
+        0.007
+      ],
+      "all_preserved": true
+    },
+    "templated_bank_preservation": 1.0,
+    "meaning": "PHRASING_REFUTED at this diversity scale: gentle fine-tune + distillation PRESERVED the whole proven arc (Stage U 0/140, comparison, traversal, honest abstain all hold; foundation intact, no disguised step-back) but did NOT make extraction generalize to held-out phrasings (value 0.52, unchanged). ~4 training phrasings vs Step 2's 14+ entities = too little phrasing diversity. The mandatory arc re-verification confirmed NO regression + NO progress = clean safe-to-iterate negative.",
+    "next": "scale up PHRASING DIVERSITY in the fine-tune (entity-count analog), re-run; if still fails, varied-phrasing binding needs a different mechanism. Mechanism arc (5-5e) also shown robust to a gentle substrate fine-tune."
   }
 }
