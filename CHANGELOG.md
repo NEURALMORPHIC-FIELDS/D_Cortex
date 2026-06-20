@@ -4,6 +4,41 @@ All notable changes to D_Cortex v2.0-alpha are documented in this file.
 
 Format: keep a changelog style. Dates in ISO 8601. Semantic versioning loosely applied.
 
+## [integration-spine arc — operate-over-memory PROVEN] - 2026-06-20
+
+Carried the vision (memory as the organ of thought) end to end on the NEURAL model. Every step a
+falsifiable gate with the dangerous direction reported first. Commit chain `1879c60 → 3a3c2f4`. Full
+current state: `docs/PROJECT_STATUS.md`.
+
+### Proven (the durable asset)
+- **Stage U** — honest mechanics on the neural model's own internalized values: wrong_commit 0/140.
+- **Multi-object root** — separability is TRAINABLE into the base and generalizes over entities (Step 2,
+  held-out 0.92); it unlocked binding (Stage I 0.21→0.09) and chaining (0.21→0.73) together, single-fact
+  honesty preserved (0/140).
+- **Stage 5 — operate over persisted memory (comparison):** DEMONSTRATED and bank-grounded (acc 1.0,
+  answer follows the shuffled store 1.0, bank ≫ rep). The axis inversion, measured.
+- **Stage 5d — multi-hop GRAPH TRAVERSAL:** PROVEN via STRUCTURAL addressing — the relational pointer is
+  a COPY of the target's content-key (reusing content-addressing, which generalizes), not a learned
+  representation (5b/5c refuted the learned forms). Structural 1.0 vs learned 0.45; chaining 1.0,
+  chain-grounded 0.949.
+- **Stage 5e — HONEST traversal:** wrong_commit=0 extended to multi-hop. Dual abstain gate (broken→
+  abstain 0.858 AND answerable→answer, over-abstain 0.022); detection-based on retrieval confidence.
+
+### Measured negatives that localized the frontier
+- **Stage 6** — free-text extraction from varied phrasing: SUBSTRATE_LIMITED (value 0.56, wrong-bind
+  0.38). The frozen templated substrate does not expose varied-phrasing bindings.
+- **Stage 7** — substrate fine-tune for phrasing robustness: PHRASING_REFUTED, but the MANDATORY arc
+  re-verification confirmed the foundation SURVIVED untouched (Stage U 0/140, traversal 1.0/0.994,
+  honest abstain preserved; templated banks cosine 1.0) — clean, safe-to-iterate negative.
+- **Stage 8** — scale phrasing diversity (16 phrasings), structurally-distinct held-out: REFUTED_AT_SCALE
+  (value 0.337, near chance). Paraphrase-robustness is a PRETRAINING property, not a fine-tuning-
+  diversity property at this from-scratch closed-vocab capacity.
+
+### Consequence
+The EXTRACTION frontier and the SCALE frontier MERGE: port the proven mechanism arc (Stage 5 → 5e) to a
+PRETRAINED base where paraphrase-robust extraction is tractable. The mechanism is proven; the path to
+autonomy is the pretrained base.
+
 ## [v15.7a Pas 7a SEALED] - 2026-04-26
 
 ### First Longitudinal Organ Validated

@@ -377,3 +377,36 @@ Regula firmă: niciuna dintre direcții nu se începe fără un adapter scris ex
 - **Decizie**: fără ingestion și fără alt tuning pe aceleași patru familii.
 - **Succesor justificat**: poartă data-only pentru un corpus independent,
   auditat și separat pe familii de construcție.
+
+---
+
+## [24-49] INTEGRATION-SPINE ARC — operate-over-memory PROVEN (2026-06-17 → 2026-06-20)
+
+- **Scop**: a duce viziunea (memoria = organul gândirii) cap-coadă pe modelul NEURAL, fiecare pas o
+  poartă falsificabilă, cu direcția periculoasă raportată întâi. Lanț de commit `1879c60 → 3a3c2f4`.
+- **Stare curentă (sursa unică)**: [`PROJECT_STATUS.md`](PROJECT_STATUS.md). Detaliu per-stadiu în
+  docs-urile de rezultat linkate acolo; verdictele structurate în `.claude/project_structure.json`
+  (step_24 → step_49).
+- **DOVEDIT (asset-ul durabil)**:
+  - **Stage U** — mecanică onestă pe valorile internalizate ale modelului: wrong_commit 0/140.
+  - **Multi-obiect (rădăcina)** — separabilitatea e ANTRENABILĂ în bază, generalizează peste entități
+    (Step 2, held-out 0.92); deblochează binding (Stage I 0.21→0.09) și înlănțuire (0.21→0.73).
+  - **Stage 5** — operare single-step peste memoria persistată (comparație): DEMONSTRAT + bank-grounded
+    (acc 1.0, răspuns urmează banca shuffle-uită 1.0).
+  - **Stage 5d** — TRAVERSARE DE GRAF multi-hop: PROVEN prin adresare STRUCTURALĂ (pointer = copie a
+    cheii de conținut a țintei, nu reprezentare învățată — 5b/5c au infirmat formele învățate). Struct
+    1.0 vs învățat 0.45; chaining 1.0, grounded 0.949.
+  - **Stage 5e** — traversare ONESTĂ: wrong_commit=0 extins la multi-hop; poartă duală de abținere
+    (rupt→abținere 0.858, answerable→răspuns, over 0.022).
+- **NEGATIVE care au localizat frontiera**:
+  - **Stage 6** — extracție din frază variată: SUBSTRATE_LIMITED (value 0.56, wrong-bind 0.38).
+  - **Stage 7** — fine-tune de substrat + re-verificare obligatorie a arcului: PHRASING_REFUTED, dar
+    fundația a SUPRAVIEȚUIT intactă (Stage U 0/140, traversare 1.0/0.994, abținere preservată).
+  - **Stage 8** — scalare diversitate formulări, held-out structural distinct: REFUTED_AT_SCALE (0.337).
+    Robustețea la parafrază e proprietate de PREANTRENARE, nu de diversitate-de-fine-tune.
+- **Verdict**: MECANISM dovedit, validity-gated, robust la fine-tune blând de substrat. EXTRACȚIA din
+  text liber = proprietate de preantrenare.
+- **Scope guard**: o arhitectură, vocabular închis, sintetic mic, held-out — diagnoză de MECANISM, NU
+  generalitate sau scală.
+- **Succesor justificat**: portarea arcului dovedit (Stage 5→5e) pe o bază PREANTRENATĂ — extracția și
+  scala fuzionează într-o singură mutare.

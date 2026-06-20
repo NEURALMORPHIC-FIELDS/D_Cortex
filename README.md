@@ -13,6 +13,19 @@ D_Cortex demonstrates experimentally that a language model can be extended with 
 
 The current sealed milestone is **v15.7a (Pas 7a, 2026-04-26)** — first longitudinal organ validated, all 10 acceptance gates green over 100 cross-episode sequences. The earlier v11 (2026-04-18) sealed memory-conditioned token emission and is preserved as the foundational layer underneath.
 
+## Current state — the mechanism arc is PROVEN (2026-06-20)
+
+> Full current-state summary: **[docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** (single source of truth).
+
+Beyond the sealed symbolic organ, the **integration-spine** campaign (commit chain `1879c60 → 3a3c2f4`) carried the vision — *memory as the organ of thought* — end to end on the NEURAL model, measured and validity-gated:
+
+- **Operate over persisted memory, PROVEN.** The model reaches conclusions by operating over what it persisted, with the source text ABSENT: single-step (comparison, bank-grounded) and relational **multi-hop graph traversal** (Stage 5d — a relational pointer stored as a structural COPY of the target's content-key; chaining 1.0, chain-grounded 0.949).
+- **Honest at multi-hop.** `wrong_commit=0` — the signature property — extends from single facts to graph traversal: the model ABSTAINS on broken chains (Stage 5e dual gate: abstain 0.858, no-over-abstain 0.022).
+- **The root was multi-object separability** — trainable into the base and generalizing over entities (Step 2, 0.92); it unlocked binding and chaining together.
+- **The open frontier is free-text extraction**, MEASURED to be a **pretraining (paraphrase-robustness) property**, not a fine-tuning-diversity property, on the small from-scratch closed-vocab substrate (Stage 6–8). So extraction and scale MERGE into one move: **port the proven mechanism arc to a pretrained base.**
+
+Per-stage falsifiable verdicts (negatives lead): `docs/STAGE_U_*`, `docs/STAGE_I_RESULT.md`, `docs/MULTIOBJECT_*`, `docs/STAGE5*`, `docs/STAGE6/7/8_*`.
+
 ## v15.x Progression — Memory Operates on Its Own History
 
 | Pas | Date | Headline | Verdict |

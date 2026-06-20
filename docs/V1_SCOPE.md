@@ -1,5 +1,14 @@
 # D_Cortex v1 - HONEST SCOPE (post Stage C, post shared-store)
 
+> **UPDATE 2026-06-20 (scope evolved - read with PROJECT_STATUS.md):** This doc was written when v1 was
+> "storage + administration, NOT reasoning" (Stage C had refuted naive chaining). The integration-spine
+> arc SUPERSEDES the "NOT reasoning" framing: operate-over-persisted-memory is now PROVEN - single-step
+> operation (Stage 5, bank-grounded) AND honest multi-hop graph traversal (Stage 5d/5e), with the source
+> text absent and wrong_commit=0 extended to multi-hop. The "exact/honest/auditable store" claims below
+> remain TRUE and are now the substrate UNDER the proven operation layer. Current source of truth:
+> docs/PROJECT_STATUS.md. The remaining open piece is free-text extraction (a pretraining property,
+> Stage 6-8), not reasoning over identified memory.
+
 ## What v1 IS (verified, not aspirational)
 v1 is the **SUBSTRATE track**: an exact, honest, auditable, self-revising **MEMORY STORE +
 ADMINISTRATION** that the model grounds its answers in. Concretely, all proven:
