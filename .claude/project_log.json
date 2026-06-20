@@ -1256,6 +1256,21 @@
       ],
       "status": "success",
       "notes": "Hypothesis PARTIALLY confirmed + refined: the separable-encoder init raises 2-hop chaining C1_shuffled 0.21->0.73 (large, controlled A/B) but does NOT clear the 0.80 gate; comparison C2 stays at chance (~0.52). One root unblocks PART of downstream (chaining substantially) but not comparison -> chaining/comparison are related but not identical facets; decoder operate-on-memory (Stage 5) needed for comparison/robust chaining. Caveats: single seed; C1_shuffled volatile 0.59-0.80 across a=0 evals; warm-start retrains all params (effect = separable init -> better chaining). runs/stage_c verdict.json (gitignored) now holds the warm-start numbers; baseline preserved in docs."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "02:55",
+      "requested": "Autonomous (locked direction): build the operate-over-memory objective (layer 5), comparison first, on the separable base.",
+      "executed": "Built scripts/certify_stage5_comparison.py: explicit operation module (the layer Stage C said must be BUILT) reading two co-occurring separable object reps -> comparison; ordinality diagnostic; A/B baseline ckpt_multiattr vs separable ckpt_multiobject; held-out 10/30; 5 seeds. RESULT held-out comparison: baseline 0.819, separable 0.883 (gate 0.80 cleared both); ordinality 0.754 vs 0.877. VERDICT COMPARISON_REACHABLE.",
+      "files_touched": [
+        "scripts/certify_stage5_comparison.py",
+        "docs/STAGE5_COMPARISON_RESULT.md",
+        "runs/stage5_comparison/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "Layer 5 (operate-over-memory) demonstrated REACHABLE for comparison: Stage C C2-at-chance was the MISSING OPERATION MODULE, not lacking ordinality (0.88 held-out) nor unreachable. Honest nuance: comparison clears the gate on baseline too -> the operation module is the decisive piece, separability a modest +0.06 boost (NOT the enabler here, unlike chaining where it was the lever). Reads encoder object reps not bank-read (follow-up). Next inside road: bank-read operation; robust chaining to gate; multi-seed."
     }
   ]
 }

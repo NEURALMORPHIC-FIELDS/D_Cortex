@@ -1463,5 +1463,23 @@
     "hypothesis_verdict": "PARTIALLY confirmed: separable-encoder init lifts 2-hop chaining 0.21->0.73 (large, controlled A/B) but does NOT clear the 0.80 gate; comparison stays at chance. One root unblocks chaining substantially, NOT comparison -> related but non-identical facets; decoder operate-on-memory (Stage 5) needed.",
     "caveats": "single seed; C1_shuffled volatile 0.59-0.80; warm-start retrains all params; Stage U preserved (no tradeoff).",
     "next_architect_call": "multi-seed Stage C warm-start; push step-2 separability to 0.02 margin; build Stage 5 decoder operate-on-memory for comparison/robust chaining."
+  },
+  "step_41_stage5_comparison_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED",
+    "track": "VISION LAYER 5: operate-over-memory (comparison first)",
+    "verdict": "COMPARISON_REACHABLE",
+    "files": {
+      "scripts/certify_stage5_comparison.py": "explicit operation module over separable object reps; A/B; held-out; 5 seeds",
+      "docs/STAGE5_COMPARISON_RESULT.md": "result + nuance + next"
+    },
+    "headline": {
+      "comparison_heldout_baseline": 0.819,
+      "comparison_heldout_separable": 0.883,
+      "gate": 0.8,
+      "ordinality_baseline": 0.754,
+      "ordinality_separable": 0.877
+    },
+    "meaning": "Layer 5 reachable for comparison: the missing piece was the OPERATION MODULE (sealed decoder sums slots, cannot compare); an explicit module clears the gate. Separability a modest boost for comparison (not the enabler, unlike chaining).",
+    "next": "bank-read operation (over written slots); robust chaining to gate via operation layer; multi-seed."
   }
 }
