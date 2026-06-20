@@ -1481,5 +1481,32 @@
     },
     "meaning": "Layer 5 reachable for comparison: the missing piece was the OPERATION MODULE (sealed decoder sums slots, cannot compare); an explicit module clears the gate. Separability a modest boost for comparison (not the enabler, unlike chaining).",
     "next": "bank-read operation (over written slots); robust chaining to gate via operation layer; multi-seed."
+  },
+  "step_42_stage5_operate_over_memory_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED",
+    "track": "VISION LAYER 5: operate-over-PERSISTED-memory",
+    "verdict": "STAGE_5_PARTIAL",
+    "files": {
+      "scripts/certify_stage5_operate_memory.py": "operation layer reads banks+query only; G_BANK_GROUNDED control; bank-vs-rep; 5 seeds",
+      "docs/STAGE5_OPERATE_RESULT.md": "validity battery + per-facet result + self-caught bug"
+    },
+    "comparison": {
+      "bank_acc": 1.0,
+      "bank_grounded": 1.0,
+      "bank_vs_rep": [
+        1.0,
+        0.4554
+      ],
+      "operates_over_memory": true
+    },
+    "chaining": {
+      "bank_acc": 0.3718,
+      "bank_grounded": 0.3333,
+      "operates_over_memory": false
+    },
+    "abstain": 0.4167,
+    "meaning": "Axis inversion DEMONSTRATED for comparison: reads persisted banks+query only (no text), exact (1.0), answer FOLLOWS shuffled store (grounded 1.0 = decisive proof), better from banks than input rep (1.0 vs 0.46). Chaining-over-banks is the frontier.",
+    "self_caught_bug": "verdict averaged grounded across facets -> mislabeled REP_ONLY; fixed to per-facet -> PARTIAL.",
+    "next": "make stored value expose a followable pointer for 2-hop chaining over banks; or iterative addressing to recover it."
   }
 }
