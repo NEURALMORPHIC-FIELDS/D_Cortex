@@ -1238,6 +1238,24 @@
       ],
       "status": "success",
       "notes": "FAR -> step 2 (retrain base to maintain separable co-occurring objects) is MANDATORY. Readout depth would not help (failure is generalization, not capacity). Next: train_multiobject (fine-tune a COPY, never overwrite ckpt_multiattr), then step 3 re-test Stage I + Stage C on the new ckpt."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "02:25",
+      "requested": "Autonomous multi-object road steps 2-3: train base for separable co-occurring objects; re-test Stage I + Stage U + Stage C (hypothesis: same root unblocks chaining).",
+      "executed": "Step 2: scripts/train_multiobject.py fine-tuned encoder contextual path (52 tensors/28.3M) + linear heads on mixed single/multi-entity text, held-out 10/30; saved COPY runs/multiobject/ckpt_multiobject.pt (ckpt_multiattr untouched). Held-out value_acc 0.006->0.922, cross_binding 0.19->0.082, attr 0.991 = SEPARABILITY_PARTIAL. Step 3 re-certs on the new ckpt: readout-ladder linear wrong_binding 0.18->0.0925; Stage I wrong_binding 0.21->0.0925, value_error 0.48->0.105 (still FAIL bar 0.02); Stage U wrong_commit 0/140 PRESERVED (no tradeoff). Stage C A/B (certify_stage_c_reasoning.py --init-ckpt, same seed 7, only init differs): C1_shuffled 0.212(baseline)->0.725(warm-start), C2_shuffled 0.469->0.525, gate shuffled_follows>=0.80 FALSE both, verdict C_PARTIAL both.",
+      "files_touched": [
+        "scripts/train_multiobject.py",
+        "scripts/certify_multiobject_readout.py",
+        "scripts/certify_stage_i_extraction.py",
+        "scripts/certify_stage_c_reasoning.py",
+        "docs/MULTIOBJECT_STEP1_RESULT.md",
+        "docs/MULTIOBJECT_STEP2_3_RESULT.md",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "Hypothesis PARTIALLY confirmed + refined: the separable-encoder init raises 2-hop chaining C1_shuffled 0.21->0.73 (large, controlled A/B) but does NOT clear the 0.80 gate; comparison C2 stays at chance (~0.52). One root unblocks PART of downstream (chaining substantially) but not comparison -> chaining/comparison are related but not identical facets; decoder operate-on-memory (Stage 5) needed for comparison/robust chaining. Caveats: single seed; C1_shuffled volatile 0.59-0.80 across a=0 evals; warm-start retrains all params (effect = separable init -> better chaining). runs/stage_c verdict.json (gitignored) now holds the warm-start numbers; baseline preserved in docs."
     }
   ]
 }

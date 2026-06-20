@@ -122,6 +122,9 @@ def main() -> int:
     ap.add_argument("--steps", type=int, default=2500)
     ap.add_argument("--measure-every", type=int, default=300)
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--init-ckpt", default=None,
+                    help="optional warm-start init (e.g. the multi-object separable base) to test whether "
+                         "encoder separability unblocks chaining; trains all params from this init.")
     args = ap.parse_args()
     (RUN_DIR / "results").mkdir(parents=True, exist_ok=True)
     rng = random.Random(args.seed)
@@ -132,6 +135,10 @@ def main() -> int:
 
     with contextlib.redirect_stdout(io.StringIO()):
         model = DCortexV2Model(DCortexConfig()).to(DEVICE)
+    if args.init_ckpt:
+        ick = torch.load(args.init_ckpt, map_location=DEVICE)
+        model.load_state_dict(ick["model"])
+        print(f"[INFO] warm-start init from {args.init_ckpt}", flush=True)
     model.train()
     decay = [p for p in model.parameters() if p.dim() >= 2]
     nodecay = [p for p in model.parameters() if p.dim() < 2]

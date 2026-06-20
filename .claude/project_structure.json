@@ -1432,5 +1432,36 @@
     },
     "meaning": "No modest readout recovers GENERALIZABLE co-occurring binding. MLP fits train perfectly but fails held-out -> generalization gap, not capacity -> no separable-object structure in the frozen rep. Step 2 (base retrain) mandatory.",
     "next": "step 2 train_multiobject (fine-tune a COPY ckpt_multiobject.pt, never overwrite ckpt_multiattr); step 3 re-test Stage I + Stage C + Stage U on the new ckpt."
+  },
+  "step_40_multiobject_train_and_retest_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured, partial)",
+    "track": "ROOT: multi-object separability (the one road) - steps 2 (train) + 3 (re-test)",
+    "files": {
+      "scripts/train_multiobject.py": "fine-tune encoder contextual path + linear heads; saves COPY ckpt_multiobject.pt",
+      "scripts/certify_stage_c_reasoning.py": "added --init-ckpt for warm-start A/B",
+      "docs/MULTIOBJECT_STEP2_3_RESULT.md": "full result + hypothesis verdict + caveats"
+    },
+    "step2_separability": {
+      "held_out_value_acc": 0.922,
+      "cross_binding": 0.082,
+      "verdict": "SEPARABILITY_PARTIAL"
+    },
+    "step3_retest": {
+      "readout_linear_wrong_binding": 0.0925,
+      "stage_i_wrong_binding": 0.0925,
+      "stage_i_value_error": 0.105,
+      "stage_u_wrong_commit": "0/140 PRESERVED",
+      "stage_c_A_B": {
+        "C1_shuffled_baseline": 0.212,
+        "C1_shuffled_warmstart": 0.725,
+        "C2_shuffled_baseline": 0.469,
+        "C2_shuffled_warmstart": 0.525,
+        "gate_shuffled_follows_0.80": false,
+        "verdict": "C_PARTIAL"
+      }
+    },
+    "hypothesis_verdict": "PARTIALLY confirmed: separable-encoder init lifts 2-hop chaining 0.21->0.73 (large, controlled A/B) but does NOT clear the 0.80 gate; comparison stays at chance. One root unblocks chaining substantially, NOT comparison -> related but non-identical facets; decoder operate-on-memory (Stage 5) needed.",
+    "caveats": "single seed; C1_shuffled volatile 0.59-0.80; warm-start retrains all params; Stage U preserved (no tradeoff).",
+    "next_architect_call": "multi-seed Stage C warm-start; push step-2 separability to 0.02 margin; build Stage 5 decoder operate-on-memory for comparison/robust chaining."
   }
 }
