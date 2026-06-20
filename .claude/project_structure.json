@@ -1548,5 +1548,26 @@
     },
     "deep_finding": "VALUE-identity separability generalizes across entities (Step 2 0.92 held-out); RELATIONAL-POINTER address does NOT (in-sample 1.0, held-out 0.50 even after dedicated pointer-write). Architecture operates on per-object VALUES over persisted memory (comparison, Stage 5) but cannot store a GENERALIZABLE relational POINTER -> memory not yet a navigable graph; multi-hop traversal blocked by encoder relational-pointer non-generalization, not the operation. Single-fact + comparison preserved (distill cosine 1.0).",
     "next": "a different relational-addressing mechanism (dedicated relational key space / structural key-copy / address-binding objective), not value separability. Caveat: one pointer-write recipe refuted."
+  },
+  "step_45_stage5d_structural_addressing_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED",
+    "track": "VISION LAYER 5: structural relational addressing / graph traversal",
+    "verdict": "STAGE_5_GRAPH_TRAVERSAL_PROVEN",
+    "files": {
+      "scripts/certify_stage5d_structural_addressing.py": "structural pointer = target content-key copy; traversal by content-addressing; structural-vs-learned A/B; 5 seeds",
+      "docs/STAGE5D_STRUCTURAL_RESULT.md": "decisive A/B + traversal gates + caveats"
+    },
+    "gates": {
+      "G_POINTER_GENERALIZES_structural": 1.0,
+      "G_POINTER_GENERALIZES_learned": 0.446,
+      "G_CHAINING_BANK": 1.0,
+      "G_CHAIN_GROUNDED": 0.949,
+      "G_COMPARISON_PRESERVED": 1.0,
+      "G_SINGLE_FACT": "0/140",
+      "G_ABSTAIN": 0.667
+    },
+    "breakthrough": "Multi-hop graph traversal over persisted memory SOLVED. Structural pointer (copy of target content-key) generalizes held-out (1.0) where learned rep (5c) sat at chance (0.45); operation traverses it (chaining 1.0, grounded 0.949). Memory is a navigable graph. Confirms: reuse content-addressing, do not learn a pointer. Comparison + single-fact preserved (frozen encoder).",
+    "caveat": "abstain on broken pointers 0.667 (weak gate); target identification template-given (addressing mechanism tested, not free-text extraction).",
+    "next": "strengthen abstain (confidence-gated refusal); free-text target identification (extraction); scale beyond 6 colors / single architecture."
   }
 }

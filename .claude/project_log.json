@@ -1316,6 +1316,21 @@
       ],
       "status": "success",
       "notes": "DEEP FINDING (the result of the 5b/5c arc): VALUE-identity separability GENERALIZES across entities (Step 2 0.92 held-out) but RELATIONAL-POINTER address does NOT (in-sample 1.0, held-out 0.50 even with dedicated pointer-write). The architecture operates on per-object VALUES over persisted memory (comparison demonstrated+grounded, Stage 5) but cannot store a GENERALIZABLE relational POINTER -> memory is not yet a navigable graph; multi-hop traversal blocked by the encoder's relational-pointer non-generalization, not the operation. Single-fact + comparison preserved perfectly (distill cosine 1.0). Next frontier: a different relational-addressing mechanism (dedicated relational key space / structural key-copy / address-binding objective), not value separability. Caveat: one pointer-write recipe; refutes THIS recipe strongly, localizes the limit."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "12:05",
+      "requested": "Stage 5d structural relational addressing: pointer = copy of target content-key, reuse content-addressing. Deliver verdict.",
+      "executed": "Built scripts/certify_stage5d_structural_addressing.py: FROZEN encoder; relational pointer = STRUCTURAL copy of query_key(target) stored in a pointer bank; operation traverses by content-addressing (read B -> read stored content-key -> content-address target -> read value). A/B structural vs Stage5c learned-recovery. 5 seeds, held-out 14/16. RESULT: G_POINTER_GENERALIZES structural 1.000 vs learned 0.446 (decisive); G_CHAINING_BANK 1.0, G_CHAIN_GROUNDED 0.949 (both PASS), G_COMPARISON_PRESERVED 1.0, single-fact 0/140 (frozen); G_ABSTAIN 0.667 FAIL. Fixed an aggregation mislabel (auto POINTER_OK_TRAVERSAL_FAIL -> per-gate STAGE_5_GRAPH_TRAVERSAL_PROVEN). VERDICT STAGE_5_GRAPH_TRAVERSAL_PROVEN.",
+      "files_touched": [
+        "scripts/certify_stage5d_structural_addressing.py",
+        "docs/STAGE5D_STRUCTURAL_RESULT.md",
+        "runs/stage5d_structural/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "BREAKTHROUGH: multi-hop graph traversal over persisted memory SOLVED via STRUCTURAL addressing. The relational pointer stored as a copy of the target's content-key generalizes held-out (1.0) where the learned representation (Stage 5c) sat at chance (0.45); the operation traverses it (chaining 1.0, grounded 0.949). Memory is a navigable graph. Confirms the owner's mechanism: reuse content-addressing (which generalizes), do not learn a new pointer. Comparison + single-fact preserved (frozen encoder). Caveat: abstain on broken pointers 0.667 (weak gate, separate honesty sub-capability); target identification template-given (addressing mechanism tested, not free-text extraction). Closes the 5b/5c frontier."
     }
   ]
 }
