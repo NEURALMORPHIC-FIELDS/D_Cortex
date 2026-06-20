@@ -1286,6 +1286,21 @@
       ],
       "status": "success",
       "notes": "AXIS INVERSION DEMONSTRATED for comparison at small scale: operation reads banks+query only (no text), exact (1.0), FOLLOWS shuffled store (grounded 1.0 = decisive proof), better from banks than input rep (1.0 vs 0.46). Chaining-over-banks is the frontier (pointer not followable from stored value). Self-caught aggregation-bug: per-facet grounded, not averaged."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "11:20",
+      "requested": "Stage 5b: graph traversal over memory - followable pointers + content-chained reads (complete operate-over-memory). Deliver verdict.",
+      "executed": "Built scripts/certify_stage5b_graph_traversal.py: frozen separable encoder writes facts to banks; operation layer (only trained) with a dedicated pointer-recovery head (aux-supervised: recover(B_value)->target slot k_ent) + content-chained read (read1 keyed by recovered address) + read-confidence for abstain; G_CHAIN_GROUNDED via re-pointing (B->C, re-encode, answer must follow); comparison run alongside. 5 seeds, held-out 14/16. RESULT: chaining 0.316 (FAIL 0.80), G_CHAIN_GROUNDED 0.255 (FAIL 0.90), abstain 0.381 (FAIL), comparison 1.0 PRESERVED. VERDICT STAGE_5_CHAIN_REFUTED.",
+      "files_touched": [
+        "scripts/certify_stage5b_graph_traversal.py",
+        "docs/STAGE5B_GRAPH_RESULT.md",
+        "runs/stage5b_graph/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "NEGATIVE (clean, falsifiable): the cheaper coupled fix (pointer-recovery IN THE OPERATION LAYER, aux-supervised, frozen encoder) is REFUTED - the frozen relational bank value does not expose a recoverable, held-out-generalizable address to the target slot. Operation trains fine (comparison 1.0) but recovery/traversal does not generalize. Indicated next step: EXTEND THE ENCODER'S RELATIONAL WRITING (pointer-write, a small fine-tune) so B's slot stores A's key as a first-class recoverable pointer - the deferred encoder-side fix is necessary, operation-side alone insufficient. Caveat: in-sample vs held-out recovery undiagnosed. Single-step operation over banks remains DEMONSTRATED+grounded (Stage 5); graph traversal is the precise remaining frontier, fix on the encoder."
     }
   ]
 }

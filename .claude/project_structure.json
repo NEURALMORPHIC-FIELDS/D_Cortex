@@ -1508,5 +1508,24 @@
     "meaning": "Axis inversion DEMONSTRATED for comparison: reads persisted banks+query only (no text), exact (1.0), answer FOLLOWS shuffled store (grounded 1.0 = decisive proof), better from banks than input rep (1.0 vs 0.46). Chaining-over-banks is the frontier.",
     "self_caught_bug": "verdict averaged grounded across facets -> mislabeled REP_ONLY; fixed to per-facet -> PARTIAL.",
     "next": "make stored value expose a followable pointer for 2-hop chaining over banks; or iterative addressing to recover it."
+  },
+  "step_43_stage5b_graph_traversal_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured negative)",
+    "track": "VISION LAYER 5: graph traversal over persisted memory",
+    "verdict": "STAGE_5_CHAIN_REFUTED",
+    "files": {
+      "scripts/certify_stage5b_graph_traversal.py": "pointer-recovery head (aux-supervised) + content-chained read; G_CHAIN_GROUNDED via re-pointing; 5 seeds",
+      "docs/STAGE5B_GRAPH_RESULT.md": "negative + precise implication"
+    },
+    "gates": {
+      "G_IN_MEMORY": true,
+      "G_CHAIN_GROUNDED": 0.255,
+      "G_CHAINING_BANK": 0.316,
+      "G_ABSTAIN": 0.381,
+      "G_COMPARISON_PRESERVED": 1.0
+    },
+    "meaning": "Operation-layer pointer recovery from the FROZEN relational bank value does NOT achieve generalizable graph traversal (chaining 0.32, grounded 0.25); comparison preserved (1.0). The cheaper coupled fix (recovery-in-operation) is refuted; the encoder relational-WRITING extension (pointer-write fine-tune) is the indicated necessary next step.",
+    "caveat": "in-sample vs held-out recovery undiagnosed.",
+    "next": "extend encoder relational writing (pointer-write fine-tune) so B's slot stores target key recoverably; re-run this cert; optional in-sample recovery probe."
   }
 }
