@@ -1377,6 +1377,21 @@
       ],
       "status": "success",
       "notes": "Two things decided it together: (1) extraction did NOT improve - fine-tune on ~4 training phrasings did not generalize to held-out phrasings (value 0.52, wrong-binding 0.42 unchanged); memorization not abstraction. (2) the proven arc FULLY SURVIVED on the new substrate (Stage U 0/140, comparison 0.88, traversal 1.0/0.994, honest abstain 0.836/0.007 - distillation kept templated banks 1.0). The MANDATORY arc re-verification (the user's validity guard) worked exactly: NO regression on the arc, NO progress on extraction = a clean safe-to-iterate negative, no disguised step-back. Confound named: Step 2 generalized over ENTITIES with 14+; here ~4 phrasings = too little phrasing diversity. NEXT: scale up phrasing diversity (the entity-count analog), re-run; the arc re-verification confirms the fine-tune is safe to iterate. Mechanism arc (5-5e) now ALSO shown robust to a gentle substrate fine-tune."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "14:55",
+      "requested": "Stage 8: scale phrasing diversity (entity-count analog), held-out on a STRUCTURALLY DISTINCT family. Deliver verdict.",
+      "executed": "Built scripts/certify_stage8_phrasing_scale.py: 16 value + 12 relation TRAINING phrasings (Family A: entity-then-value adjacent), held-out Family B STRUCTURALLY DISTINCT (value-first/inverted/embedded). 3 fine-tune seeds x 3 extractor seeds. Fine-tune substrate on Family A + templated + distill -> new ckpt; train fresh extractor on Family A reps, eval on Family B + held-out entities. RESULT: G_VALUE_BINDING_PHRASE (Family B) 0.337 (FAIL, near chance 0.25), G_WRONG_VALUE_BINDING 0.45 (FAIL), consistent across 3 fine-tune seeds (0.317/0.317/0.333). Stage U on new ckpt 0/140 (foundation preserved). VERDICT STAGE_8_PHRASING_REFUTED_AT_SCALE.",
+      "files_touched": [
+        "scripts/certify_stage8_phrasing_scale.py",
+        "docs/STAGE8_PHRASING_SCALE_RESULT.md",
+        "runs/stage8_phrasing/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "DECISIVE CALIBRATED NEGATIVE (anticipated): scaling phrasing diversity to 16 did NOT make the substrate abstract phrasing-INVARIANCE. On a STRUCTURALLY-DISTINCT held-out family the binding is near chance (0.337), WORSE than Stage 7's 0.52 (random split, near-duplicates). Robust across 3 fine-tune seeds (hardens the Stage 7 single-seed caveat). Entity-invariance generalized (Step 2) over a CONTENT slot; phrasing-invariance is SURFACE-FORM generalization (paraphrase-robustness), a pretraining/language-understanding property a from-scratch closed-vocab substrate lacks the capacity for. Foundation preserved (Stage U 0/140). NEXT MOVE: port the proven mechanism arc (5->5e) to a PRETRAINED base - extraction and scale MERGE into one frontier. The mechanism arc is the durable asset; free-text extraction is a pretraining property. The negative FOCUSES the program (one move not two), does not stall it."
     }
   ]
 }

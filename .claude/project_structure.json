@@ -1641,5 +1641,26 @@
     "templated_bank_preservation": 1.0,
     "meaning": "PHRASING_REFUTED at this diversity scale: gentle fine-tune + distillation PRESERVED the whole proven arc (Stage U 0/140, comparison, traversal, honest abstain all hold; foundation intact, no disguised step-back) but did NOT make extraction generalize to held-out phrasings (value 0.52, unchanged). ~4 training phrasings vs Step 2's 14+ entities = too little phrasing diversity. The mandatory arc re-verification confirmed NO regression + NO progress = clean safe-to-iterate negative.",
     "next": "scale up PHRASING DIVERSITY in the fine-tune (entity-count analog), re-run; if still fails, varied-phrasing binding needs a different mechanism. Mechanism arc (5-5e) also shown robust to a gentle substrate fine-tune."
+  },
+  "step_49_stage8_phrasing_diversity_scale_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured negative, arc preserved)",
+    "track": "AUTONOMY FRONT-END: phrasing-diversity scale",
+    "verdict": "STAGE_8_PHRASING_REFUTED_AT_SCALE",
+    "files": {
+      "scripts/certify_stage8_phrasing_scale.py": "16 train phrasings, STRUCTURALLY-DISTINCT held-out family, 3 ft seeds x 3 extractor",
+      "docs/STAGE8_PHRASING_SCALE_RESULT.md": "calibrated negative + the merge-frontiers next move"
+    },
+    "gates": {
+      "G_VALUE_BINDING_PHRASE_FAMILY_B": 0.337,
+      "G_WRONG_VALUE_BINDING": 0.45,
+      "ft_seeds_consistent": [
+        0.317,
+        0.317,
+        0.333
+      ],
+      "G_STAGE_U_PRESERVED": "0/140"
+    },
+    "meaning": "Scaling phrasing diversity to 16 did NOT make the substrate abstract phrasing-INVARIANCE: on a STRUCTURALLY-DISTINCT held-out family the binding is near chance (0.337), worse than Stage 7's random-split 0.52. Robust across 3 fine-tune seeds. Phrasing-invariance is SURFACE-FORM (paraphrase) generalization = a PRETRAINING property a from-scratch closed-vocab substrate lacks capacity for (entity-invariance generalized over a content slot; paraphrase does not). Foundation preserved (Stage U 0/140).",
+    "next": "PORT the proven mechanism arc (Stage 5->5e) to a PRETRAINED base - extraction-binding from free text is coupled to pretraining, so the extraction frontier and the scale frontier MERGE into one move. Mechanism arc = durable asset; free-text extraction = pretraining property."
   }
 }
