@@ -1346,6 +1346,21 @@
       ],
       "status": "success",
       "notes": "HONESTY EXTENDED TO MULTI-HOP: the navigable graph abstains on broken chains (0.858) AND answers when answerable (over-abstain 0.022) - the DUAL gate passes (anti-collapse). Detection-based on confT (non-stored target ~0.15 vs stored ~0.98, generalizes held-out). wrong_commit=0 (the signature property) now holds on graph traversal, not just single facts. Closes the thinking-in-memory loop HONESTLY at small scale. Boundary: target identification template-given (free-text extraction = next campaign, Stage I-class); small synthetic, not generality."
+    },
+    {
+      "date": "2026-06-20",
+      "time": "13:20",
+      "requested": "Stage 6 free-text extraction: external extractor on frozen substrate, varied phrasing, double held-out, value+relation binding, wrong-binding dangerous metric. Deliver verdict.",
+      "executed": "Built scripts/certify_stage6_extraction.py: external attention-readout extractors (value + relation/direction) on FROZEN ckpt_multiobject; VARIED phrasing over closed vocab; DOUBLE held-out (unseen entities AND phrasings); 5 seeds. RESULT: G_VALUE_BINDING_PHRASE 0.557 (FAIL 0.85), G_WRONG_VALUE_BINDING 0.38 (FAIL 0.02, 38% fabrication), G_RELATION_BINDING 0.48 (FAIL), G_RELATION_DIRECTION_WRONG 0.52 (FAIL), G_RELATION_ABSTAIN_BROKEN 0.96 (honesty transfers). VERDICT STAGE_6_SUBSTRATE_LIMITED.",
+      "files_touched": [
+        "scripts/certify_stage6_extraction.py",
+        "docs/STAGE6_EXTRACTION_RESULT.md",
+        "runs/stage6_extraction/results/verdict.json",
+        ".claude/project_log.json",
+        ".claude/project_structure.json"
+      ],
+      "status": "success",
+      "notes": "DECISIVE NEGATIVE (anticipated): the frozen templated-trained substrate does NOT expose value/relation bindings from VARIED phrasing. Step 2 generalized across ENTITIES (phrasing fixed), not across PHRASINGS -> varied surface structure is OOD. wrong-binding 0.38 = fabrication, not honest. Extraction-binding from varied phrasing is a SUBSTRATE property, not recoverable by an external readout. Stage-I-redux at the phrasing level. HONEST NUANCE: abstain_broken 0.96 - the 5e confT-honesty mechanism TRANSFERS (broken target -> low confidence -> abstain); only BINDING is substrate-limited. NEXT MOVE (clear): substrate fine-tune on VARIED PHRASING (the Step-2 move one level up), then re-run this cert. The MECHANISM arc (Stage 5-5e) is complete; the free-text EXTRACTION front-end is not yet closed - this localizes the work exactly."
     }
   ]
 }

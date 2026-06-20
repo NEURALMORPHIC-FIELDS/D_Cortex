@@ -1592,5 +1592,23 @@
     "meaning": "wrong_commit=0 (signature honesty) EXTENDED to multi-hop graph traversal. The navigable graph abstains on broken chains (0.858) AND answers when answerable (over-abstain 0.022) - dual gate, anti-collapse. Detection-based on retrieval confidence confT (generalizes held-out). Closes the thinking-in-memory loop HONESTLY at small scale.",
     "boundary": "target identification template-given; free-text extraction (build graph from text) = next campaign (Stage I-class); small synthetic, not generality.",
     "next": "free-text extraction (identify entities/relations from text -> graph); then scale."
+  },
+  "step_47_stage6_free_text_extraction_2026_06_20": {
+    "status": "IMPLEMENTED AND VERIFIED (measured negative)",
+    "track": "AUTONOMY FRONT-END: free-text extraction",
+    "verdict": "STAGE_6_SUBSTRATE_LIMITED",
+    "files": {
+      "scripts/certify_stage6_extraction.py": "external value+relation extractors on frozen substrate; varied phrasing; double held-out; 5 seeds",
+      "docs/STAGE6_EXTRACTION_RESULT.md": "dangerous-metric-led result + the next move"
+    },
+    "gates": {
+      "G_VALUE_BINDING_PHRASE": 0.557,
+      "G_WRONG_VALUE_BINDING": 0.38,
+      "G_RELATION_BINDING": 0.48,
+      "G_RELATION_DIRECTION_WRONG": 0.52,
+      "G_RELATION_ABSTAIN_BROKEN": 0.96
+    },
+    "meaning": "The frozen templated-trained substrate does NOT expose value/relation bindings from VARIED phrasing (value 0.56, wrong-binding 0.38 = fabrication). Step 2 generalized across entities (phrasing fixed), not phrasings -> varied surface = OOD. Extraction-binding from varied phrasing is a SUBSTRATE property. Stage-I-redux at the phrasing level. Honesty mechanism (5e abstain) TRANSFERS (broken-target abstain 0.96); only binding is limited.",
+    "next": "substrate fine-tune on VARIED PHRASING (the Step-2 move one level up), then re-run this cert. Mechanism arc (5-5e) complete; free-text extraction front-end not yet closed - localized exactly here."
   }
 }
